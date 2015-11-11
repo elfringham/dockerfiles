@@ -1,0 +1,17 @@
+Introduction
+------------
+
+This repository contains the dockerfiles used by Linaro CI.
+
+Contributing
+------------
+
+If you want to contribute changes, you can send Gerrit merge requests at
+https://review.linaro.org/#/q/project:ci/dockerfiles
+
+Maintainer(s)
+-------------
+
+Fathi Boudra <fathi.boudra@linaro.org>
+Riku Voipio <riku.voipio@linaro.org>
+
