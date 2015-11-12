@@ -18,8 +18,6 @@ RUN dpkg --add-architecture i386 \
  bison \
  build-essential \
  byacc \
- cm-super-minimal \
- curl \
  debhelper \
  dejagnu \
  dh-autoreconf \
@@ -30,6 +28,7 @@ RUN dpkg --add-architecture i386 \
  g++-multilib \
  gawk \
  git \
+ libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
  libreadline-dev \
@@ -39,7 +38,7 @@ RUN dpkg --add-architecture i386 \
  lsb-release \
  openjdk-7-jdk \
  openssh-server \
- python3-dev \
+ python-dev \
  qemu-user-static \
  sudo \
  texinfo \
@@ -48,6 +47,7 @@ RUN dpkg --add-architecture i386 \
  time \
  vim \
  wget \
+ xz-utils \
  zlib1g-dev \
  && wget -q http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
