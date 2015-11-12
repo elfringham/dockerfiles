@@ -1,3 +1,6 @@
+# TCWG configuration with everything needed to build the GNU toolchain and test it.
+# To run the resulting image manually and mount /tmp to /mnt, use:
+#         docker run -i -v /tmp:/mnt -t tcwg/wily-amd64-tcwg /bin/bash
 FROM ubuntu:wily
 
 COPY *.list *.key /etc/apt/sources.list.d/
@@ -10,25 +13,42 @@ RUN dpkg --add-architecture i386 \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  alien \
  autoconf \
+ autogen \
  automake \
- bc \
  bison \
  build-essential \
- ccache \
+ byacc \
+ cm-super-minimal \
  curl \
  debhelper \
  dejagnu \
+ dh-autoreconf \
+ dh-translations \
+ distro-info-data \
+ fakeroot \
  flex \
  g++-multilib \
- gcc \
+ gawk \
  git \
+ liblzma-dev \
+ libncurses5-dev \
+ libreadline-dev \
+ libtool \
+ lsb-build-c++ \
+ lsb-build-cc \
  lsb-release \
  openjdk-7-jdk \
  openssh-server \
+ python3-dev \
  qemu-user-static \
  sudo \
+ texinfo \
+ texlive-fonts-recommended \
+ texlive-latex-recommended \
  time \
+ vim \
  wget \
+ zlib1g-dev \
  && wget -q http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
  && apt-mark hold make \
@@ -44,4 +64,5 @@ RUN useradd -m -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd \
+ && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && /usr/sbin/sshd
