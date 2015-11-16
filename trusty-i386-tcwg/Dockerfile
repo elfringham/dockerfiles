@@ -7,7 +7,7 @@ COPY *.list *.key /etc/apt/sources.list.d/
 
 RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done \
  && apt-get update \
- && apt-get dist-upgrade \
+ && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && dpkg-divert --local --rename --add /sbin/initctl \
  && ln -s /bin/true /sbin/initctl \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
