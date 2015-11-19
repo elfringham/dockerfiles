@@ -9,8 +9,7 @@ RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7 \
  && rm -rf /var/cache/yum/*
 
 RUN useradd -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX6Q9PYhdV/CyJg7uthSIqIyzlNF65NVB1xwGtt0/' buildslave \
- && echo 'includedir /etc/sudoers.d' >> /etc/sudoers \
- && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
+ && echo 'buildslave ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd \
  && /usr/sbin/sshd-keygen \
