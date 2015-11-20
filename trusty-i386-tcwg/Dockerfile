@@ -51,6 +51,7 @@ RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done 
  wget \
  xz-utils \
  zlib1g-dev \
+ && find /opt -type d |xargs chmod 0755 \
  && wget -q http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_i386.deb \
  && dpkg -i --force-all *.deb \
  && apt-mark hold make \
@@ -66,6 +67,7 @@ RUN groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
+ && echo 'PATH="/opt/lsb/bin:$PATH"' >> /home/tcwg-buildslave/.profile \
  && mkdir -p /var/run/sshd \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && /usr/sbin/sshd
