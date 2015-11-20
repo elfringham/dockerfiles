@@ -36,6 +36,7 @@ RUN dpkg --add-architecture i386 \
  lsb-build-c++ \
  lsb-build-cc \
  lsb-release \
+ netcat \
  openjdk-7-jdk \
  openssh-server \
  python-dev \

@@ -38,6 +38,7 @@ RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done 
  lsb-build-c++ \
  lsb-build-cc \
  lsb-release \
+ netcat \
  openjdk-7-jdk \
  openssh-server \
  python-dev \
