@@ -62,8 +62,8 @@ RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done 
  /var/tmp/* \
  *.deb
 
-RUN groupadd tcwg-infra \
- && useradd -m -g tcwg-infra tcwg-buildslave \
+RUN groupadd -g 9000 tcwg-infra \
+ && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd \
