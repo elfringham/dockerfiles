@@ -14,6 +14,6 @@ export LANG=C
 DISTRIBUTION=$(basename ${PWD} | cut -f1 -d '-')
 
 cp -a ../${DISTRIBUTION}.list linaro.list
-cp -a ../linarorepo.key . 
+cp -a ../linaro-overlay-repo.key linarorepo.key
 
 docker build --tag=linaro/$(basename ${PWD}) .
