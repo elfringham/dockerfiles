@@ -2,7 +2,7 @@ FROM quay.io/fathi_boudra/ubuntu:trusty-arm64
 
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
  && apt-get update \
- && apt-get dist-upgrade \
+ && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  ant \

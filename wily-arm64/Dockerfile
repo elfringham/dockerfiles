@@ -5,7 +5,7 @@ COPY *.list *.key /etc/apt/sources.list.d/
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports wily main universe' > /etc/apt/sources.list \
  && for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done \
  && apt-get update \
- && apt-get dist-upgrade \
+ && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  abootimg \

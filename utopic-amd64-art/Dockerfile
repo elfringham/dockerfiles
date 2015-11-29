@@ -7,7 +7,7 @@ RUN dpkg --add-architecture i386 \
  && add-apt-repository -y ppa:git-core/ppa \
  && add-apt-repository -y ppa:linaro-maintainers/tools \
  && apt-get update \
- && apt-get dist-upgrade \
+ && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  acpica-tools \
  android-tools-adb \
