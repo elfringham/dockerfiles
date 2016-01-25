@@ -27,6 +27,7 @@ RUN dpkg --add-architecture i386 \
  lib32ncurses5 \
  libxml2-utils \
  make \
+ openjdk-8-jdk \
  openssh-client \
  openssh-server \
  python-mako \
