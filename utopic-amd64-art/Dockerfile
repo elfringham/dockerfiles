@@ -41,11 +41,12 @@ RUN dpkg --add-architecture i386 \
  xml-twig-tools \
  zip \
  zlib1g-dev:i386 \
- && wget -q http://snapshot.debian.org/archive/debian/20151016T034032Z/pool/main/a/acpica-unix/acpica-tools_20150930-1_amd64.deb \
-            http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
+ && wget -q \
+ http://snapshot.debian.org/archive/debian/20151016T034032Z/pool/main/a/acpica-unix/acpica-tools_20150930-1_amd64.deb \
+ http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
  && apt-mark hold make \
- && apt-get clean
+ && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* *.deb
 
 RUN useradd -m -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX6Q9PYhdV/CyJg7uthSIqIyzlNF65NVB1xwGtt0/' buildslave \
