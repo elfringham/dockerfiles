@@ -67,6 +67,8 @@ RUN groupadd -g 9000 tcwg-infra \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
  && echo 'PATH="/opt/lsb/bin:$PATH"' >> /home/tcwg-buildslave/.profile \
- && mkdir -p /var/run/sshd \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
- && /usr/sbin/sshd
+ && mkdir -p /var/run/sshd
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]

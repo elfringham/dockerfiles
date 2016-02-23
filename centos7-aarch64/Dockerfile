@@ -12,5 +12,7 @@ RUN useradd -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX6Q9
  && echo 'buildslave ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd \
- && /usr/sbin/sshd-keygen \
- && /usr/sbin/sshd
+ && /usr/sbin/sshd-keygen
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]

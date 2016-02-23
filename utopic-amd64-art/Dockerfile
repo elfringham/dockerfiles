@@ -58,5 +58,7 @@ RUN useradd -m -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX
  && curl https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py > /home/buildslave/bin/cpplint.py \
  && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
  && chmod a+x /home/buildslave/bin/* \
- && chown -R buildslave:buildslave /home/buildslave/bin \
- && /usr/sbin/sshd
+ && chown -R buildslave:buildslave /home/buildslave/bin
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]

@@ -64,5 +64,7 @@ RUN dpkg --add-architecture i386 \
 RUN useradd -m -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX6Q9PYhdV/CyJg7uthSIqIyzlNF65NVB1xwGtt0/' buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd \
- && /usr/sbin/sshd
+ && mkdir -p /var/run/sshd
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
