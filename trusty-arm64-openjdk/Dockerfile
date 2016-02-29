@@ -6,10 +6,20 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  ant \
+ g++ \
  git \
+ libasound2-dev \
+ libcups2-dev \
+ libfreetype6-dev \
+ libx11-dev \
+ libxext-dev \
+ libxrender-dev \
+ libxtst-dev \
+ libxt-dev \
  mercurial \
  openjdk-7-jdk \
  openssh-server \
+ pkg-config \
  sudo \
  wget \
  xvfb \
