@@ -5,7 +5,11 @@ RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7 \
  && yum --nogpgcheck --setopt=tsflags=nodocs -y install \
  git \
  java-1.8.0-openjdk \
+ make \
  openssh-server \
+ rpm-build \
+ wget \
+ yum-utils \
  && rm -rf /var/cache/yum/*
 
 RUN useradd -p '$6$7tSX2YU5Q$ydZwAuWtNPPBb1Fv/tzy3eFeEP/ThDBUjV/4vHVx6bVyfYMX6Q9PYhdV/CyJg7uthSIqIyzlNF65NVB1xwGtt0/' buildslave \
