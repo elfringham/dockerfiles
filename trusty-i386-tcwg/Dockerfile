@@ -69,6 +69,7 @@ RUN groupadd -g 9000 tcwg-infra \
  && chmod 440 /etc/sudoers.d/jenkins \
  && echo 'PATH="/opt/lsb/bin:$PATH"' >> /home/tcwg-buildslave/.profile \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
+ && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd
 
 EXPOSE 22
