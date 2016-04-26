@@ -43,12 +43,14 @@ RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done 
  openssh-server \
  python-dev \
  sudo \
+ mingw-w64 \
  texinfo \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
  vim \
  wget \
+ wine \
  xz-utils \
  zlib1g-dev \
  && find /opt -type d |xargs chmod 0755 \

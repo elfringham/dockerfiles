@@ -41,6 +41,7 @@ RUN dpkg --add-architecture i386 \
  openssh-server \
  python-dev \
  qemu-user-static \
+ mingw-w64 \
  sudo \
  texinfo \
  texlive-fonts-recommended \
@@ -48,6 +49,7 @@ RUN dpkg --add-architecture i386 \
  time \
  vim \
  wget \
+ wine \
  xz-utils \
  zlib1g-dev \
  && find /opt -type d |xargs chmod 0755 \
