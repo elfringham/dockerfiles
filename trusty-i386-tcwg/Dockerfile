@@ -43,7 +43,7 @@ RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done 
  openssh-server \
  python-dev \
  sudo \
- mingw-w64 \
+ mingw32 \
  texinfo \
  texlive-fonts-recommended \
  texlive-latex-recommended \
