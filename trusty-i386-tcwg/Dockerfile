@@ -54,7 +54,8 @@ RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done 
  xz-utils \
  zlib1g-dev \
  && find /opt -type d |xargs chmod 0755 \
- && wget -q http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_i386.deb \
+ && wget -q \
+ http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_i386.deb \
  && dpkg -i --force-all *.deb \
  && apt-mark hold make \
  && apt-get clean \
