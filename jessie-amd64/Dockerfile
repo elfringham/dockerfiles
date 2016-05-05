@@ -2,7 +2,8 @@ FROM debian:jessie
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
-RUN apt-key add /etc/apt/sources.list.d/*.key \
+RUN dpkg --add-architecture i386 \
+ && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -30,6 +31,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  kernel-wedge \
  kpartx \
  lava-tool \
+ libstdc++6:i386 \
  libtool \
  linaro-image-tools \
  lsb-release \
@@ -43,6 +45,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  uuid-dev \
  wget \
  zip \
+ zlib1g:i386 \
  zsync \
  && apt-get clean \
  && rm -rf \
