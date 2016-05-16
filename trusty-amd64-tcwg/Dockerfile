@@ -17,31 +17,39 @@ RUN dpkg --add-architecture i386 \
  automake \
  bison \
  build-essential \
+ ccache \
+ ccrypt \
  byacc \
  debhelper \
  dejagnu \
  dh-autoreconf \
  dh-translations \
  distro-info-data \
+ emacs \
  fakeroot \
  flex \
  g++-multilib \
  gawk \
+ gdb \
+ gdbserver \
  git \
  libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
+ libpython2.7-dev \
  libreadline-dev \
  libtool \
  lsb-build-c++ \
  lsb-build-cc \
  lsb-release \
+ mingw-w64 \
+ mingw32 \
+ net-tools \
  netcat \
  openjdk-7-jdk \
  openssh-server \
  python-dev \
- qemu-user-static \
- mingw32 \
+ qemu-user \
  sudo \
  texinfo \
  texlive-fonts-recommended \
