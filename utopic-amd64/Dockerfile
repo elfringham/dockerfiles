@@ -4,7 +4,7 @@ COPY *.list *.key /etc/apt/sources.list.d/
 
 RUN dpkg --add-architecture i386 \
  && sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list \
- && for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done \
+ && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \

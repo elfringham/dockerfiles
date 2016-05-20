@@ -5,7 +5,7 @@ FROM quay.io/fathi_boudra/ubuntu:trusty-i386
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
-RUN for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done \
+RUN apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && dpkg-divert --local --rename --add /sbin/initctl \

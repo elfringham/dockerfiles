@@ -3,7 +3,7 @@ FROM ubuntu:xenial
 COPY *.list *.key /etc/apt/sources.list.d/
 
 RUN dpkg --add-architecture i386 \
- && for key in $(ls /etc/apt/sources.list.d/*.key); do apt-key add ${key}; done \
+ && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
