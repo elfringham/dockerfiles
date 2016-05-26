@@ -51,7 +51,7 @@ RUN dpkg --add-architecture i386 \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* *.deb
 
-RUN useradd -m buildslave \
+RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd /home/buildslave/bin \
