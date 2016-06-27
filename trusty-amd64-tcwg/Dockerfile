@@ -1,6 +1,3 @@
-# TCWG configuration with everything needed to build the GNU toolchain and test it.
-# To run the resulting image manually and mount /tmp to /mnt, use:
-#         docker run -i -v /tmp:/mnt -t tcwg/wily-amd64-tcwg /bin/bash
 FROM ubuntu:trusty
 
 COPY *.list *.key /etc/apt/sources.list.d/
