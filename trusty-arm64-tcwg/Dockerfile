@@ -68,3 +68,9 @@ RUN groupadd -g 9000 tcwg-infra \
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+
+VOLUME /srv/docker/ssh/id_rsa_tcwg-buildslave.pub:/home/tcwg-buildslave/.ssh/authorized_keys:ro
+VOLUME /srv/docker/ssh/tcwg-buildslave.config:/home/tcwg-buildslave/.ssh/config:ro
+VOLUME /home/tcwg-buildslave/snapshots-ref:/home/tcwg-buildslave/snapshots-ref:ro
+VOLUME /home/tcwg-buildslave/workspace:/home/tcwg-buildslave/workspace:rw
+VOLUME /tmp
