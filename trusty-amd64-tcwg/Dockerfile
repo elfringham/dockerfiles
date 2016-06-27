@@ -39,6 +39,7 @@ RUN dpkg --add-architecture i386 \
  libpython2.7-dev \
  libreadline-dev \
  libtool \
+ make \
  mingw-w64 \
  mingw32 \
  net-tools \
@@ -57,17 +58,12 @@ RUN dpkg --add-architecture i386 \
  wine \
  xz-utils \
  zlib1g-dev \
- && wget -q \
- http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
- && dpkg -i --force-all *.deb \
- && apt-mark hold make \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/*.key \
  /var/lib/apt/lists/* \
  /tmp/* \
- /var/tmp/* \
- *.deb
+ /var/tmp/*
 
 RUN groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
