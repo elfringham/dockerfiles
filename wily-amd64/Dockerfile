@@ -50,7 +50,7 @@ RUN dpkg --add-architecture i386 \
  zlib1g:i386 \
  zsync \
  && wget -q \
- http://snapshot.debian.org/archive/debian/20151016T034032Z/pool/main/a/acpica-unix/acpica-tools_20150930-1_amd64.deb \
+ http://snapshot.debian.org/archive/debian/20160609T104519Z/pool/main/a/acpica-unix/acpica-tools_20160527-1_amd64.deb \
  http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
  && apt-mark hold make \
