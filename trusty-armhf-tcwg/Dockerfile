@@ -34,6 +34,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
+ libssl-dev \
  libtool \
  make \
  net-tools \

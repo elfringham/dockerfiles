@@ -36,6 +36,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
+ libssl-dev \
  libtool \
  make \
  mingw-w64 \
