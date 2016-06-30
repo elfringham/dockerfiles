@@ -12,6 +12,7 @@ RUN dpkg --add-architecture i386 \
  autoconf \
  autogen \
  automake \
+ bc \
  bison \
  build-essential \
  ccache \

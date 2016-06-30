@@ -13,6 +13,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  autoconf \
  autogen \
  automake \
+ bc \
  bison \
  build-essential \
  ccache \

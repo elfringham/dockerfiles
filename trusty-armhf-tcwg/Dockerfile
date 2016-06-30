@@ -12,6 +12,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  autoconf \
  autogen \
  automake \
+ bc \
  bison \
  build-essential \
  ccache \
