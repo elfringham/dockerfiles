@@ -48,6 +48,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  openssh-server \
  python-dev \
  qemu-user \
+ rsync \
  sudo \
  texinfo \
  texlive-fonts-recommended \

@@ -47,6 +47,7 @@ RUN dpkg --add-architecture i386 \
  openssh-server \
  python-dev \
  qemu-user \
+ rsync \
  sudo \
  texinfo \
  texlive-fonts-recommended \

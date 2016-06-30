@@ -44,6 +44,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  openssh-server \
  python-dev \
  qemu-user \
+ rsync \
  sudo \
  texinfo \
  texlive-fonts-recommended \
