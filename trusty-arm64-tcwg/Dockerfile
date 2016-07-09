@@ -72,8 +72,20 @@ RUN groupadd -g 9000 tcwg-infra \
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 
-VOLUME /srv/docker/ssh/id_rsa_tcwg-buildslave.pub:/home/tcwg-buildslave/.ssh/authorized_keys:ro
-VOLUME /srv/docker/ssh/tcwg-buildslave.config:/home/tcwg-buildslave/.ssh/config:ro
-VOLUME /home/tcwg-buildslave/snapshots-ref:/home/tcwg-buildslave/snapshots-ref:ro
-VOLUME /home/tcwg-buildslave/workspace:/home/tcwg-buildslave/workspace:rw
+# Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
+# Therefore, the bind-mounts for the following paths are configured in
+# the ci.linaro.org's docker plugin.
+# SSH credentials for tcwg-buildslave (read-only):
+# /srv/docker/ssh/id_rsa_tcwg-buildslave.pub:/home/tcwg-buildslave/.ssh/authorized_keys:ro
+# /srv/docker/ssh/tcwg-buildslave.config:/home/tcwg-buildslave/.ssh/config:ro
+# Sources caches (read-only):
+# /home/tcwg-buildslave/snapshots-ref:/home/tcwg-buildslave/snapshots-ref:ro
+# Workspace (read-write):
+# /home/tcwg-buildslave/workspace:/home/tcwg-buildslave/workspace:rw
+
+# We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
+# which docker is using can't host sockets, so we use a scratch mount
+# for /tmp.  This requires that we add --rm option to "docker run"
+# invocations (e.g., mark "Remove volumes" checkbox in docker plugin) to
+# cleanup host directories used for the scratch mounts.
 VOLUME /tmp
