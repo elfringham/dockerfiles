@@ -17,6 +17,8 @@ RUN dpkg --add-architecture i386 \
  bison \
  build-essential \
  ccache \
+ clang \
+ clang-format-3.6 \
  curl \
  debhelper \
  debian-archive-keyring \
@@ -33,14 +35,21 @@ RUN dpkg --add-architecture i386 \
  kernel-wedge \
  kpartx \
  lava-tool \
+ lcov \
+ less \
  libstdc++6:i386 \
  libtool \
  linaro-image-tools \
  lsb-release \
+ make \
  openjdk-8-jdk \
  openssh-server \
+ python-mako \
+ python-networkx \
  python-pycurl \
  qemu-user-static \
+ rsync \
+ scons \
  sudo \
  time \
  u-boot-tools \
@@ -61,10 +70,14 @@ RUN dpkg --add-architecture i386 \
  /var/tmp/* \
  *.deb
 
-RUN useradd -m buildslave \
+RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
- && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd
+ && chmod 0440 /etc/sudoers.d/jenkins \
+ && mkdir -p /var/run/sshd /home/buildslave/bin \
+ && curl https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py > /home/buildslave/bin/cpplint.py \
+ && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
+ && chmod a+x /home/buildslave/bin/* \
+ && chown -R buildslave:buildslave /home/buildslave/bin
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
