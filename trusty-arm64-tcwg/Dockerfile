@@ -72,12 +72,12 @@ RUN groupadd -g 9000 tcwg-infra \
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 
+COPY tcwg-buildslave/.ssh /home/tcwg-buildslave/.ssh
+RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/
+
 # Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
 # Therefore, the bind-mounts for the following paths are configured in
 # the ci.linaro.org's docker plugin.
-# SSH credentials for tcwg-buildslave (read-only):
-# /srv/docker/ssh/id_rsa_tcwg-buildslave.pub:/home/tcwg-buildslave/.ssh/authorized_keys:ro
-# /srv/docker/ssh/tcwg-buildslave.config:/home/tcwg-buildslave/.ssh/config:ro
 # Sources caches (read-only):
 # /home/tcwg-buildslave/snapshots-ref:/home/tcwg-buildslave/snapshots-ref:ro
 # Workspace (read-write):
