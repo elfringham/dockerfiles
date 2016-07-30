@@ -1,6 +1,7 @@
 FROM ubuntu:trusty
 
 COPY *.list *.key /etc/apt/sources.list.d/
+COPY tcwg-buildslave/.ssh /home/tcwg-buildslave/.ssh
 
 RUN dpkg --add-architecture i386 \
  && apt-key add /etc/apt/sources.list.d/*.key \
@@ -69,15 +70,10 @@ RUN groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
+ && chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/ \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd
-
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
-
-COPY tcwg-buildslave/.ssh /home/tcwg-buildslave/.ssh
-RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/
 
 # Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
 # Therefore, the bind-mounts for the following paths are configured in
@@ -93,3 +89,6 @@ RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/
 # invocations (e.g., mark "Remove volumes" checkbox in docker plugin) to
 # cleanup host directories used for the scratch mounts.
 VOLUME /tmp
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
