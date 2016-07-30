@@ -5,6 +5,9 @@ COPY *.list *.key /etc/apt/sources.list.d/
 RUN dpkg --add-architecture i386 \
  && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \
+ && add-apt-repository -y ppa:git-core/ppa \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -31,14 +34,18 @@ RUN dpkg --add-architecture i386 \
  gcc-aarch64-linux-gnu \
  gcc-arm-linux-gnueabihf \
  gdisk \
+ genisoimage \
  git \
+ gperf \
  kernel-wedge \
  kpartx \
  lava-tool \
  lcov \
  less \
+ lib32ncurses5 \
  libstdc++6:i386 \
  libtool \
+ libxml2-utils \
  linaro-image-tools \
  lsb-release \
  make \
@@ -55,8 +62,9 @@ RUN dpkg --add-architecture i386 \
  u-boot-tools \
  uuid-dev \
  wget \
+ xml-twig-tools \
  zip \
- zlib1g:i386 \
+ zlib1g-dev:i386 \
  zsync \
  && wget -q \
  http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
