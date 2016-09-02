@@ -2,9 +2,9 @@ FROM quay.io/fathi_boudra/debian:stretch-arm64
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
-RUN apt-key add /etc/apt/sources.list.d/*.key \
- && apt-get update \
+RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
+ && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
