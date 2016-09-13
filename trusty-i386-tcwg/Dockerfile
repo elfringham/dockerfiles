@@ -1,7 +1,7 @@
 FROM quay.io/fathi_boudra/ubuntu:trusty-i386
 
 COPY *.list *.key /etc/apt/sources.list.d/
-COPY tcwg-buildslave/.ssh /home/tcwg-buildslave/.ssh
+COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
 RUN apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
@@ -67,11 +67,12 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  /tmp/* \
  /var/tmp/*
 
-RUN groupadd -g 9000 tcwg-infra \
+RUN chmod 0700 /etc/skel/.ssh \
+ && groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
+ && rm -rf /etc/skel/.ssh \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/ \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd

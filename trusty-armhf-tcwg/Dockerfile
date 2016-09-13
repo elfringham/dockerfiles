@@ -1,6 +1,7 @@
 FROM quay.io/fathi_boudra/ubuntu:trusty-armhf
 
 COPY *.list *.key /etc/apt/sources.list.d/
+COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
  && apt-key add /etc/apt/sources.list.d/*.key \
@@ -61,19 +62,15 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  /tmp/* \
  /var/tmp/*
 
-RUN groupadd -g 9000 tcwg-infra \
+RUN chmod 0700 /etc/skel/.ssh \
+ && groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
+ && rm -rf /etc/skel/.ssh \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd
-
-EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
-
-COPY tcwg-buildslave/.ssh /home/tcwg-buildslave/.ssh
-RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/
 
 # Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
 # Therefore, the bind-mounts for the following paths are configured in
@@ -89,3 +86,6 @@ RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/.ssh/
 # invocations (e.g., mark "Remove volumes" checkbox in docker plugin) to
 # cleanup host directories used for the scratch mounts.
 VOLUME /tmp
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
