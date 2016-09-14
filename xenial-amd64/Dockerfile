@@ -43,8 +43,10 @@ RUN dpkg --add-architecture i386 \
  lcov \
  less \
  lib32ncurses5 \
+ libguestfs-tools \
  libstdc++6:i386 \
  libtool \
+ libvirt-bin \
  libxml2-utils \
  linaro-image-tools \
  lsb-release \
@@ -61,11 +63,13 @@ RUN dpkg --add-architecture i386 \
  time \
  u-boot-tools \
  uuid-dev \
+ virtinst \
  wget \
  xml-twig-tools \
  zip \
  zlib1g-dev:i386 \
  zsync \
+
  && wget -q \
  http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
@@ -82,10 +86,13 @@ RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd /home/buildslave/bin \
+ && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf \
  && curl https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py > /home/buildslave/bin/cpplint.py \
  && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
  && chmod a+x /home/buildslave/bin/* \
  && chown -R buildslave:buildslave /home/buildslave/bin
+
+VOLUME ["/var/lib/libvirt"]
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

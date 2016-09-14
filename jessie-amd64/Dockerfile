@@ -33,8 +33,10 @@ RUN dpkg --add-architecture i386 \
  kernel-wedge \
  kpartx \
  lava-tool \
+ libguestfs-tools \
  libstdc++6:i386 \
  libtool \
+ libvirt-clients \
  linaro-image-tools \
  lsb-release \
  openjdk-7-jdk \
@@ -45,6 +47,7 @@ RUN dpkg --add-architecture i386 \
  time \
  u-boot-tools \
  uuid-dev \
+ virtinst \
  wget \
  zip \
  zlib1g:i386 \
@@ -59,7 +62,10 @@ RUN dpkg --add-architecture i386 \
 RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd
+ && mkdir -p /var/run/sshd \
+ && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf
+
+VOLUME ["/var/lib/libvirt"]
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
