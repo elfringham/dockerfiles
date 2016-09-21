@@ -45,4 +45,4 @@ RUN chmod 0700 /etc/skel/.ssh \
 VOLUME /tmp
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+CMD ["linux32", "/usr/sbin/sshd", "-D"]
