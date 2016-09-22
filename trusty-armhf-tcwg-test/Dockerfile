@@ -12,6 +12,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  openssh-server \
  rsync \
  sudo \
+ libtcnative-1 \
  wget \
  xz-utils \
  && apt-get clean \

@@ -37,6 +37,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
+ libtcnative-1 \
  libtool \
  make \
  net-tools \
