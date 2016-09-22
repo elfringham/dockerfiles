@@ -9,10 +9,11 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ libtcnative-1 \
+ openjdk-7-jdk \
  openssh-server \
  rsync \
  sudo \
- libtcnative-1 \
  wget \
  xz-utils \
  && apt-get clean \
