@@ -39,6 +39,12 @@ RUN chmod 0700 /etc/skel/.ssh \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && echo "PermitRootLogin without-password" >> /etc/ssh/sshd_config
 
+# Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
+# Therefore, the bind-mounts for the following paths are configured in
+# the ci.linaro.org's docker plugin.
+# Jenkins .jar cache (read-write):
+# /home/tcwg-buildslave/.jenkins:/home/tcwg-buildslave/.jenkins:rw
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"

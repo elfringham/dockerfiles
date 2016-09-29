@@ -71,15 +71,22 @@ RUN chmod 0700 /etc/skel/.ssh \
  && chmod 440 /etc/sudoers.d/jenkins \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
- && mkdir -p /var/run/sshd
+ && mkdir -p /var/run/sshd \
+ && mkdir -p /home/tcwg-buildslave/workspace \
+ && chown tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/workspace
 
 # Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
 # Therefore, the bind-mounts for the following paths are configured in
 # the ci.linaro.org's docker plugin.
 # Sources caches (read-only):
 # /home/tcwg-buildslave/snapshots-ref:/home/tcwg-buildslave/snapshots-ref:ro
-# Workspace (read-write):
-# /home/tcwg-buildslave/workspace:/home/tcwg-buildslave/workspace:rw
+# Jenkins .jar cache (read-write):
+# /home/tcwg-buildslave/.jenkins:/home/tcwg-buildslave/.jenkins:rw
+
+# We write most of the data inside workspace, so make it a scratch mount.
+# Note that bind-mounting workspace from host will make jobs with parallel
+# builds fail.
+VOLUME /home/tcwg-buildslave/workspace
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using can't host sockets, so we use a scratch mount
