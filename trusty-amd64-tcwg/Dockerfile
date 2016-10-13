@@ -38,6 +38,7 @@ RUN dpkg --add-architecture i386 \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
+ libtcnative-1 \
  libtool \
  make \
  mingw-w64 \
