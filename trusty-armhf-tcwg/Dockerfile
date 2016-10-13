@@ -45,6 +45,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  openjdk-7-jdk \
  openssh-server \
  python-dev \
+ pxz \
  qemu-user \
  rsync \
  sudo \

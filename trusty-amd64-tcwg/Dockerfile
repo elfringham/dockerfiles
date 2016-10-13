@@ -47,6 +47,7 @@ RUN dpkg --add-architecture i386 \
  openjdk-7-jdk \
  openssh-server \
  python-dev \
+ pxz \
  qemu-user \
  rsync \
  sudo \

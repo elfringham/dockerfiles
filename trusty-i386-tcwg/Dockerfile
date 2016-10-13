@@ -48,6 +48,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  openjdk-7-jdk \
  openssh-server \
  python-dev \
+ pxz \
  qemu-user \
  rsync \
  sudo \
