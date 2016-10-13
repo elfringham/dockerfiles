@@ -19,4 +19,4 @@ sed -e "s|@DISTRIBUTION@|${DISTRIBUTION}|" -i *.list
 
 rsync -a ../tcwg-buildslave/ ./tcwg-buildslave/
 
-docker build --tag=linaro/$(basename ${PWD}) .
+docker build --pull --tag=linaro/$(basename ${PWD}) .

@@ -19,4 +19,4 @@ sed -e "s|@DISTRIBUTION@|${DISTRIBUTION}|" -i *.list
 # fixup - get rid of PPA usage
 rm -f linaro-*ppa.*
 
-docker build --tag=linaro/$(basename ${PWD}) .
+docker build --pull --tag=linaro/$(basename ${PWD}) .
