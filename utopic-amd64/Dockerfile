@@ -66,7 +66,11 @@ RUN dpkg --add-architecture i386 \
 RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd
+ && mkdir -p /var/run/sshd /home/buildslave/bin \
+ && curl https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py > /home/buildslave/bin/cpplint.py \
+ && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
+ && chmod a+x /home/buildslave/bin/* \
+ && chown -R buildslave:buildslave /home/buildslave/bin
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
