@@ -41,6 +41,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ lzop \
  make \
  mingw-w64 \
  mingw32 \

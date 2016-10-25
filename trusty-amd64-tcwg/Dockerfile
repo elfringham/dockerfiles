@@ -40,6 +40,7 @@ RUN dpkg --add-architecture i386 \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ lzop \
  make \
  mingw-w64 \
  mingw32 \
