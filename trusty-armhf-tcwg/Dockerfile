@@ -39,6 +39,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  libssl-dev \
  libtcnative-1 \
  libtool \
+ lzop \
  make \
  net-tools \
  netcat \
