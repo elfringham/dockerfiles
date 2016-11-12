@@ -57,6 +57,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  vim \
  wget \
  xz-utils \
+ zip \
  zlib1g-dev \
  && apt-get clean \
  && rm -rf \

@@ -61,6 +61,7 @@ RUN dpkg --add-architecture i386 \
  wget \
  wine \
  xz-utils \
+ zip \
  zlib1g-dev \
  && apt-get clean \
  && rm -rf \

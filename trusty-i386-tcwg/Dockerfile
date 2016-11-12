@@ -62,6 +62,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  wget \
  wine \
  xz-utils \
+ zip \
  zlib1g-dev \
  && apt-get clean \
  && rm -rf \
