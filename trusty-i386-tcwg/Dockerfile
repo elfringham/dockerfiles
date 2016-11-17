@@ -1,10 +1,8 @@
 FROM quay.io/fathi_boudra/ubuntu:trusty-i386
 
-COPY *.list *.key /etc/apt/sources.list.d/
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
-RUN apt-key add /etc/apt/sources.list.d/*.key \
- && apt-get update \
+RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && dpkg-divert --local --rename --add /sbin/initctl \
  && ln -s /bin/true /sbin/initctl \

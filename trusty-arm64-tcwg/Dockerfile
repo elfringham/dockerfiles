@@ -1,10 +1,8 @@
 FROM quay.io/fathi_boudra/ubuntu:trusty-arm64
 
-COPY *.list *.key /etc/apt/sources.list.d/
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
- && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
