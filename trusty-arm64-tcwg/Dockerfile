@@ -59,7 +59,6 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  zlib1g-dev \
  && apt-get clean \
  && rm -rf \
- /etc/apt/sources.list.d/*.key \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
