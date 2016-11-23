@@ -31,7 +31,9 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  kernel-wedge \
  kpartx \
  lava-tool \
+ libguestfs-tools \
  libtool \
+ libvirt-clients \
  linaro-image-tools \
  lsb-release \
  openjdk-8-jdk \
@@ -42,6 +44,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  time \
  u-boot-tools \
  uuid-dev \
+ virtinst \
  wget \
  zip \
  zsync \
@@ -55,7 +58,10 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
 RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd
+ && mkdir -p /var/run/sshd \
+ && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf
+
+VOLUME ["/var/lib/libvirt"]
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

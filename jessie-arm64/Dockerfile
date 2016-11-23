@@ -32,7 +32,9 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  kernel-wedge \
  kpartx \
  lava-tool \
+ libguestfs-tools \
  libtool \
+ libvirt-clients \
  linaro-image-tools \
  lsb-release \
  openjdk-7-jdk \
@@ -43,6 +45,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  time \
  u-boot-tools \
  uuid-dev \
+ virtinst \
  wget \
  zip \
  zsync \
@@ -56,7 +59,10 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
 RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd
+ && mkdir -p /var/run/sshd \
+ && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf
+
+VOLUME ["/var/lib/libvirt"]
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
