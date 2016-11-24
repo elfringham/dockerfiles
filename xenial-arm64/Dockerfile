@@ -33,7 +33,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  lava-tool \
  libguestfs-tools \
  libtool \
- libvirt-clients \
+ libvirt-bin \
  linaro-image-tools \
  lsb-release \
  openjdk-8-jdk \
