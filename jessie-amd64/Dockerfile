@@ -62,8 +62,7 @@ RUN dpkg --add-architecture i386 \
 RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd \
- && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf
+ && mkdir -p /var/run/sshd
 
 VOLUME ["/var/lib/libvirt"]
 

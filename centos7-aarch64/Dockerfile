@@ -21,8 +21,7 @@ RUN useradd buildslave \
  && echo 'Defaults:buildslave !requiretty' >> /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd \
- && /usr/sbin/sshd-keygen \
- && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf
+ && /usr/sbin/sshd-keygen
 
 VOLUME ["/var/lib/libvirt"]
 

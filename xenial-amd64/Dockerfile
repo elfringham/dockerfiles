@@ -86,7 +86,6 @@ RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd /home/buildslave/bin \
- && echo 'uri_default = "qemu+tcp://172.17.0.1/system"' >> /etc/libvirt/libvirt.conf \
  && curl https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py > /home/buildslave/bin/cpplint.py \
  && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
  && chmod a+x /home/buildslave/bin/* \
