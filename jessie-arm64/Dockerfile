@@ -32,7 +32,6 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  kernel-wedge \
  kpartx \
  lava-tool \
- libguestfs-tools \
  libtool \
  libvirt-clients \
  linaro-image-tools \
