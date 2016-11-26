@@ -43,7 +43,6 @@ RUN dpkg --add-architecture i386 \
  lcov \
  less \
  lib32ncurses5 \
- libguestfs-tools \
  libstdc++6:i386 \
  libtool \
  libvirt-bin \

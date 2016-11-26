@@ -33,7 +33,6 @@ RUN dpkg --add-architecture i386 \
  kernel-wedge \
  kpartx \
  lava-tool \
- libguestfs-tools \
  libstdc++6:i386 \
  libtool \
  libvirt-clients \

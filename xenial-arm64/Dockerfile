@@ -31,7 +31,6 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  kernel-wedge \
  kpartx \
  lava-tool \
- libguestfs-tools \
  libtool \
  libvirt-bin \
  linaro-image-tools \
