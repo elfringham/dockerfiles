@@ -54,7 +54,7 @@ RUN dpkg --add-architecture i386 \
  openssh-server \
  python-mako \
  python-networkx \
- python-pycurl \
+ python-requests \
  qemu-user-static \
  rsync \
  scons \

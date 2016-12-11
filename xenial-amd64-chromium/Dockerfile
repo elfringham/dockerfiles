@@ -15,7 +15,7 @@ RUN dpkg --add-architecture i386 \
  make \
  openjdk-8-jdk \
  openssh-server \
- python-pycurl \
+ python-requests \
  sudo \
  wget \
  && wget -q \

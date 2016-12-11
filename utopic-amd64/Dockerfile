@@ -40,7 +40,7 @@ RUN dpkg --add-architecture i386 \
  lsb-release \
  openjdk-7-jdk \
  openssh-server \
- python-pycurl \
+ python-requests \
  qemu-user-static \
  sudo \
  time \

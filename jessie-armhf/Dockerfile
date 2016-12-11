@@ -37,7 +37,7 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  lsb-release \
  openjdk-7-jdk \
  openssh-server \
- python-pycurl \
+ python-requests \
  qemu-user-static \
  sudo \
  time \

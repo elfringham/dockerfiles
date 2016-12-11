@@ -37,7 +37,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  lsb-release \
  openjdk-8-jdk \
  openssh-server \
- python-pycurl \
+ python-requests \
  qemu-user-static \
  sudo \
  time \
