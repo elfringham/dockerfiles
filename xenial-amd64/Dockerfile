@@ -68,7 +68,6 @@ RUN dpkg --add-architecture i386 \
  zip \
  zlib1g-dev:i386 \
  zsync \
-
  && wget -q \
  http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
