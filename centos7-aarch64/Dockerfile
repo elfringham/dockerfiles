@@ -9,6 +9,7 @@ RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7 \
  java-1.8.0-openjdk \
  make \
  openssh-server \
+ python-requests \
  rpm-build \
  virt-install \
  wget \
