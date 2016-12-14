@@ -1,8 +1,8 @@
-FROM quay.io/fathi_boudra/ubuntu:trusty-arm64
+FROM quay.io/fathi_boudra/ubuntu:xenial-arm64
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
-RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
+RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -41,7 +41,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  make \
  net-tools \
  netcat \
- openjdk-7-jdk \
+ openjdk-8-jdk \
  openssh-server \
  python-dev \
  pxz \

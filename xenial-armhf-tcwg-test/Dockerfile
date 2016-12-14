@@ -1,14 +1,14 @@
-FROM quay.io/fathi_boudra/ubuntu:trusty-armhf
+FROM quay.io/fathi_boudra/ubuntu:xenial-armhf
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 COPY tcwg-buildslave/.ssh /root/.ssh
 
-RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
+RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  libtcnative-1 \
- openjdk-7-jdk \
+ openjdk-8-jdk \
  openssh-server \
  rsync \
  sudo \

@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
@@ -41,10 +41,9 @@ RUN dpkg --add-architecture i386 \
  lzop \
  make \
  mingw-w64 \
- mingw32 \
  net-tools \
  netcat \
- openjdk-7-jdk \
+ openjdk-8-jdk \
  openssh-server \
  python-dev \
  pxz \

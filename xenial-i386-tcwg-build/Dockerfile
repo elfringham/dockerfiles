@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:trusty-i386
+FROM quay.io/fathi_boudra/ubuntu:xenial-i386
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
@@ -42,10 +42,9 @@ RUN apt-get update \
  lzop \
  make \
  mingw-w64 \
- mingw32 \
  net-tools \
  netcat \
- openjdk-7-jdk \
+ openjdk-8-jdk \
  openssh-server \
  python-dev \
  pxz \
