@@ -16,4 +16,4 @@ name=$(basename ${PWD} | cut -f3- -d '-')
 
 rsync -a ../tcwg-buildslave/ ./tcwg-buildslave/
 
-docker build --pull --tag=linaro/ci-${arch}-${name}-ubuntu:${distro}  .
+docker build --pull --tag=linaro/ci-${arch}-${name}-ubuntu:${distro} .
