@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:xenial-i386
+FROM linaro/base-i386-ubuntu:xenial
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
