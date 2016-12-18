@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/fedora:23-aarch64
+FROM linaro/base-aarch64-fedora:23
 
 RUN dnf -y update \
  && dnf --nogpgcheck --setopt=tsflags=nodocs -y install \

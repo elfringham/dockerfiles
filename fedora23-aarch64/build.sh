@@ -4,4 +4,6 @@ set -e
 
 export LANG=C
 
-docker build --pull --tag=linaro/$(basename ${PWD}) .
+ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
+
+docker build --pull --tag=linaro/ci-${ARCHITECTURE}-fedora:23 .
