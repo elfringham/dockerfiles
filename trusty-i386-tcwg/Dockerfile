@@ -2,7 +2,8 @@ FROM linaro/base-i386-ubuntu:trusty
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 
-RUN apt-get update \
+RUN echo 'deb http://archive.ubuntu.com/ubuntu trusty main universe' > /etc/apt/sources.list \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && dpkg-divert --local --rename --add /sbin/initctl \
  && ln -s /bin/true /sbin/initctl \
