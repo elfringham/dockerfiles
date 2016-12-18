@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/centos:7-aarch64
+FROM linaro/base-aarch64-centos:7
 
 ENV container docker
 
