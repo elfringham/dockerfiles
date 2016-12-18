@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/debian:jessie-armhf
+FROM linaro/base-armhf-debian:jessie
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

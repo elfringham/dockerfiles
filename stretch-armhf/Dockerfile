@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/debian:stretch-armhf
+FROM linaro/base-armhf-debian:stretch
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

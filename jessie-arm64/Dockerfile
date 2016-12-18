@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/debian:jessie-arm64
+FROM linaro/base-arm64-debian:jessie
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:xenial-armhf
+FROM linaro/base-armhf-ubuntu:xenial
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

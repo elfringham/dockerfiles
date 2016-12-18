@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:xenial-arm64
+FROM linaro/base-arm64-ubuntu:xenial
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

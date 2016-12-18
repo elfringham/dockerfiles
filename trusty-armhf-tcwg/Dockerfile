@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:trusty-armhf
+FROM linaro/base-armhf-ubuntu:trusty
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 

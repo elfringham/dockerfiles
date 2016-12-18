@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:trusty-arm64
+FROM linaro/base-arm64-ubuntu:trusty
 
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
  && apt-get update \

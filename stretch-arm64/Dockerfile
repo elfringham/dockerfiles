@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/debian:stretch-arm64
+FROM linaro/base-arm64-debian:stretch
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

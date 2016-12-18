@@ -1,4 +1,4 @@
-FROM quay.io/fathi_boudra/ubuntu:trusty-arm64
+FROM linaro/base-arm64-ubuntu:trusty
 
 COPY tcwg-buildslave/.ssh /etc/skel/.ssh
 COPY tcwg-buildslave/.ssh /root/.ssh
