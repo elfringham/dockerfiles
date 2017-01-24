@@ -27,6 +27,7 @@ RUN dpkg --add-architecture i386 \
  lcov \
  less \
  lib32ncurses5 \
+ libtcnative-1 \
  libxml2-utils \
  make \
  openssh-client \
