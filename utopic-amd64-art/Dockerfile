@@ -1,5 +1,7 @@
 FROM ubuntu:utopic
 
+COPY setup-sshd /usr/sbin/setup-sshd
+
 RUN dpkg --add-architecture i386 \
  && sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list \
  && apt-get update \
@@ -61,4 +63,4 @@ RUN useradd -m -G plugdev buildslave \
  && chown -R buildslave:buildslave /home/buildslave/bin
 
 EXPOSE 22
-CMD ["/usr/sbin/sshd", "-D"]
+ENTRYPOINT ["/usr/sbin/setup-sshd"]
