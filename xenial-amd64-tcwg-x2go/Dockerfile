@@ -1,4 +1,4 @@
-FROM linaro/dev-amd64-tcwg-dev-ubuntu:xenial
+FROM linaro/ci-amd64-tcwg-dev-ubuntu:xenial
 
 COPY start.sh .
 
