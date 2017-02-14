@@ -1,5 +1,8 @@
 FROM ubuntu:xenial
 
+COPY run.sh .
+COPY start.sh .
+
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -112,7 +115,4 @@ VOLUME /tmp
 
 EXPOSE 22
 
-COPY run.sh /run.sh
 ENTRYPOINT ["/run.sh"]
-
-COPY start.sh /start.sh

@@ -1,5 +1,8 @@
 FROM linaro/base-arm64-ubuntu:xenial
 
+COPY run.sh .
+COPY start.sh .
+
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -111,7 +114,4 @@ VOLUME /tmp
 
 EXPOSE 22
 
-COPY run.sh /run.sh
 ENTRYPOINT ["/run.sh"]
-
-COPY start.sh /start.sh

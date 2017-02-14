@@ -1,5 +1,7 @@
 FROM linaro/dev-amd64-tcwg-dev-ubuntu:xenial
 
+COPY start.sh .
+
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  ubuntu-desktop \
@@ -32,5 +34,3 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-
-COPY start.sh /start.sh
