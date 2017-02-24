@@ -17,9 +17,18 @@ fi
 
 image=@IMAGE@
 name=$USER-@DISTRO@
+# Bind-mount $HOME and /home/tcwg-buildslave (to get access to
+# /home/tcwg-buildslave/snapshots-ref/)
+mounts="-v $HOME:$HOME -v /home/tcwg-buildslave:/home/tcwg-buildslave:ro"
+# Use at most half of all available RAM.
+memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
+# IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
+caps="--cap-add=IPC_LOCK"
+# Fetch ssh public key from LDAP.
+pubkey="$(/etc/ssh/ssh_keys.py $USER 2>/dev/null || sss_ssh_authorizedkeys $USER 2>/dev/null)"
 
 $DOCKER pull $image
-$DOCKER run --name=$name -dt -p 22 -v $HOME:$HOME -v /home/tcwg-buildslave:/home/tcwg-buildslave:ro --memory=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G --pids-limit=5000 --cap-add=IPC_LOCK $image "$(getent passwd $USER)" "$(id -gn)" "$(/etc/ssh/ssh_keys.py $USER 2>/dev/null || sss_ssh_authorizedkeys $USER 2>/dev/null)"
+$DOCKER run --name=$name -dt -p 22 $mounts --memory=$memlimit --pids-limit=5000 $caps $image "$(getent passwd $USER)" "$(id -gn)" "$pubkey"
 
 port=$($DOCKER port $name 22 | cut -d: -f 2)
 
