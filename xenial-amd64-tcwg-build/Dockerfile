@@ -75,6 +75,11 @@ RUN chmod 0700 /etc/skel/.ssh \
  && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
+ && sed -i \
+ -e "/.*MaxStartups.*/d" \
+ -e "/.*MaxSesssions.*/d" \
+ && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && mkdir -p /home/tcwg-buildslave/workspace \
  && chown tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/workspace
 
