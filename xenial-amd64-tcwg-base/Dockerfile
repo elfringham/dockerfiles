@@ -20,6 +20,7 @@ RUN dpkg --add-architecture i386 \
  dh-autoreconf \
  dh-translations \
  distro-info-data \
+ docker.io \
  emacs \
  fakeroot \
  flex \
@@ -74,7 +75,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
-# which docker is using can't host sockets, so we use a scratch mount
+# which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
 # invocations (e.g., mark "Remove volumes" checkbox in docker plugin) to
 # cleanup host directories used for the scratch mounts.
