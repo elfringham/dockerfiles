@@ -1,7 +1,5 @@
 FROM linaro/base-armhf-ubuntu:trusty
 
-COPY tcwg-buildslave/.ssh /etc/skel/.ssh
-
 RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -63,35 +61,14 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports trusty main universe' > /etc/
  /tmp/* \
  /var/tmp/*
 
-RUN chmod 0700 /etc/skel/.ssh \
- && groupadd -g 9000 tcwg-infra \
- && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
- && rm -rf /etc/skel/.ssh \
- && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
- && chmod 440 /etc/sudoers.d/jenkins \
- && install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
+RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSesssions.*/d" \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
- && mkdir -p /home/tcwg-buildslave/workspace \
- && chown tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/workspace
-
-# Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
-# Therefore, the bind-mounts for the following paths are configured in
-# the ci.linaro.org's docker plugin.
-# Sources caches (read-only):
-# /home/tcwg-buildslave/snapshots-ref:/home/tcwg-buildslave/snapshots-ref:ro
-# Jenkins .jar cache (read-write):
-# /home/tcwg-buildslave/.jenkins:/home/tcwg-buildslave/.jenkins:rw
-
-# We write most of the data inside workspace, so make it a scratch mount.
-# Note that bind-mounting workspace from host will make jobs with parallel
-# builds fail.
-VOLUME /home/tcwg-buildslave/workspace
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using can't host sockets, so we use a scratch mount
