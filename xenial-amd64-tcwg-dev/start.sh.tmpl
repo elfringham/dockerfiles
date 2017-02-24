@@ -23,7 +23,8 @@ mounts="-v $HOME:$HOME -v /home/tcwg-buildslave:/home/tcwg-buildslave:ro"
 # Use at most half of all available RAM.
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
 # IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
-caps="--cap-add=IPC_LOCK"
+# SYS_PTRACE is required for debugger work.
+caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE"
 # Fetch ssh public key from LDAP.
 pubkey="$(/etc/ssh/ssh_keys.py $USER 2>/dev/null || sss_ssh_authorizedkeys $USER 2>/dev/null)"
 
