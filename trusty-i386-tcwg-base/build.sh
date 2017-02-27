@@ -17,5 +17,6 @@ image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 
 rsync -a ../tcwg-buildslave/ ./tcwg-buildslave/
 
+docker pull linaro/base-i386-ubuntu:trusty 2>/dev/null || true
 docker pull $image 2>/dev/null || true
-docker build --pull --tag=$image .
+docker build --tag=$image .
