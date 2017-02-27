@@ -21,5 +21,6 @@ cat ../xenial-amd64-tcwg-dev/start.sh.tmpl \
 chmod +x start.sh
 cp ../xenial-amd64-tcwg-dev/run.sh.tmpl run.sh
 
-docker build --pull --tag=$image .
+(cd ../xenial-amd64-tcwg-base/; ./build.sh)
 docker pull $image 2>/dev/null || true
+docker build --tag=$image .
