@@ -67,7 +67,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && mkdir -p /var/run/sshd \
  && sed -i \
  -e "/.*MaxStartups.*/d" \
- -e "/.*MaxSesssions.*/d" \
+ -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
