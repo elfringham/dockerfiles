@@ -29,7 +29,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  dh-autoreconf \
  dh-translations \
  distro-info-data \
- docker.io \
  emacs \
  fakeroot \
  flex \

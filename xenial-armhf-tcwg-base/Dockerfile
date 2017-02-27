@@ -27,7 +27,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  dh-autoreconf \
  dh-translations \
  distro-info-data \
- docker.io \
  emacs \
  fakeroot \
  flex \
