@@ -1,6 +1,13 @@
 FROM linaro/base-armhf-ubuntu:xenial
 
-RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/apt/sources.list \
+RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
+ ubuntu=xenial; \
+ for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
+   for j in deb deb-src; do \
+     echo "$j $url $i main restricted universe multiverse"; \
+   done; \
+   echo; \
+ done) > /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \

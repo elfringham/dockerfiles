@@ -1,6 +1,13 @@
 FROM linaro/base-i386-ubuntu:trusty
 
-RUN echo 'deb http://archive.ubuntu.com/ubuntu trusty main universe' > /etc/apt/sources.list \
+RUN (url="http://archive.ubuntu.com/ubuntu/"; \
+ ubuntu=trusty; \
+ for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
+   for j in deb deb-src; do \
+     echo "$j $url $i main restricted universe multiverse"; \
+   done; \
+   echo; \
+ done) > /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && dpkg-divert --local --rename --add /sbin/initctl \

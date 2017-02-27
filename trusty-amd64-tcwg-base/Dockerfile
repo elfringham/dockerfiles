@@ -1,6 +1,14 @@
 FROM ubuntu:trusty
 
-RUN dpkg --add-architecture i386 \
+RUN (url="http://archive.ubuntu.com/ubuntu/"; \
+ ubuntu=trusty; \
+ for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
+   for j in deb deb-src; do \
+     echo "$j $url $i main restricted universe multiverse"; \
+   done; \
+   echo; \
+ done) > /etc/apt/sources.list \
+ && dpkg --add-architecture i386 \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
