@@ -22,3 +22,4 @@ chmod +x start.sh
 cp ../xenial-amd64-tcwg-dev/run.sh.tmpl run.sh
 
 docker build --pull --tag=$image .
+docker pull $image 2>/dev/null || true
