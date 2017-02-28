@@ -43,3 +43,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
  && chmod 1777 /tmp/.X11-unix /tmp/.ICE-unix
 
 ENTRYPOINT ["/run.sh"]
+CMD ["start.sh"]
