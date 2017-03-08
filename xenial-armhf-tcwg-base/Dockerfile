@@ -57,6 +57,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ valgrind \
  vim \
  wget \
  xz-utils \

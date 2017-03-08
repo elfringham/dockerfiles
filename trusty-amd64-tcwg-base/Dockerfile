@@ -61,6 +61,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ valgrind \
  vim \
  wget \
  wine \
