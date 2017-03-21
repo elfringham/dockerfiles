@@ -1,4 +1,4 @@
-FROM linaro/ci-arm64-tcwg-ubuntu:trusty
+FROM linaro/ci-arm64-tcwg-build-ubuntu:trusty
 
 COPY tcwg-buildslave/.ssh /root/.ssh
 
