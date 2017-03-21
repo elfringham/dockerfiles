@@ -1,15 +1,14 @@
 FROM linaro/ci-amd64-tcwg-base-ubuntu:xenial
 
-COPY tcwg-buildslave/.ssh /etc/skel/.ssh
-
-RUN chmod 0700 /etc/skel/.ssh \
- && groupadd -g 9000 tcwg-infra \
+RUN groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
- && rm -rf /etc/skel/.ssh \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
- && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /home/tcwg-buildslave/workspace \
- && chown tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/workspace
+ && chmod 0440 /etc/sudoers.d/jenkins \
+ && mkdir -p /home/tcwg-buildslave/workspace
+
+COPY tcwg-buildslave /home/tcwg-buildslave
+RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
+ && chmod 0700 /home/tcwg-buildslave/.ssh/
 
 # Unfortunately, VOLUME doesn't support bind-mounts for portability reasons.
 # Therefore, the bind-mounts for the following paths are configured in
