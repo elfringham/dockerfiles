@@ -19,9 +19,10 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  bc \
  bison \
  build-essential \
+ byacc \
  ccache \
  ccrypt \
- byacc \
+ cmake \
  debhelper \
  dejagnu \
  dh-autoreconf \
@@ -46,6 +47,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  make \
  net-tools \
  netcat \
+ ninja-build \
  openjdk-7-jdk \
  openssh-server \
  python-dev \

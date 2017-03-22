@@ -21,9 +21,10 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  bc \
  bison \
  build-essential \
+ byacc \
  ccache \
  ccrypt \
- byacc \
+ cmake \
  debhelper \
  dejagnu \
  dh-autoreconf \
@@ -51,6 +52,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  mingw32 \
  net-tools \
  netcat \
+ ninja-build \
  openjdk-7-jdk \
  openssh-server \
  python-dev \
