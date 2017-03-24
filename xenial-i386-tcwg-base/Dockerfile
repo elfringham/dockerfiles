@@ -65,6 +65,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  time \
  valgrind \
  vim \
+ virtualenv \
  wget \
  wine \
  xz-utils \

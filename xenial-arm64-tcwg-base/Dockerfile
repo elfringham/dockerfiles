@@ -61,6 +61,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  time \
  valgrind \
  vim \
+ virtualenv \
  wget \
  xz-utils \
  zip \
