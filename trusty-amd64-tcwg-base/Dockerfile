@@ -38,6 +38,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  gdbserver \
  git \
  libexpat1-dev \
+ libglib2.0-dev \
  liblzma-dev \
  libncurses5-dev \
  libpython2.7-dev \
@@ -54,6 +55,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ninja-build \
  openjdk-7-jdk \
  openssh-server \
+ pkg-config \
  python-dev \
  pxz \
  qemu-user \
@@ -84,6 +86,15 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+RUN mkdir /tmp/docker-install-qemu.$$ \
+ && cd /tmp/docker-install-qemu.$$ \
+ && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && tar xf qemu-${qemu_ver}.tar.xz \
+ && mkdir build && cd build \
+ && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
+ && make all install -j $(nproc --all) \
+ && cd && rm -rf /tmp/docker-install-qemu.$$
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
