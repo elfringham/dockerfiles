@@ -9,7 +9,7 @@ USER root
 RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && python /tmp/get-pip.py \
   && rm -f /tmp/get-pip.py \
-  && pip install jenkins-job-builder==1.6.2
+  && pip install jenkins-job-builder==1.6.2 \
   && mkdir -p /var/jenkins_plugins \
   && chown jenkins:jenkins /var/jenkins_plugins
 USER jenkins
