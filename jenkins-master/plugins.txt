@@ -24,6 +24,7 @@ gerrit-trigger:2.20.0
 github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:1.10
+heavy-job:1.1
 htmlpublisher:1.12
 ircbot:2.27
 jenkins-multijob-plugin:1.24
