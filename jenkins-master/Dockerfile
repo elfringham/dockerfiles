@@ -16,4 +16,5 @@ USER jenkins
 
 # Install jenkins plugins
 COPY plugins.txt .
-RUN install-plugins.sh $(echo $(cat plugins.txt))
+RUN install-plugins.sh $(echo $(cat plugins.txt)) \
+  && wget -q http://people.linaro.org/~paul.sokolovsky/jenkins/linaro-pubapi-1.3.hpi -O /var/jenkins_plugins/linaro-pubapi-1.3.hpi
