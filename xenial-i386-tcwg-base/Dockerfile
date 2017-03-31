@@ -24,6 +24,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  byacc \
  ccache \
  ccrypt \
+ chrpath \
  cmake \
  debhelper \
  dejagnu \
@@ -38,6 +39,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  gdb \
  gdbserver \
  git \
+ groff \
  libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
@@ -59,6 +61,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  qemu-user \
  rsync \
  sudo \
+ tclsh \
  texinfo \
  texlive-fonts-recommended \
  texlive-latex-recommended \
