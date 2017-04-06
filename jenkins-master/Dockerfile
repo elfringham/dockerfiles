@@ -10,6 +10,9 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && python /tmp/get-pip.py \
   && rm -f /tmp/get-pip.py \
   && pip install jenkins-job-builder==1.6.2 \
+  && git clone --depth 1 https://git.linaro.org/infrastructure/jjb-linaro-plugin.git \
+  && cd jjb-linaro-plugin && python setup.py install \
+  && cd .. && rm -rf jjb-linaro-plugin \
   && mkdir -p /var/jenkins_plugins \
   && chown jenkins:jenkins /var/jenkins_plugins \
   && ln -s /var/jenkins_home /var/lib/jenkins
