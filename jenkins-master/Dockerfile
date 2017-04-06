@@ -11,7 +11,8 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && rm -f /tmp/get-pip.py \
   && pip install jenkins-job-builder==1.6.2 \
   && mkdir -p /var/jenkins_plugins \
-  && chown jenkins:jenkins /var/jenkins_plugins
+  && chown jenkins:jenkins /var/jenkins_plugins \
+  && ln -s /var/jenkins_home /var/lib/jenkins
 USER jenkins
 
 # Install jenkins plugins
