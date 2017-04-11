@@ -56,6 +56,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  pxz \
  qemu-user \
  rsync \
+ subversion \
  sudo \
  tclsh \
  texinfo \
