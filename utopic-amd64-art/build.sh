@@ -13,4 +13,6 @@ export LANG=C
 
 cp -a ../setup-sshd .
 
-docker build --pull --tag=linaro/$(basename ${PWD}) .
+image=linaro/$(basename ${PWD})
+docker build --pull --tag=$image .
+echo $image > .docker-tag

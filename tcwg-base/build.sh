@@ -19,3 +19,4 @@ baseimage=$(grep "^FROM" Dockerfile | head -n 1 | cut -d" " -f 2)
 docker pull $baseimage 2>/dev/null || true
 docker pull $image 2>/dev/null || true
 docker build --tag=$image .
+echo $image > .docker-tag

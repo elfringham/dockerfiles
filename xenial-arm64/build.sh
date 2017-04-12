@@ -20,4 +20,6 @@ sed -e "s|@DISTRIBUTION@|${DISTRIBUTION}|" -i *.list
 # fixup - get rid of PPA usage
 rm -f linaro-*ppa.*
 
-docker build --pull --tag=linaro/ci-${ARCHITECTURE}-ubuntu:${DISTRIBUTION} .
+image=linaro/ci-${ARCHITECTURE}-ubuntu:${DISTRIBUTION} .
+docker build --pull --tag=$image .
+echo $image > .docker-tag

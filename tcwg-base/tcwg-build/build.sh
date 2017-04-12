@@ -21,3 +21,4 @@ rsync -a $top/tcwg-base/tcwg-build/tcwg-buildslave/ ./tcwg-buildslave/
 (cd ..; ./build.sh)
 docker pull $image 2>/dev/null || true
 docker build --tag=$image .
+echo $image > .docker-tag

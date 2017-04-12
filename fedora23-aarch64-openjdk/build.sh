@@ -4,4 +4,6 @@ set -e
 
 export LANG=C
 
-docker build --pull --tag=linaro/$(basename ${PWD}) .
+image=linaro/$(basename ${PWD})
+docker build --pull --tag=$image .
+echo $image > .docker-tag

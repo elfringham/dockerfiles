@@ -4,4 +4,6 @@ set -e
 
 export LANG=C
 
-docker build --pull --tag=linaro/ci-x86_64-jenkins-master-debian:lts .
+image=linaro/ci-x86_64-jenkins-master-debian:lts
+docker build --pull --tag=$image .
+echo $image > .docker-tag

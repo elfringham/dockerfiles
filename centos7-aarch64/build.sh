@@ -6,4 +6,6 @@ export LANG=C
 
 ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 
-docker build --pull --tag=linaro/ci-${ARCHITECTURE}-centos:7 .
+image=linaro/ci-${ARCHITECTURE}-centos:7
+docker build --pull --tag=$image .
+echo $image > .docker-tag
