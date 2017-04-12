@@ -15,8 +15,6 @@ arch=$(basename ${PWD} | cut -f2 -d '-')
 name=$(basename ${PWD} | cut -f3- -d '-')
 image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 
-rsync -a ../tcwg-buildslave/ ./tcwg-buildslave/
-
 docker pull linaro/base-i386-ubuntu:trusty 2>/dev/null || true
 docker pull $image 2>/dev/null || true
 docker build --tag=$image .
