@@ -62,6 +62,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  pxz \
  qemu-user \
  rsync \
+ subversion \
  sudo \
  tclsh \
  texinfo \
