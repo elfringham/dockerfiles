@@ -19,6 +19,7 @@ RUN apt-get update \
  git-review \
  git-svn \
  less \
+ locales \
  libgmp-dev \
  libmpc-dev \
  libmpfr-dev \

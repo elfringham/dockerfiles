@@ -20,6 +20,7 @@ RUN apt-get update \
  git-svn \
  gnat-5 \
  less \
+ locales \
  libgmp-dev \
  libmpc-dev \
  libmpfr-dev \
