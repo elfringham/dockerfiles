@@ -1,7 +1,5 @@
 FROM debian:stretch
 
-COPY start-obsworker /
-
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends  \
  apt-utils \
@@ -26,5 +24,6 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-EXPOSE 5454
+COPY start-obsworker /
+
 CMD ["/start-obsworker"]
