@@ -19,13 +19,13 @@ email-ext:2.57.2
 embeddable-build-status:1.9
 extended-read-permission:2.0
 external-monitor-job:1.7
-ghprb:1.36.1
+ghprb:1.36.2
 gerrit-trigger:2.20.0
 github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:1.10
 heavy-job:1.1
-htmlpublisher:1.12
+htmlpublisher:1.13
 ircbot:2.27
 jenkins-multijob-plugin:1.24
 jobConfigHistory:2.15
@@ -58,4 +58,4 @@ windows-slaves:1.3.1
 workflow-aggregator:2.5
 ws-cleanup:0.32
 xvfb:1.1.3
-yet-another-docker-plugin:0.1.0-rc34
+yet-another-docker-plugin:0.1.0-rc35
