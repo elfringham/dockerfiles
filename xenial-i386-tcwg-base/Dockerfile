@@ -25,6 +25,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ccache \
  ccrypt \
  chrpath \
+ clang \
  cmake \
  debhelper \
  dejagnu \

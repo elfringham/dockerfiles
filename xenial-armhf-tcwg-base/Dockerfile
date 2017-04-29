@@ -23,6 +23,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  ccache \
  ccrypt \
  chrpath \
+ clang \
  cmake \
  debhelper \
  dejagnu \
