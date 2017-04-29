@@ -1,6 +1,7 @@
 ansicolor:0.5.0
 ant:1.4
 antisamy-markup-formatter:1.5
+build-blocker:1.7.3
 build-monitor-plugin:1.10+build.201611041949
 build-name-setter:1.6.5
 build-timeout:1.18
@@ -34,7 +35,7 @@ leastload:1.0.3
 log-parser:2.0
 matrix-auth:1.5
 matrixtieparent:1.2
-mercurial:1.59
+mercurial:1.60
 metrics:3.1.2.9
 monitoring:1.65.1
 multiple-scms:0.6
@@ -42,7 +43,8 @@ naginator:1.17.2
 nodelabelparameter:1.7.2
 pam-auth:1.3
 pipeline-utility-steps:1.3.0
-plot:1.9
+plot:1.11
+PrioritySorter:3.5.0
 publish-over-ssh:1.17
 rebuild:1.25
 repo:1.10.7
