@@ -23,6 +23,8 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  byacc \
  ccache \
  ccrypt \
+ chrpath \
+ clang \
  cmake \
  debhelper \
  dejagnu \
@@ -37,6 +39,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  gdb \
  gdbserver \
  git \
+ groff \
  libexpat1-dev \
  libglib2.0-dev \
  liblzma-dev \
@@ -60,13 +63,16 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  pxz \
  qemu-user \
  rsync \
+ subversion \
  sudo \
+ tclsh \
  texinfo \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
  valgrind \
  vim \
+ virtualenv \
  wget \
  wine \
  xz-utils \

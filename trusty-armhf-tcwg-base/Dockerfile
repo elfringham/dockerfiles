@@ -22,6 +22,8 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  byacc \
  ccache \
  ccrypt \
+ chrpath \
+ clang \
  cmake \
  debhelper \
  dejagnu \
@@ -35,6 +37,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gdb \
  gdbserver \
  git \
+ groff \
  libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
@@ -54,13 +57,16 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  pxz \
  qemu-user \
  rsync \
+ subversion \
  sudo \
+ tclsh \
  texinfo \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
  valgrind \
  vim \
+ virtualenv \
  wget \
  xz-utils \
  zip \
