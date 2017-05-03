@@ -60,6 +60,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  openssh-server \
  pkg-config \
  python-dev \
+ python-virtualenv \
  pxz \
  qemu-user \
  rsync \
@@ -72,7 +73,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  time \
  valgrind \
  vim \
- virtualenv \
  wget \
  wine \
  xz-utils \
