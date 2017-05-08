@@ -15,7 +15,18 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && cd .. && rm -rf jjb-linaro-plugin \
   && mkdir -p /var/jenkins_plugins \
   && chown jenkins:jenkins /var/jenkins_plugins \
-  && ln -s /var/jenkins_home /var/lib/jenkins
+  && ln -s /var/jenkins_home /var/lib/jenkins \
+  && apt-get update \
+  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  debian-keyring \
+  devscripts \
+  dput \
+  && wget -q https://launchpad.net/ubuntu/+archive/primary/+files/dput_0.9.6.4ubuntu3_all.deb \
+  && dpkg -i --force-all *.deb \
+  && apt-get clean \
+  && rm -rf \
+  /var/lib/apt/lists/* \
+  *.deb
 USER jenkins
 
 # Install jenkins plugins
