@@ -60,7 +60,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  openssh-server \
  pkg-config \
  python-dev \
- python-virtualenv \
+ python3-virtualenv \
  pxz \
  qemu-user \
  rsync \

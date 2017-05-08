@@ -54,7 +54,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  openjdk-8-jdk \
  openssh-server \
  python-dev \
- python-virtualenv \
+ python3-virtualenv \
  pxz \
  qemu-user \
  rsync \
