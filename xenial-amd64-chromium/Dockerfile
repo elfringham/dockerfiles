@@ -4,8 +4,16 @@ COPY *.list *.key /etc/apt/sources.list.d/
 
 RUN dpkg --add-architecture i386 \
  && echo 'deb http://archive.ubuntu.com/ubuntu/ xenial multiverse' > /etc/apt/sources.list.d/multiverse.list \
+ && echo 'deb http://archive.ubuntu.com/ubuntu/ xenial-proposed main' > /etc/apt/sources.list.d/xenial-proposed.list \
+ && echo 'Package: *' > /etc/apt/preferences.d/proposed-updates \
+ && echo 'Pin: release a=xenial-proposed' >> /etc/apt/preferences.d/proposed-updates \
+ && echo 'Pin-Priority: 400' >> /etc/apt/preferences.d/proposed-updates \
+ && echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
+ && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
+ && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y locales \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  ca-certificates \
  curl \
@@ -18,6 +26,11 @@ RUN dpkg --add-architecture i386 \
  python-requests \
  sudo \
  wget \
+ lib32z1/xenial-proposed \
+ lib32z1-dev/xenial-proposed \
+ zlib1g/xenial-proposed \
+ zlib1g:i386/xenial-proposed \
+ zlib1g-dev:i386/xenial-proposed \
  && wget -q \
  http://de.archive.ubuntu.com/ubuntu/pool/main/m/make-dfsg/make_3.81-8.2ubuntu3_amd64.deb \
  && dpkg -i --force-all *.deb \
