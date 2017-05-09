@@ -1,5 +1,5 @@
 ansicolor:0.5.0
-ant:1.4
+ant:1.5
 antisamy-markup-formatter:1.5
 build-blocker:1.7.3
 build-monitor-plugin:1.10+build.201611041949
@@ -30,7 +30,7 @@ htmlpublisher:1.13
 ircbot:2.27
 jenkins-multijob-plugin:1.24
 jobConfigHistory:2.16
-ldap:1.14
+ldap:1.15
 leastload:1.0.3
 log-parser:2.0
 matrix-auth:1.5
