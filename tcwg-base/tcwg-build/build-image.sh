@@ -6,7 +6,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-  rm -rf tcwg-buildslave
+  rm -rf tcwg-buildslave tcwg-benchmark
 }
 
 export LANG=C
@@ -17,6 +17,7 @@ image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
 rsync -a $top/tcwg-base/tcwg-build/tcwg-buildslave/ ./tcwg-buildslave/
+rsync -a $top/tcwg-base/tcwg-build/tcwg-benchmark/ ./tcwg-benchmark/
 
 (cd ..; ./build.sh)
 docker pull $image 2>/dev/null || true
