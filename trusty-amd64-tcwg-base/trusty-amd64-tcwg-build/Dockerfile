@@ -11,6 +11,6 @@ COPY tcwg-buildslave /home/tcwg-buildslave
 COPY tcwg-benchmark /home/tcwg-benchmark
 
 RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
- && chmod 0700 /home/tcwg-buildslave/.ssh/ \
  && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
- && chmod 0700 /home/tcwg-benchmark/.ssh/
+ && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
+ && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
