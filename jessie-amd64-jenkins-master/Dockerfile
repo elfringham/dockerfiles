@@ -21,6 +21,7 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   debian-keyring \
   devscripts \
   dput \
+  python-paramiko \
   && wget -q https://launchpad.net/ubuntu/+archive/primary/+files/dput_0.9.6.4ubuntu3_all.deb \
   && dpkg -i --force-all *.deb \
   && apt-get clean \
