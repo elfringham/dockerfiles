@@ -32,6 +32,7 @@ RUN dpkg --add-architecture i386 \
  make \
  openssh-client \
  openssh-server \
+ patch \
  python-mako \
  python-networkx \
  python-requests \
