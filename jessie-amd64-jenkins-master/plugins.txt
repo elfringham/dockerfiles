@@ -16,7 +16,7 @@ docker-slaves:1.0.6
 dropdown-viewstabbar-plugin:1.7
 dynamic-axis:1.0.3
 ec2:1.36
-email-ext:2.57.2
+email-ext:2.58
 embeddable-build-status:1.9
 extended-read-permission:2.0
 external-monitor-job:1.7
@@ -30,14 +30,14 @@ htmlpublisher:1.13
 ircbot:2.27
 jenkins-multijob-plugin:1.24
 jobConfigHistory:2.16
-ldap:1.15
+ldap:1.16
 leastload:1.0.3
 log-parser:2.0
-matrix-auth:1.6
+matrix-auth:1.7
 matrixtieparent:1.2
 mercurial:1.61
 metrics:3.1.2.10
-monitoring:1.67.0
+monitoring:1.68.1
 multiple-scms:0.6
 naginator:1.17.2
 nodelabelparameter:1.7.2
