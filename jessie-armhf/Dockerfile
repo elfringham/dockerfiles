@@ -35,7 +35,6 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  libtool \
  linaro-image-tools \
  lsb-release \
- openjdk-7-jdk \
  openssh-server \
  python-requests \
  qemu-user-static \
@@ -46,6 +45,8 @@ RUN apt-key add /etc/apt/sources.list.d/*.key \
  wget \
  zip \
  zsync \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t jessie-backports openjdk-8-jdk \
+ && update-java-alternatives -s java-1.8.0-openjdk-armhf \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/*.key \
