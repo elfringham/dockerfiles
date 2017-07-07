@@ -50,7 +50,9 @@ RUN dpkg --add-architecture i386 \
  zip \
  zlib1g:i386 \
  zsync \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t jessie-backports openjdk-8-jdk \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t jessie-backports \
+ libsdl1.2-dev \
+ openjdk-8-jdk \
  && update-java-alternatives -s java-1.8.0-openjdk-amd64 \
  && apt-get clean \
  && rm -rf \
