@@ -18,6 +18,7 @@ RUN apt-get update \
  git-gui \
  git-review \
  git-svn \
+ gnat \
  less \
  locales \
  libgmp-dev \
