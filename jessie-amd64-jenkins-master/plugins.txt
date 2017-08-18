@@ -1,4 +1,4 @@
-ansicolor:0.5.1
+ansicolor:0.5.2
 ant:1.6
 antisamy-markup-formatter:1.5
 build-blocker:1.7.3
