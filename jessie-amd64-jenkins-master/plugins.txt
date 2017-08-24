@@ -53,6 +53,7 @@ ssh-agent:1.15
 subversion:2.9
 throttle-concurrents:2.0.1
 timestamper:1.8.8
+token-macro:2.1
 translation:1.15
 urltrigger:0.41
 warnings:4.63
