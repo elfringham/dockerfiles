@@ -19,6 +19,8 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  automake \
  bc \
  bison \
+ binutils-aarch64-linux-gnu \
+ binutils-arm-linux-gnueabihf \
  build-essential \
  byacc \
  ccache \
@@ -49,6 +51,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ linux-tools-generic \
  lzop \
  make \
  mingw-w64 \

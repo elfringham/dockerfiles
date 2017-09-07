@@ -46,6 +46,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ linux-tools-generic \
  lzop \
  make \
  net-tools \
