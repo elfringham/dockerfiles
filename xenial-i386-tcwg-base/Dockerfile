@@ -41,6 +41,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  gawk \
  gdb \
  gdbserver \
+ qemu-system-arm \
  git \
  groff \
  libexpat1-dev \
@@ -58,6 +59,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  mingw-w64 \
  net-tools \
  netcat \
+ nfs-kernel-server \
  ninja-build \
  openjdk-8-jdk \
  openssh-server \

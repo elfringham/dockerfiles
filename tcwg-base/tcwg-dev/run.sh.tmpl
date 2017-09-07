@@ -20,7 +20,7 @@ if ! [ -f /etc/sudoers.d/user ]; then
     shell="$(echo $passwd_ent | cut -d: -f 7)"
 
     groupadd -g "$gid" "$groupname"
-    useradd -m -u "$uid" -g "$groupname" -c "$comment" -s "$shell" "$username"
+    useradd -m -u "$uid" -g "$groupname" -G kvm -c "$comment" -s "$shell" "$username"
 
     if ! [ -f /home/$username/.ssh/authorized_keys.docker ] \
 	    && [ x"$pubkey" != x"" ]; then
