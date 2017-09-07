@@ -28,6 +28,7 @@ RUN apt-get update \
  screen \
  stgit \
  tmux \
+ unifdef \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
