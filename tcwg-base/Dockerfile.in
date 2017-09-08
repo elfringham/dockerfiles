@@ -60,6 +60,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gawk \
  gdb \
  gdbserver \
+ qemu-system-arm \
  git \
  groff \
  libexpat1-dev \
@@ -84,6 +85,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
 #endif
  net-tools \
  netcat \
+ nfs-kernel-server \
  ninja-build \
 #if DISTRO_trusty
  openjdk-7-jdk \

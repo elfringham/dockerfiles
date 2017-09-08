@@ -2,8 +2,8 @@ FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
 #if ARCH_amd64 && DISTRO_trusty
 RUN groupadd -g 9000 tcwg-infra \
- && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
- && useradd -m -g tcwg-infra -u 12326 tcwg-benchmark \
+ && useradd -m -g tcwg-infra -G kvm -u 11827 tcwg-buildslave \
+ && useradd -m -g tcwg-infra -G kvm -u 12326 tcwg-benchmark \
  && echo '%tcwg-infra ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /home/tcwg-buildslave/workspace
@@ -17,7 +17,7 @@ RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
  && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
 #else
 RUN groupadd -g 9000 tcwg-infra \
- && useradd -m -g tcwg-infra -u 11827 tcwg-buildslave \
+ && useradd -m -g tcwg-infra -G kvm -u 11827 tcwg-buildslave \
  && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /home/tcwg-buildslave/workspace
