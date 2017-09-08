@@ -1,0 +1,156 @@
+#if ARCH_amd64
+FROM ubuntu:#{DISTRO}
+#elif DISTRO_zesty
+FROM snapcraft/zesty-#{ARCH}:latest
+#else
+FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
+#endif
+
+#if ARCH_amd64 || ARCH_i386
+RUN (url="http://archive.ubuntu.com/ubuntu/"; \
+#else
+RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
+#endif
+ ubuntu=#{DISTRO}; \
+ for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
+   for j in deb deb-src; do \
+     echo "$j $url $i main restricted universe multiverse"; \
+   done; \
+   echo; \
+ done) > /etc/apt/sources.list \
+#if ARCH_amd64
+ && dpkg --add-architecture i386 \
+#endif
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+#if ARCH_i386
+ && dpkg-divert --local --rename --add /sbin/initctl \
+ && ln -s /bin/true /sbin/initctl \
+#endif
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ alien \
+ autoconf \
+ autogen \
+ automake \
+ bc \
+ bison \
+ build-essential \
+ byacc \
+ ccache \
+ ccrypt \
+ chrpath \
+ clang \
+ cmake \
+ debhelper \
+ dejagnu \
+ dh-autoreconf \
+ dh-translations \
+ distro-info-data \
+ emacs \
+ fakeroot \
+ flex \
+#if ARCH_amd64 || ARCH_i386
+ g++-multilib \
+#endif
+ gawk \
+ gdb \
+ gdbserver \
+ git \
+ groff \
+ libexpat1-dev \
+#if ARCH_amd64 || ARCH_i386
+ libglib2.0-dev \
+#endif
+ liblzma-dev \
+ libncurses5-dev \
+ libpython2.7-dev \
+ libreadline-dev \
+ libssl-dev \
+ libtcnative-1 \
+ libtool \
+ lzop \
+ make \
+#if ARCH_amd64 || ARCH_i386
+ mingw-w64 \
+# if DISTRO_trusty
+ mingw32 \
+# endif
+#endif
+ net-tools \
+ netcat \
+ ninja-build \
+#if DISTRO_trusty
+ openjdk-7-jdk \
+#else
+ openjdk-8-jdk \
+#endif
+ openssh-server \
+#if ARCH_amd64 || ARCH_i386
+ pkg-config \
+#endif
+ python-dev \
+#if DISTRO_trusty
+ python-virtualenv \
+#endif
+ pxz \
+ qemu-user \
+ rsync \
+ subversion \
+ sudo \
+ tclsh \
+ texinfo \
+ texlive-fonts-recommended \
+ texlive-latex-recommended \
+ time \
+ valgrind \
+ vim \
+#if !DISTRO_trusty
+ virtualenv \
+#endif
+ wget \
+#if ARCH_amd64 || ARCH_i386
+ wine \
+#endif
+ xz-utils \
+ zip \
+ zlib1g-dev \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+
+RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
+ && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
+ && mkdir -p /var/run/sshd \
+ && sed -i \
+ -e "/.*MaxStartups.*/d" \
+ -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
+ && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+#if ARCH_amd64 || ARCH_i386
+RUN mkdir /tmp/docker-install-qemu.$$ \
+ && cd /tmp/docker-install-qemu.$$ \
+ && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && tar xf qemu-${qemu_ver}.tar.xz \
+ && mkdir build && cd build \
+ && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
+ && make all install -j $(nproc --all) \
+ && cd && rm -rf /tmp/docker-install-qemu.$$
+
+#endif
+# We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
+# which docker is using, can't host sockets, so we use a scratch mount
+# for /tmp.  This requires that we add --rm option to "docker run"
+# invocations (e.g., mark "Remove volumes" checkbox in docker plugin) to
+# cleanup host directories used for the scratch mounts.
+VOLUME /tmp
+
+EXPOSE 22
+#if ARCH_amd64 || ARCH_arm64
+CMD ["/usr/sbin/sshd", "-D"]
+#else
+CMD ["linux32", "/usr/sbin/sshd", "-D"]
+#endif
