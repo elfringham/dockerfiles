@@ -60,7 +60,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  mingw32 \
  net-tools \
  netcat \
- nfs-kernel-server \
  ninja-build \
  openjdk-7-jdk \
  openssh-server \

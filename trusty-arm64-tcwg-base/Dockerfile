@@ -52,7 +52,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  make \
  net-tools \
  netcat \
- nfs-kernel-server \
  ninja-build \
  openjdk-7-jdk \
  openssh-server \

@@ -85,7 +85,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
 #endif
  net-tools \
  netcat \
+#if ARCH_amd64 || !DISTRO_trusty
  nfs-kernel-server \
+#endif
  ninja-build \
 #if DISTRO_trusty
  openjdk-7-jdk \
