@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-armhf-ubuntu:xenial
 
 RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
@@ -98,3 +99,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
+# checksum: d283098edd802f108f8c5d4dd0f007bf

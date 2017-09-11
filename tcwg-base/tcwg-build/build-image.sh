@@ -20,6 +20,7 @@ rsync -a $top/tcwg-base/tcwg-build/tcwg-buildslave/ ./tcwg-buildslave/
 rsync -a $top/tcwg-base/tcwg-build/tcwg-benchmark/ ./tcwg-benchmark/
 
 (cd ..; ./build.sh)
+"$top"/tcwg-base/validate-dockerfile.sh Dockerfile
 docker pull $image 2>/dev/null || true
 docker build --tag=$image .
 echo $image > .docker-tag

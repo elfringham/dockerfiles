@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM snapcraft/zesty-armhf:latest
 
 RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
@@ -98,3 +99,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
+# checksum: d37abaf40232732ae1f4128b8e885093

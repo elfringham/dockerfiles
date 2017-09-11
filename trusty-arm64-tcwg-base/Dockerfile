@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-arm64-ubuntu:trusty
 
 RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
@@ -97,3 +98,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+# checksum: 625db6cc3f45805ccaa4ba1c9d153799

@@ -23,6 +23,7 @@ chmod +x start.sh
 cp $top/tcwg-base/tcwg-dev/run.sh.tmpl run.sh
 
 (cd ..; ./build.sh)
+"$top"/tcwg-base/validate-dockerfile.sh Dockerfile
 docker pull $image 2>/dev/null || true
 docker build --tag=$image .
 echo $image > .docker-tag
