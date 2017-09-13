@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-amd64-tcwg-base-ubuntu:trusty
 
 RUN groupadd -g 9000 tcwg-infra \
@@ -14,3 +15,4 @@ RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
  && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
  && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
  && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
+# checksum: 9ce6e312f075378dc2980f5a8431ac7a

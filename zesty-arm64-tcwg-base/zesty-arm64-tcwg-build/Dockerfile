@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-arm64-tcwg-base-ubuntu:zesty
 
 RUN groupadd -g 9000 tcwg-infra \
@@ -9,3 +10,4 @@ RUN groupadd -g 9000 tcwg-infra \
 COPY tcwg-buildslave /home/tcwg-buildslave
 RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
  && chmod 0700 /home/tcwg-buildslave/.ssh/
+# checksum: f315b79ecc57c2dae71db5ace1fedcb3

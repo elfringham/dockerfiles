@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/tcwg-dev/tcwg-x2go/Dockerfile.in. Do not edit.
 FROM linaro/ci-amd64-tcwg-dev-ubuntu:xenial
 
 COPY start.sh .
@@ -34,3 +35,4 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
+# checksum: 3e1c139ac1715b1096130c6e90c55fc9

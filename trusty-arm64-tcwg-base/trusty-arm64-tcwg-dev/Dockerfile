@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/tcwg-dev/Dockerfile.in. Do not edit.
 FROM linaro/ci-arm64-tcwg-base-ubuntu:trusty
 
 COPY run.sh .
@@ -45,3 +46,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
+# checksum: 0830f0dbf3e82463877d6613c03af70e

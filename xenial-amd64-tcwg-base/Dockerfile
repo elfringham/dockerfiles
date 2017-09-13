@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:xenial
 
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
@@ -115,3 +116,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+# checksum: a6af61eda71da453c370a3407c5cdd50

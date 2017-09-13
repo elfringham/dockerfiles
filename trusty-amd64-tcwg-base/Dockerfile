@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:trusty
 
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
@@ -116,3 +117,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+# checksum: c714ff9be105ededda64dd83de2238bb

@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-i386-ubuntu:xenial
 
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
@@ -116,3 +117,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
+# checksum: 43a72d3b8206755710aead004d63323b
