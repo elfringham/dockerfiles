@@ -3,11 +3,16 @@ FROM linaro/ci-armhf-tcwg-base-ubuntu:xenial
 
 RUN groupadd -g 9000 tcwg-infra \
  && useradd -m -g tcwg-infra -G kvm -u 11827 tcwg-buildslave \
- && echo 'tcwg-buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
+ && useradd -m -g tcwg-infra -G kvm -u 12326 tcwg-benchmark \
+ && echo '%tcwg-infra ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
  && mkdir -p /home/tcwg-buildslave/workspace
 
 COPY tcwg-buildslave /home/tcwg-buildslave
+COPY tcwg-benchmark /home/tcwg-benchmark
+
 RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
- && chmod 0700 /home/tcwg-buildslave/.ssh/
-# checksum: 22d91bd2f9566cde006f7c075aebc908
+ && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
+ && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
+ && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
+# checksum: 484fd5849721dbc7371264157f143624
