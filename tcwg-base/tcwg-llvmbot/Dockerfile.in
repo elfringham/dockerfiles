@@ -1,0 +1,34 @@
+FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ buildbot \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+
+COPY buildslave/ llvm-config-buildslave/
+RUN cd ./llvm-config-buildslave/ \
+ && HOME=$(pwd) ./llvm-setup \
+ && ./cleanup-users \
+ && cd ../.. \
+ && rm -rf \
+ llvm-config-buildslave/ \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/* \
+ && sudo -i -u buildslave mkdir /home/buildslave/buildslave
+
+VOLUME /home/buildslave/buildslave
+
+COPY run.sh .
+COPY start.sh .
+
+#if ARCH_amd64 || ARCH_arm64
+ENTRYPOINT ["/run.sh"]
+#else
+ENTRYPOINT ["linux32", "/run.sh"]
+#endif
+CMD ["start.sh"]
