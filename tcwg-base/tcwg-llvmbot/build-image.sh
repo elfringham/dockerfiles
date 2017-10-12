@@ -29,7 +29,7 @@ cp $top/tcwg-base/$name/run.sh.tmpl run.sh
 if [ x"$USER" = x"buildslave" ]; then
     user="tcwg-buildslave"
     # Add host key for dev-private-review.linaro.org
-    ssh -o StrictHostKeyChecking=no -p29418 $user@dev-private-review.linaro.org true
+    ssh -o StrictHostKeyChecking=no -p29418 $user@dev-private-review.linaro.org > /dev/null 2>&1
 else
     user="$USER"
 fi
