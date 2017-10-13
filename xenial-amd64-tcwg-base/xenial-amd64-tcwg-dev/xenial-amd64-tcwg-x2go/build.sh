@@ -1,1 +1,1 @@
-../../../tcwg-base/tcwg-dev/build.sh
+../../../tcwg-base/tcwg-dev/tcwg-x2go/build.sh
