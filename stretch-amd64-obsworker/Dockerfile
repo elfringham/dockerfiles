@@ -18,6 +18,7 @@ RUN apt-get update \
  psmisc \
  rpm \
  util-linux \
+ xz-utils \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
