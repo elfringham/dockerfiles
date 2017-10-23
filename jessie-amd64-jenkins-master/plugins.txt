@@ -46,7 +46,7 @@ pipeline-utility-steps:1.5.1
 plot:1.11
 PrioritySorter:3.5.1
 publish-over-ssh:1.17
-rebuild:1.25
+rebuild:1.27
 repo:1.10.7
 simple-theme-plugin:0.3
 ssh-agent:1.15
