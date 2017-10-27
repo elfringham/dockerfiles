@@ -16,7 +16,7 @@ docker-slaves:1.0.7
 dropdown-viewstabbar-plugin:1.7
 dynamic-axis:1.0.3
 ec2:1.37
-email-ext:2.60
+email-ext:2.61
 embeddable-build-status:1.9
 extended-read-permission:2.0
 external-monitor-job:1.7
@@ -28,6 +28,7 @@ groovy-postbuild:1.10
 heavy-job:1.1
 htmlpublisher:1.14
 ircbot:2.30
+jira:2.4.2
 jenkins-multijob-plugin:1.28
 jobConfigHistory:2.18
 ldap:1.17
