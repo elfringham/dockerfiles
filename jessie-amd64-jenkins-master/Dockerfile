@@ -17,6 +17,8 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && mkdir -p /var/jenkins_plugins \
   && chown jenkins:jenkins /var/jenkins_plugins \
   && ln -s /var/jenkins_home /var/lib/jenkins \
+  && mkdir -p /usr/share/groovy/lib \
+  && wget -q https://search.maven.org/remotecontent?filepath=org/codehaus/groovy/groovy-xmlrpc/0.8/groovy-xmlrpc-0.8.jar -O /usr/share/groovy/lib/groovy-xmlrpc-0.8.jar \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   debian-keyring \
