@@ -19,6 +19,7 @@ EOF
 case "$2" in
     linaro-apm-*) hw="APM XGene 1" ;;
     linaro-tk1-*) hw="NVIDIA TK1" ;;
+    linaro-thx1-*) hw="Cavium ThunderX1" ;;
 esac
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/host
 $hw $(($(free -g | awk '/^Mem/ { print $2 }') + 1))GB
