@@ -6,7 +6,7 @@ build-monitor-plugin:1.10+build.201611041949
 build-name-setter:1.6.7
 build-timeout:1.19
 copy-to-slave:1.4.4
-copyartifact:1.38.1
+copyartifact:1.39
 coverity:1.10.0
 crowd2:1.8
 cvs:2.13
@@ -21,7 +21,7 @@ embeddable-build-status:1.9
 extended-read-permission:2.0
 external-monitor-job:1.7
 ghprb:1.39.0
-gerrit-trigger:2.26.1
+gerrit-trigger:2.26.2
 github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:1.10
@@ -38,7 +38,7 @@ matrix-auth:2.1
 matrixtieparent:1.2
 mercurial:1.61
 metrics:3.1.2.10
-monitoring:1.69.1
+monitoring:1.70.0
 multiple-scms:0.6
 naginator:1.17.2
 nodelabelparameter:1.7.2
