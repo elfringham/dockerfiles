@@ -2,9 +2,10 @@
 
 set -ex
 
-buildmaster="$1"
-slavename="$2"
-password="$3"
+image="$1"
+buildmaster="$2"
+slavename="$3"
+password="$4"
 
 usage ()
 {
@@ -23,8 +24,6 @@ else
     # Fallback to sudo otherwise.
     DOCKER="sudo docker"
 fi
-
-image=@IMAGE@
 
 case "$buildmaster" in
     "normal")
@@ -88,5 +87,5 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER pull $image
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps $image "$masterurl" "$slavename" "$password"
+#$DOCKER pull $image
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps "$image" "$masterurl" "$slavename" "$password"

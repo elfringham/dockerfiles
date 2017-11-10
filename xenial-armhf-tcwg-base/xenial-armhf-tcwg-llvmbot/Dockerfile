@@ -26,12 +26,12 @@ RUN cd ./llvm-config-buildslave/ \
 # When running with "-m 50" ninja will not start new jobs if system memory
 # utilization is beyond 50%.
 RUN apt-get remove -y ninja-build \
- && git clone -b stable https://github.com/maxim-kuvyrkov/ninja.git \
+ && git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd ninja \
  && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
  && mv ninja /usr/local/bin/ninja.bin \
  && echo '#!/bin/sh' > /usr/local/bin/ninja \
- && echo '/usr/local/bin/ninja.bin -m 50 "$@"' >> /usr/local/bin/ninja \
+ && echo '/usr/local/bin/ninja.bin -m 75 -M 50 -D 1000  "$@"' >> /usr/local/bin/ninja \
  && chmod +x /usr/local/bin/ninja \
  && cd .. \
  && rm -rf ninja
@@ -43,4 +43,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 0b94e4387b6895471280fe1232ffa912
+# checksum: f779c29e602be8231baef8a7b3a0dc6d
