@@ -8,7 +8,9 @@ RUN apt-get update \
  libwww-perl \
  && git clone https://git.linaro.org/toolchain/llvm/linaro-scripts.git \
  && /linaro-scripts/monitor/install.sh /linaro-scripts-monitor \
- && echo "*/5 * * * * /linaro-scripts-monitor/bin/bot-status /linaro-scripts-monitor/bin/linaro.json /usr/share/nginx/html/index.html && chmod +r /usr/share/nginx/html/index.html" | crontab - \
+ && rm -rf /usr/share/nginx/html \
+ && ln -s /linaro-scripts-monitor/html /usr/share/nginx/html \
+ && echo "*/5 * * * * /linaro-scripts-monitor/bin/bot-status /linaro-scripts-monitor/bin/linaro.json /linaro-scripts-monitor/html/index.html" | crontab - \
  && rm -rf \
  /var/lib/apt/lists/* \
  /tmp/* \
