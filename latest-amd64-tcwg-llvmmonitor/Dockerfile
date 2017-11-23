@@ -10,7 +10,7 @@ RUN apt-get update \
  && /linaro-scripts/monitor/install.sh /linaro-scripts-monitor \
  && rm -rf /usr/share/nginx/html \
  && ln -s /linaro-scripts-monitor/html /usr/share/nginx/html \
- && echo "*/5 * * * * /linaro-scripts-monitor/bin/bot-status /linaro-scripts-monitor/bin/linaro.json /linaro-scripts-monitor/html/index.html" | crontab - \
+ && echo "*/5 * * * * /linaro-scripts-monitor/bin/bot-status /linaro-scripts-monitor/bin/linaro.json /linaro-scripts-monitor/html/index.html && chmod +r /linaro-scripts-monitor/html/index.html" | crontab - \
  && rm -rf \
  /var/lib/apt/lists/* \
  /tmp/* \
