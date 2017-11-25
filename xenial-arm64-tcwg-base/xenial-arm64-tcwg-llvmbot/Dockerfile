@@ -31,7 +31,7 @@ RUN apt-get remove -y ninja-build \
  && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
  && mv ninja /usr/local/bin/ninja.bin \
  && echo '#!/bin/sh' > /usr/local/bin/ninja \
- && echo '/usr/local/bin/ninja.bin -m 50 -M 50 -D 10000  "$@"' >> /usr/local/bin/ninja \
+ && echo '/usr/local/bin/ninja.bin -m 50 -M 50 -D 5000  "$@"' >> /usr/local/bin/ninja \
  && chmod +x /usr/local/bin/ninja \
  && cd .. \
  && rm -rf ninja
@@ -43,4 +43,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 276cce7e5f9dcb3e06d65e27ebcc87ea
+# checksum: b3be1ac8ee585fbdfea1a371fd565508
