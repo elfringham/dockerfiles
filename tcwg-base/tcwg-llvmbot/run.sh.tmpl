@@ -13,11 +13,20 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
     sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
 fi
 
+case "$2" in
+    *-lld)
+	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
+	ln -f -s /usr/bin/clang /usr/lobal/bin/aarch64-linux-gnu-gcc
+	ln -f -s /usr/bin/clang++ /usr/lobal/bin/aarch64-linux-gnu-g++
+	;;
+esac
+
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
 Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
 EOF
 case "$2" in
     linaro-apm-*) hw="APM XGene 1" ;;
+    linaro-d05-*) hw="HiSilicon D05" ;;
     linaro-tk1-*) hw="NVIDIA TK1" ;;
     linaro-thx1-*) hw="Cavium ThunderX1" ;;
 esac

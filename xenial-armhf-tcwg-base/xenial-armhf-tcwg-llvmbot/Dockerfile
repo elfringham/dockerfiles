@@ -4,6 +4,7 @@ FROM linaro/ci-armhf-tcwg-base-ubuntu:xenial
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  buildbot \
+ python-psutil \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -43,4 +44,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: b2792cc82dcc48bd30ff1eaf22f1369a
+# checksum: de1960303fa880eeead54d7b6742eace

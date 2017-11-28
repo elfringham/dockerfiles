@@ -4,6 +4,7 @@ FROM linaro/ci-arm64-tcwg-base-ubuntu:xenial
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  buildbot \
+ python-psutil \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -43,4 +44,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: b3be1ac8ee585fbdfea1a371fd565508
+# checksum: 2a0e32282ecc3993a54cd506b6ffaa1a
