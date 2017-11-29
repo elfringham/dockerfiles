@@ -69,15 +69,15 @@ case "$mastername:$slavename:$(hostname):$image" in
 esac
 
 case "$slavename" in
-    linaro-hs-*|linaro-thx1-*)
+    linaro-d05-*)
 	# Use 64G out of 128G.
-	memlimit=64
+	memlimit="64"
 	;;
     *)
-	# Use at most 15G or 90% of all RAM.
+	# Use at most 30G or 90% of all RAM.
 	memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') * 9 / 10))
-	if [ "$memlimit" -gt "15" ]; then
-	    memlimit="15"
+	if [ "$memlimit" -gt "30" ]; then
+	    memlimit="30"
 	fi
 	;;
 esac
@@ -87,5 +87,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-#$DOCKER pull $image
 $DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps "$image" "$masterurl" "$slavename" "$password"
