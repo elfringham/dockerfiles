@@ -14,33 +14,6 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
 fi
 
 case "$2" in
-    libcxx-*|*-lld)
-	# Libcxx and LLD bots need to be compiled with clang.
-	# We override cc and c++ in /usr/local/bin to achieve this.
-	cc=clang
-	cxx=clang++
-	;;
-    *)
-	cc=gcc
-	cxx=g++
-	;;
-esac
-
-# With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as
-# system compilers.  No danger in ccaching results of system compiler since
-# we always start with a clean cache in a new container.
-cat > /usr/local/bin/cc <<EOF
-#!/bin/sh
-exec ccache $cc "\$@"
-EOF
-chmod +x /usr/local/bin/cc
-cat > /usr/local/bin/c++ <<EOF
-#!/bin/sh
-exec ccache $cxx "\$@"
-EOF
-chmod +x /usr/local/bin/c++
-
-case "$2" in
     *-lld)
 	# LLD buildbot needs to find ld.lld for stage1 build.
 	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
