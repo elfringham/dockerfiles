@@ -15,13 +15,13 @@ docker-plugin:1.0.0
 docker-slaves:1.0.7
 dropdown-viewstabbar-plugin:1.7
 dynamic-axis:1.0.3
-ec2:1.37
+ec2:1.38
 email-ext:2.61
 embeddable-build-status:1.9
 extended-read-permission:2.0
 external-monitor-job:1.7
 ghprb:1.39.0
-gerrit-trigger:2.26.2
+gerrit-trigger:2.27.1
 github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:1.10
