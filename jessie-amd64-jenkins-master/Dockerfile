@@ -26,6 +26,7 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   debian-keyring \
   devscripts \
   dput \
+  jq \
   python-paramiko \
   python-requests \
   && wget -q https://launchpad.net/ubuntu/+archive/primary/+files/dput_0.9.6.4ubuntu3_all.deb \
