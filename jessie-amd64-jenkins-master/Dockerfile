@@ -23,12 +23,17 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && chmod +x /usr/bin/repo \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  ansible \
   debian-keyring \
   devscripts \
+  dirmngr \
   dput \
   jq \
+  python-future \
   python-paramiko \
   python-requests \
+  sshpass \
+  virtualenv \
   && wget -q https://launchpad.net/ubuntu/+archive/primary/+files/dput_0.9.6.4ubuntu3_all.deb \
   && dpkg -i --force-all *.deb \
   && apt-get clean \
