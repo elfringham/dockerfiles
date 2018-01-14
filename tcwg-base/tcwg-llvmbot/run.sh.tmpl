@@ -2,7 +2,7 @@
 
 set -e
 
-if [ x"$@" = x"start.sh" ]; then
+if [ x"$1" = x"start.sh" ]; then
     cat /start.sh
     exit 0
 fi
@@ -13,15 +13,54 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
     sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
 fi
 
+case "$2" in
+    *-libcxx*|*-lld|*-arm-quick|*-arm-full|*-arm-full-selfhost)
+	# Libcxx and LLD bots need to be compiled with clang.
+	# Some of AArch32 bots need clang as well.
+	# We override cc and c++ in /usr/local/bin to achieve this.
+	# ??? Adding testStage1=False to LLD bot might enable it to not depend on clang.
+	# ??? *-arm-full-selfhost bot doesn't look like it depends on clang.
+	# ??? For now we preserve host compiler configuration from non-docker bots.
+	cc=clang
+	cxx=clang++
+	;;
+    *)
+	cc=gcc
+	cxx=g++
+	;;
+esac
+
+# With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as
+# system compilers.  No danger in ccaching results of system compiler since
+# we always start with a clean cache in a new container.
+cat > /usr/local/bin/cc <<EOF
+#!/bin/sh
+exec ccache $cc "\$@"
+EOF
+chmod +x /usr/local/bin/cc
+cat > /usr/local/bin/c++ <<EOF
+#!/bin/sh
+exec ccache $cxx "\$@"
+EOF
+chmod +x /usr/local/bin/c++
+
+case "$2" in
+    *-lld)
+	# LLD buildbot needs to find ld.lld for stage1 build.
+	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
+	;;
+esac
+
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
 Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
 EOF
 case "$2" in
     linaro-apm-*) hw="APM XGene 1" ;;
+    linaro-armv8-*) hw="64-core Cortex-A72" ;;
     linaro-tk1-*) hw="NVIDIA TK1" ;;
 esac
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/host
-$hw $(($(free -g | awk '/^Mem/ { print $2 }') + 1))GB
+$hw $(($(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) / (1024*1024*1024)))GB
 
 OS: $(lsb_release -ds)
 Kernel: $(uname -rv)
