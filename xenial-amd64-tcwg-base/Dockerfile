@@ -41,9 +41,9 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  gawk \
  gdb \
  gdbserver \
- qemu-system-arm \
  git \
  groff \
+ less \
  libexpat1-dev \
  libglib2.0-dev \
  liblzma-dev \
@@ -66,6 +66,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  pkg-config \
  python-dev \
  pxz \
+ qemu-system-arm \
  qemu-user \
  rsync \
  subversion \
@@ -116,4 +117,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: a6af61eda71da453c370a3407c5cdd50
+# checksum: fd5c49b719146e9a303efbd146470695

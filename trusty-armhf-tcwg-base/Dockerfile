@@ -37,9 +37,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gawk \
  gdb \
  gdbserver \
- qemu-system-arm \
  git \
  groff \
+ less \
  libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
@@ -59,6 +59,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  python-dev \
  python-virtualenv \
  pxz \
+ qemu-system-arm \
  qemu-user \
  rsync \
  subversion \
@@ -98,4 +99,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: d0a52cc9dd2e1108a346050263cb0591
+# checksum: 1592fa26df3a4e4bf69959ea50cef04c
