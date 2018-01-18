@@ -1,6 +1,7 @@
 ansicolor:0.5.2
 ant:1.7
 antisamy-markup-formatter:1.5
+bouncycastle-api:2.16.2
 build-blocker:1.7.3
 build-monitor-plugin:1.10+build.201611041949
 build-name-setter:1.6.8
