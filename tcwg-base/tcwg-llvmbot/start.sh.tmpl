@@ -2,8 +2,10 @@
 
 set -ex
 
-buildmaster="$1"
-slavename="$2"
+image="$1"
+buildmaster="$2"
+slavename="$3"
+password="$4"
 
 usage ()
 {
@@ -23,31 +25,25 @@ else
     DOCKER="sudo docker"
 fi
 
-image=@IMAGE@
-# Use at most 15G or 90% of all RAM.
-memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') * 9 / 10))
-if [ "$memlimit" -gt "15" ]; then
-    memlimit="15"
-fi
-# IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
-# SYS_PTRACE is required for debugger work.
-# seccomp:unconfined is required to disable ASLR for sanitizer tests.
-caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
-
 case "$buildmaster" in
-    "lab.llvm.org:9990")
+    "normal")
 	mastername="normal"
+	masterurl="lab.llvm.org:9990"
 	;;
-    "lab.llvm.org:9994")
+    "silent")
 	mastername="silent"
+	masterurl="lab.llvm.org:9994"
 	;;
     *)
-	usage "ERROR: Wrong buildmaster URL: $buildmaster"
+	mastername="custom"
+	masterurl="$buildmaster"
 esac
 
 # CXX, LLD and LNT bots need additional configuration, and
 # are not supported yet.
 case "$mastername:$slavename:$(hostname):$image" in
+    # No restrictions for custom masters:
+    custom:*:*:*) ;;
     # Almost no restrictions for the silent master:
     silent:*:r*-a*:*) ;;
     silent:linaro-tk1-*:llvm-tk1-*:*-armhf-*) ;;
@@ -72,5 +68,23 @@ case "$mastername:$slavename:$(hostname):$image" in
 	;;
 esac
 
-$DOCKER pull $image
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps $image "$@"
+case "$slavename" in
+    linaro-armv8-*)
+	# Use 64G out of 128G.
+	memlimit="64"
+	;;
+    *)
+	# Use at most 30G or 90% of all RAM.
+	memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') * 9 / 10))
+	if [ "$memlimit" -gt "30" ]; then
+	    memlimit="30"
+	fi
+	;;
+esac
+
+# IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
+# SYS_PTRACE is required for debugger work.
+# seccomp:unconfined is required to disable ASLR for sanitizer tests.
+caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
+
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps "$image" "$masterurl" "$slavename" "$password"
