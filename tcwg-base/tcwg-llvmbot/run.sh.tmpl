@@ -51,6 +51,19 @@ case "$2" in
 	;;
 esac
 
+case "$2" in
+    linaro-armv8-*)
+	# Use memory-throttling ninja.
+	# When running with "-m 50 -M 50" ninja will not start new jobs if
+	# system or container memory utilization is beyond 50%.
+	cat > /usr/local/bin/ninja <<EOF
+#!/bin/sh
+exec /usr/local/bin/ninja.bin -m 50 -M 50 -D 5000 "\$@"
+EOF
+	chmod +x /usr/local/bin/ninja
+	;;
+esac
+
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
 Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
 EOF
