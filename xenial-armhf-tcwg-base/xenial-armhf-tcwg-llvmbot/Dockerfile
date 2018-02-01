@@ -22,17 +22,11 @@ RUN cd ./llvm-config-buildslave/ \
  /var/tmp/* \
  && sudo -i -u buildslave mkdir /home/buildslave/buildslave
 
-# Replace ninja with a one that supports memory-threshold job limitation.
-# When running with "-m 50" ninja will not start new jobs if system memory
-# utilization is beyond 50%.
-RUN apt-get remove -y ninja-build \
- && git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+# Add ninja with support for memory-threshold job limitation.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd ninja \
  && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
  && mv ninja /usr/local/bin/ninja.bin \
- && echo '#!/bin/sh' > /usr/local/bin/ninja \
- && echo '/usr/local/bin/ninja.bin -m 50 -M 50 -D 5000 "$@"' >> /usr/local/bin/ninja \
- && chmod +x /usr/local/bin/ninja \
  && cd .. \
  && rm -rf ninja
 
@@ -43,4 +37,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: c9a664b8d653156ed8ac3185acf5e90b
+# checksum: 363894f7aa7d736e3e88da5ed9b55b0f
