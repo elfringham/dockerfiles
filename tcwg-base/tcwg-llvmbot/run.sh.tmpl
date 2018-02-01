@@ -49,6 +49,9 @@ case "$2" in
 	# LLD buildbot needs to find ld.lld for stage1 build.
 	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
 	;;
+    *)
+	rm -f /usr/local/bin/ld.lld
+	;;
 esac
 
 case "$2" in
@@ -59,6 +62,13 @@ case "$2" in
 	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
 exec /usr/local/bin/ninja.bin -m 50 -M 50 -D 5000 "\$@"
+EOF
+	chmod +x /usr/local/bin/ninja
+	;;
+    *)
+	cat > /usr/local/bin/ninja <<EOF
+#!/bin/sh
+exec /usr/bin/ninja "\$@"
 EOF
 	chmod +x /usr/local/bin/ninja
 	;;
