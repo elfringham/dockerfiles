@@ -17,7 +17,6 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
- git-review \
  git-svn \
  less \
  locales \
@@ -46,4 +45,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 0830f0dbf3e82463877d6613c03af70e
+# checksum: df2f7edfa6eb02b085cac309faf50ad3

@@ -17,7 +17,6 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
- git-review \
  git-svn \
  gnat \
  less \
@@ -47,4 +46,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: b016433b7daa3bdc5839ef8798775167
+# checksum: 6ebcfe89f577b9b89996da9aace4394f

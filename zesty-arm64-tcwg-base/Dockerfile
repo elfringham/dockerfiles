@@ -38,6 +38,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gdb \
  gdbserver \
  git \
+ git-review \
  groff \
  less \
  libexpat1-dev \
@@ -100,4 +101,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 445700b65f37f2ce7f76ab7e0734a6d3
+# checksum: f646eef0502f34c5b2a4002be4a436d5

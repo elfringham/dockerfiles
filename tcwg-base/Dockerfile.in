@@ -61,6 +61,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gdb \
  gdbserver \
  git \
+ git-review \
  groff \
  less \
  libexpat1-dev \
