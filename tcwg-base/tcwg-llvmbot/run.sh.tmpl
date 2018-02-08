@@ -14,12 +14,49 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
 fi
 
 case "$2" in
-    *-libcxx*|*-lld|*-arm-quick|*-arm-full|*-arm-full-selfhost)
-	# Libcxx and LLD bots need to be compiled with clang.
-	# Some of AArch32 bots need clang as well.
-	# We override cc and c++ in /usr/local/bin to achieve this.
+    linaro-apm-*|linaro-tk1-*)
+	# Download and install clang+llvm into /usr/local for bare-metal
+	# bots.
+	case "$2" in
+	    linaro-apm-*)
+		clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
+		;;
+	    linaro-tk1-*)
+		clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
+		;;
+	esac
+
+	(
+	    cd /usr/local
+	    rm -f $clang_ver.tar.xz
+	    wget http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
+	    tar -x --strip-components=1 -f $clang_ver.tar.xz
+	)
+	;;
+esac
+
+case "$2" in
+    *-libcxx|linaro-tk1-01|linaro-apm-03)
+	# Libcxx bots need to be compiled with clang.
+	cc=clang
+	cxx=clang++
+	;;
+    *-lld|linaro-apm-04)
+	# LLD bots need to be compiled with clang.
 	# ??? Adding testStage1=False to LLD bot might enable it to not depend on clang.
+	cc=clang
+	cxx=clang++
+	;;
+    *-arm-quick|linaro-tk1-06)
+	cc=clang
+	cxx=clang++
+	;;
+    *-arm-full-selfhost|linaro-tk1-05)
 	# ??? *-arm-full-selfhost bot doesn't look like it depends on clang.
+	cc=clang
+	cxx=clang++
+	;;
+    *-arm-full|linaro-tk1-08)
 	# ??? For now we preserve host compiler configuration from non-docker bots.
 	cc=clang
 	cxx=clang++
@@ -44,46 +81,24 @@ exec ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
 
-case "$2" in
-    *-lld)
-	# LLD buildbot needs to find ld.lld for stage1 build.
-	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
-	;;
-    *)
-	rm -f /usr/local/bin/ld.lld
-	;;
-esac
-
-case "$2" in
-    linaro-armv8-*)
-	# Use memory-throttling ninja.
-	# When running with "-m 50 -M 50" ninja will not start new jobs if
-	# system or container memory utilization is beyond 50%.
-	cat > /usr/local/bin/ninja <<EOF
-#!/bin/sh
-exec /usr/local/bin/ninja.bin -m 50 -M 50 -D 5000 "\$@"
-EOF
-	chmod +x /usr/local/bin/ninja
-	;;
-    *)
-	cat > /usr/local/bin/ninja <<EOF
-#!/bin/sh
-exec /usr/bin/ninja "\$@"
-EOF
-	chmod +x /usr/local/bin/ninja
-	;;
-esac
-
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
 Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
 EOF
+
+n_cores=$(nproc --all)
 case "$2" in
-    linaro-apm-*) hw="APM XGene 1" ;;
-    linaro-armv8-*) hw="64-core Cortex-A72" ;;
-    linaro-tk1-*) hw="NVIDIA TK1" ;;
+    linaro-apm-*) hw="APM Mustang ${n_cores}-core X-Gene" ;;
+    linaro-armv8-*) hw="${n_cores}-core ARMv8" ;;
+    linaro-tk1-*) hw="NVIDIA TK1 ${n_cores}-core Cortex-A15" ;;
 esac
+
+if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
+    mem_limit=$((($(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) + 512*1024*1024) / (1024*1024*1024)))
+else
+    mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
+fi
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/host
-$hw $(($(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) / (1024*1024*1024)))GB
+$hw ${mem_limit}GB
 
 OS: $(lsb_release -ds)
 Kernel: $(uname -rv)
@@ -92,6 +107,30 @@ Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
 
-sudo -i -u buildslave buildslave start ~buildslave/buildslave
+if [ "n_cores" -ge "40" ]; then
+    # We are on a big system, and, presumably, share it with other bots.
+    # Use memory-throttling ninja.
+    # When running with "-m 50 -M 50" ninja will not start new jobs if
+    # system or container memory utilization is beyond 50%.
+    cat > /usr/local/bin/ninja <<EOF
+#!/bin/sh
+exec /usr/local/bin/ninja.bin -m 50 -M 50 -D 5000 "\$@"
+EOF
+else
+    cat > /usr/local/bin/ninja <<EOF
+#!/bin/sh
+exec /usr/bin/ninja "\$@"
+EOF
+fi
+chmod +x /usr/local/bin/ninja
 
-exec /usr/sbin/sshd -D
+sudo -i -u buildslave buildslave restart ~buildslave/buildslave
+
+case "$2" in
+    linaro-apm-*|linaro-tk1-*)
+	exit 0
+	;;
+    *)
+	exec /usr/sbin/sshd -D
+	;;
+esac
