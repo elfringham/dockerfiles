@@ -45,24 +45,11 @@ case "$mastername:$slavename:$(hostname):$image" in
     # No restrictions for custom masters:
     custom:*:*:*) ;;
     # Almost no restrictions for the silent master:
+    silent:*:linaro-armv8-*:*) ;;
     silent:*:r*-a*:*) ;;
-    silent:linaro-tk1-*:llvm-tk1-*:*-armhf-*) ;;
     # Restrictions for the normal master:
-    normal:linaro-apm-01:r1-a22:*-arm64-*) ;;
-    normal:linaro-apm-02:r1-a21:*-arm64-*) ;;
-    #normal:linaro-apm-03:r1-a20:*-arm64-*) ;;
-    #normal:linaro-apm-04:r2-a26:*-arm64-*) ;;
-    normal:linaro-apm-05:r2-a27:*-arm64-*) ;;
-    normal:linaro-apm-06:r2-a28:*-arm64-*) ;;
-    #normal:linaro-tk1-01:llvm-tk1-01:*-armhf-*) ;;
-    #normal:linaro-tk1-02:llvm-tk1-02:*-armhf-*) ;;
-    #normal:linaro-tk1-03:llvm-tk1-03:*-armhf-*) ;;
-    normal:linaro-tk1-04:llvm-tk1-04:*-armhf-*) ;;
-    normal:linaro-tk1-05:llvm-tk1-05:*-armhf-*) ;;
-    normal:linaro-tk1-06:llvm-tk1-06:*-armhf-*) ;;
-    normal:linaro-tk1-07:llvm-tk1-07:*-armhf-*) ;;
-    normal:linaro-tk1-08:llvm-tk1-08:*-armhf-*) ;;
-    normal:linaro-tk1-09:llvm-tk1-09:*-armhf-*) ;;
+    normal:*:linaro-armv8-*:*) ;;
+    normal:*:r*-a*:*-arm64-*) ;;
     *)
 	usage "ERROR: Wrong mastername:slavename:hostname:image combination: $mastername:$slavename:$(hostname):$image"
 	;;
