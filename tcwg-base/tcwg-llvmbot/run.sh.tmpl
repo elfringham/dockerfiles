@@ -88,7 +88,7 @@ EOF
 n_cores=$(nproc --all)
 case "$2" in
     linaro-apm-*) hw="APM Mustang ${n_cores}-core X-Gene" ;;
-    linaro-armv8-*) hw="${n_cores}-core ARMv8" ;;
+    linaro-armv8-*) hw="${n_cores}-core ARMv8 provided by Packet.net (Type 2A2)" ;;
     linaro-tk1-*) hw="NVIDIA TK1 ${n_cores}-core Cortex-A15" ;;
 esac
 
