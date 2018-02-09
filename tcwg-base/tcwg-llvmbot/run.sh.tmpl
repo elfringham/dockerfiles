@@ -107,7 +107,7 @@ Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
 
-if [ "n_cores" -ge "40" ]; then
+if [ "$n_cores" -ge "40" ]; then
     # We are on a big system, and, presumably, share it with other bots.
     # Use memory-throttling ninja.
     # When running with "-m 50 -M 50" ninja will not start new jobs if
