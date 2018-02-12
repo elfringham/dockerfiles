@@ -2,6 +2,16 @@
 
 set -e
 
+bare_metal_bot_p ()
+{
+    case "$1" in
+	"linaro-tk1-"*) return 0 ;;
+	"linaro-apm-02"|"linaro-apm-05") return 1 ;;
+	"linaro-apm-"*) return 0 ;;
+	*) return 1 ;;
+    esac
+}
+
 if [ x"$1" = x"start.sh" ]; then
     cat /start.sh
     exit 0
@@ -13,27 +23,25 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
     sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
 fi
 
-case "$2" in
-    linaro-apm-*|linaro-tk1-*)
-	# Download and install clang+llvm into /usr/local for bare-metal
-	# bots.
-	case "$2" in
-	    linaro-apm-*)
-		clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
-		;;
-	    linaro-tk1-*)
-		clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
-		;;
-	esac
+if bare_metal_bot_p "$2"; then
+    # Download and install clang+llvm into /usr/local for bare-metal
+    # bots.
+    case "$2" in
+	linaro-apm-*)
+	    clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
+	    ;;
+	linaro-tk1-*)
+	    clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
+	    ;;
+    esac
 
-	(
-	    cd /usr/local
-	    rm -f $clang_ver.tar.xz
-	    wget http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
-	    tar -x --strip-components=1 -f $clang_ver.tar.xz
-	)
-	;;
-esac
+    (
+	cd /usr/local
+	rm -f $clang_ver.tar.xz
+	wget http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
+	tar -x --strip-components=1 -f $clang_ver.tar.xz
+    )
+fi
 
 case "$2" in
     *-libcxx|linaro-tk1-01|linaro-apm-03)
@@ -98,7 +106,7 @@ else
     mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
 fi
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/host
-$hw ${mem_limit}GB
+$hw; RAM ${mem_limit}GB
 
 OS: $(lsb_release -ds)
 Kernel: $(uname -rv)
@@ -126,11 +134,8 @@ chmod +x /usr/local/bin/ninja
 
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
 
-case "$2" in
-    linaro-apm-*|linaro-tk1-*)
-	exit 0
-	;;
-    *)
-	exec /usr/sbin/sshd -D
-	;;
-esac
+if bare_metal_bot_p "$2"; then
+    exit 0
+fi
+
+exec /usr/sbin/sshd -D
