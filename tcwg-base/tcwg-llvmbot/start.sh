@@ -74,4 +74,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=2000 $caps "$image" "$masterurl" "$slavename" "$password"
