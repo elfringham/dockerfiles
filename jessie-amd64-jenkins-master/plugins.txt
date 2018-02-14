@@ -38,6 +38,7 @@ ldap:1.19
 leastload:1.0.3
 log-parser:2.0
 matrix-auth:2.2
+matrix-combinations-parameter:1.2.0
 matrixtieparent:1.2
 mercurial:1.61
 metrics:3.1.2.10
