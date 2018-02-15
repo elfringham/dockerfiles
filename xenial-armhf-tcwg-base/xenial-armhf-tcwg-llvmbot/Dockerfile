@@ -30,14 +30,12 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# Add current clang for benefit of libcxx bots.  LLD bot requires
-# ld.lld symlink, which clang release happens to provide, but will work with
-# symlinking ld.lld from ld.bfd just as well.
+# Add current clang for libcxx bots.
 RUN \
  clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf \
  && cd /usr/local \
- && wget http://releases.llvm.org/5.0.1/$clang_ver.tar.xz \
- && tar -x --strip-components=1 -f $clang_ver.tar.xz \
+ && wget --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
 VOLUME /home
@@ -47,4 +45,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 000f6c3ec143b2a7d51a8ae645dbc466
+# checksum: 478e345cb93c7e7a70535a26606fb9ed

@@ -23,31 +23,32 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
     sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
 fi
 
+case "$(uname -m)" in
+    aarch64)
+	clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
+	;;
+    *)
+	clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
+	;;
+esac
+
 if bare_metal_bot_p "$2"; then
     # Download and install clang+llvm into /usr/local for bare-metal
     # bots.
-    case "$2" in
-	linaro-apm-*)
-	    clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
-	    ;;
-	linaro-tk1-*)
-	    clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
-	    ;;
-    esac
-
     (
 	cd /usr/local
 	rm -f $clang_ver.tar.xz
-	wget http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
-	tar -x --strip-components=1 -f $clang_ver.tar.xz
+	wget --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
+	tar xf $clang_ver.tar.xz
+	rm $clang_ver.tar.xz
     )
 fi
 
 case "$2" in
     *-libcxx|linaro-tk1-01|linaro-apm-03)
-	# Libcxx bots need to be compiled with clang.
-	cc=clang
-	cxx=clang++
+	# Libcxx bots need to be compiled with *recent* clang.
+	cc=/usr/local/$clang_ver/bin/clang
+	cxx=/usr/local/$clang_ver/bin/clang++
 	;;
     *-lld|linaro-apm-04)
 	# LLD bots need to be compiled with clang.
@@ -88,6 +89,16 @@ cat > /usr/local/bin/c++ <<EOF
 exec ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
+
+case "$2" in
+    *-lld|linaro-apm-04)
+	# LLD buildbot needs to find ld.lld for stage1 build.
+	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
+	;;
+    *)
+	rm -f /usr/local/bin/ld.lld
+	;;
+esac
 
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
 Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
