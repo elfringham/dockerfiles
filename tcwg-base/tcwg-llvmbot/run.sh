@@ -45,7 +45,7 @@ if bare_metal_bot_p "$2"; then
 fi
 
 case "$2" in
-    *-libcxx|linaro-tk1-01|linaro-apm-03)
+    *-libcxx*|linaro-tk1-01|linaro-apm-03)
 	# Libcxx bots need to be compiled with *recent* clang.
 	cc=/usr/local/$clang_ver/bin/clang
 	cxx=/usr/local/$clang_ver/bin/clang++
