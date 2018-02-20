@@ -34,8 +34,8 @@ ircbot:2.30
 jira:2.5
 jenkins-multijob-plugin:1.28
 jobConfigHistory:2.18
-ldap:1.19
-leastload:1.0.3
+ldap:1.20
+leastload:2.0.0
 log-parser:2.0
 matrix-auth:2.2
 matrix-combinations-parameter:1.2.0
@@ -47,13 +47,13 @@ multiple-scms:0.6
 naginator:1.17.2
 nodelabelparameter:1.7.2
 pam-auth:1.3
-pipeline-utility-steps:1.5.1
+pipeline-utility-steps:2.0.1
 plot:1.11
 PrioritySorter:3.6.0
 publish-over-ssh:1.18
 rebuild:1.27
 repo:1.10.7
-simple-theme-plugin:0.3
+simple-theme-plugin:0.4
 ssh-agent:1.15
 subversion:2.10.2
 throttle-concurrents:2.0.1
