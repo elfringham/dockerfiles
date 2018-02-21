@@ -126,21 +126,15 @@ Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
 
-if [ "$n_cores" -ge "40" ]; then
-    # We are on a big system, and, presumably, share it with other bots.
-    # Use memory-throttling ninja.
-    # When running with "-m 50 -M 50" ninja will not start new jobs if
-    # system or container memory utilization is beyond 50%.
-    cat > /usr/local/bin/ninja <<EOF
+# Throttle ninja on system load, system memory and container memory limit.
+# When running with "-l 2*N_CORES -m 50 -M 50" ninja will not start new jobs
+# if system or container memory utilization is beyond 50% or when load is
+# above double the core count.  Ninja will also stall up to 5 seconds (-D 5000)
+# before starting a new job to avoid rapid increase of resource usage.
+cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
-exec /usr/local/bin/ninja.bin -m 50 -M 50 -D 5000 "\$@"
+exec /usr/local/bin/ninja.bin -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
 EOF
-else
-    cat > /usr/local/bin/ninja <<EOF
-#!/bin/sh
-exec /usr/bin/ninja "\$@"
-EOF
-fi
 chmod +x /usr/local/bin/ninja
 
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
