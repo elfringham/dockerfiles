@@ -1,6 +1,9 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-armhf-ubuntu:trusty
 
+COPY postfix-main.cf.in .
+COPY postfix-sasl_passwd.in .
+
 RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  ubuntu=trusty; \
  for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
@@ -59,6 +62,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  openssh-server \
  python-dev \
  python-virtualenv \
+ postfix \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -89,7 +93,10 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
+ && cp postfix-main.cf.in /etc/postfix/main.cf \
+ && mkdir -p /etc/postfix/sasl_password \
+ && cp postfix-sasl_passwd.in /etc/postfix/sasl_password/sasl_password
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
@@ -100,4 +107,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 9c4613aff39f6bb2cf98d4a7cfd7951b
+# checksum: 4008e5ccf7530e5682785a14fec6de75

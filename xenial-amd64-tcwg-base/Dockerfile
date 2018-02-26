@@ -1,6 +1,9 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:xenial
 
+COPY postfix-main.cf.in .
+COPY postfix-sasl_passwd.in .
+
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ubuntu=xenial; \
  for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
@@ -66,6 +69,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  openssh-server \
  pkg-config \
  python-dev \
+ postfix \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -98,7 +102,10 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
+ && cp postfix-main.cf.in /etc/postfix/main.cf \
+ && mkdir -p /etc/postfix/sasl_password \
+ && cp postfix-sasl_passwd.in /etc/postfix/sasl_password/sasl_password
 
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
@@ -118,4 +125,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: b048f4cdebd3a12b888fee872c3ec4cd
+# checksum: ef2291e71ee3040f87bfaa9e6074a93c
