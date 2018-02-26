@@ -1,9 +1,6 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-i386-ubuntu:xenial
 
-COPY postfix-main.cf.in .
-COPY postfix-sasl_passwd.in .
-
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ubuntu=xenial; \
  for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
@@ -103,10 +100,13 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
- && cp postfix-main.cf.in /etc/postfix/main.cf \
- && mkdir -p /etc/postfix/sasl_password \
- && cp postfix-sasl_passwd.in /etc/postfix/sasl_password/sasl_password
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
 
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
@@ -126,4 +126,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: fc3d994e17a19b5180527361e1c671fe
+# checksum: e9ce16032b19e2367d330310762b3195

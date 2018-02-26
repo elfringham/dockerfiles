@@ -1,9 +1,6 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-armhf-ubuntu:xenial
 
-COPY postfix-main.cf.in .
-COPY postfix-sasl_passwd.in .
-
 RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  ubuntu=xenial; \
  for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
@@ -94,10 +91,13 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
- && cp postfix-main.cf.in /etc/postfix/main.cf \
- && mkdir -p /etc/postfix/sasl_password \
- && cp postfix-sasl_passwd.in /etc/postfix/sasl_password/sasl_password
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
@@ -108,4 +108,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: e6837bac26818fa466e7e2de2cda84b9
+# checksum: afae2a50d236d8d9f6ade3d04dd9bd01

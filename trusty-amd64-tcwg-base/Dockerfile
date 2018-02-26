@@ -1,9 +1,6 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:trusty
 
-COPY postfix-main.cf.in .
-COPY postfix-sasl_passwd.in .
-
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ubuntu=trusty; \
  for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
@@ -103,10 +100,13 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
- && cp postfix-main.cf.in /etc/postfix/main.cf \
- && mkdir -p /etc/postfix/sasl_password \
- && cp postfix-sasl_passwd.in /etc/postfix/sasl_password/sasl_password
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
 
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
@@ -126,4 +126,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 4ed68dc2b4369de4f4594f09d16b37ff
+# checksum: cb2dc0d6eb2f31af7eb4d9ba3ff2e34b
