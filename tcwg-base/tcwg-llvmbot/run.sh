@@ -37,10 +37,8 @@ if bare_metal_bot_p "$2"; then
     # bots.
     (
 	cd /usr/local
-	rm -f $clang_ver.tar.xz
-	wget --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
+	wget -c --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
 	tar xf $clang_ver.tar.xz
-	rm $clang_ver.tar.xz
     )
 fi
 
@@ -53,22 +51,27 @@ case "$2" in
     *-lld|linaro-apm-04)
 	# LLD bots need to be compiled with clang.
 	# ??? Adding testStage1=False to LLD bot might enable it to not depend on clang.
-	cc=clang
-	cxx=clang++
+	cc=/usr/bin/clang
+	cxx=/usr/bin/clang++
 	;;
     *-arm-quick|linaro-tk1-06)
-	cc=clang
-	cxx=clang++
+	cc=/usr/bin/clang
+	cxx=/usr/bin/clang++
 	;;
     *-arm-full-selfhost|linaro-tk1-05)
 	# ??? *-arm-full-selfhost bot doesn't look like it depends on clang.
-	cc=clang
-	cxx=clang++
+	cc=/usr/bin/clang
+	cxx=/usr/bin/clang++
 	;;
     *-arm-full|linaro-tk1-08)
 	# ??? For now we preserve host compiler configuration from non-docker bots.
-	cc=clang
-	cxx=clang++
+	cc=/usr/bin/clang
+	cxx=/usr/bin/clang++
+	;;
+    *-arm-global-isel|linaro-tk1-09)
+	# ??? For now we preserve host compiler configuration from non-docker bots.
+	cc=/usr/bin/clang
+	cxx=/usr/bin/clang++
 	;;
     *)
 	cc=gcc
@@ -126,15 +129,24 @@ Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
 
-# Throttle ninja on system load, system memory and container memory limit.
-# When running with "-l 2*N_CORES -m 50 -M 50" ninja will not start new jobs
-# if system or container memory utilization is beyond 50% or when load is
-# above double the core count.  Ninja will also stall up to 5 seconds (-D 5000)
-# before starting a new job to avoid rapid increase of resource usage.
-cat > /usr/local/bin/ninja <<EOF
+if bare_metal_bot_p "$2"; then
+    # TK1s have CPU hot-plug, so ninja might detect smaller number of cores
+    # available for parallelism.  Explicitly set "default" parallelism.
+    cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
-exec /usr/local/bin/ninja.bin -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
+exec /usr/bin/ninja -j$n_cores "\$@"
 EOF
+else
+    # Throttle ninja on system load, system memory and container memory limit.
+    # When running with "-l 2*N_CORES -m 50 -M 50" ninja will not start new jobs
+    # if system or container memory utilization is beyond 50% or when load is
+    # above double the core count.  Ninja will also stall up to 5 seconds (-D 5000)
+    # before starting a new job to avoid rapid increase of resource usage.
+    cat > /usr/local/bin/ninja <<EOF
+#!/bin/sh
+exec /usr/local/bin/ninja.bin -j$n_cores -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
+EOF
+fi
 chmod +x /usr/local/bin/ninja
 
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
