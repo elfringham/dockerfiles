@@ -19,6 +19,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  automake \
  bc \
  bison \
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
@@ -107,4 +108,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: a69983bad7d21752a7afcdfad944a38d
+# checksum: c0eca062aa8000976bdccdb2438e4bad

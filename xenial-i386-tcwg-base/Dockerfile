@@ -23,6 +23,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  bison \
  binutils-aarch64-linux-gnu \
  binutils-arm-linux-gnueabihf \
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
@@ -126,4 +127,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: e9ce16032b19e2367d330310762b3195
+# checksum: 79365fd7d8ee7258430265a506cbfed1

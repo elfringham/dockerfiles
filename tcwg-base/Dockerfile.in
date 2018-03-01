@@ -39,6 +39,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  binutils-aarch64-linux-gnu \
  binutils-arm-linux-gnueabihf \
 #endif
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
