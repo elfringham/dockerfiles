@@ -29,9 +29,12 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   dirmngr \
   dput \
   jq \
+  moreutils \
   python-future \
   python-paramiko \
   python-requests \
+  python3-setuptools \
+  python3-wheel \
   sshpass \
   virtualenv \
   && wget -q https://launchpad.net/ubuntu/+archive/primary/+files/dput_0.9.6.4ubuntu3_all.deb \
