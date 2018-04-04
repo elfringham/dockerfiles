@@ -9,7 +9,7 @@ build-name-setter:1.6.9
 build-timeout:1.19
 command-launcher:1.2
 copy-to-slave:1.4.4
-copyartifact:1.39
+copyartifact:1.39.1
 coverity:1.11.0
 crowd2:1.8
 cvs:2.14
@@ -29,7 +29,7 @@ github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:1.10
 heavy-job:1.1
-htmlpublisher:1.14
+htmlpublisher:1.15
 ircbot:2.30
 jira:2.5
 jenkins-multijob-plugin:1.29
@@ -47,11 +47,11 @@ multiple-scms:0.6
 naginator:1.17.2
 nodelabelparameter:1.7.2
 pam-auth:1.3
-pipeline-utility-steps:2.0.1
+pipeline-utility-steps:2.0.2
 plot:1.11
 PrioritySorter:3.6.0
 publish-over-ssh:1.19.1
-rebuild:1.27
+rebuild:1.28
 repo:1.10.7
 simple-theme-plugin:0.4
 ssh-agent:1.15
