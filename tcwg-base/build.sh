@@ -6,7 +6,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-  rm -rf tcwg-buildslave
+  rm -rf postfix*.in
 }
 
 export LANG=C
