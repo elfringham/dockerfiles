@@ -22,4 +22,5 @@ if [ -z "$DJANGO_DEBUG" ] ; then
     exec /usr/bin/gunicorn -w4 -b 0.0.0.0:$PORT $LLP_APP
 fi
 
-exec python $APPDIR/manage.py runserver 0.0.0.0:8080
+python $APPDIR/manage.py migrate --noinput --settings=settings
+exec python $APPDIR/manage.py runserver 0.0.0.0:8080 --settings=settings
