@@ -4,7 +4,7 @@ antisamy-markup-formatter:1.5
 apache-httpcomponents-client-4-api:4.5.3-2.1
 bouncycastle-api:2.16.2
 build-blocker:1.7.3
-build-monitor-plugin:1.10+build.201611041949
+build-monitor-plugin:1.12+build.201708172343
 build-name-setter:1.6.9
 build-timeout:1.19
 command-launcher:1.2
@@ -29,7 +29,7 @@ github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:1.10
 heavy-job:1.1
-htmlpublisher:1.15
+htmlpublisher:1.16
 ircbot:2.30
 jira:2.5
 jenkins-multijob-plugin:1.29
@@ -42,7 +42,7 @@ matrix-combinations-parameter:1.3.0
 matrixtieparent:1.2
 mercurial:1.61
 metrics:3.1.2.11
-monitoring:1.71.0
+monitoring:1.72.0
 multiple-scms:0.6
 naginator:1.17.2
 nodelabelparameter:1.7.2
