@@ -27,7 +27,7 @@ ghprb:1.40.0
 gerrit-trigger:2.27.5
 github-organization-folder:1.6
 greenballs:1.15
-groovy-postbuild:1.10
+groovy-postbuild:2.4
 heavy-job:1.1
 htmlpublisher:1.16
 ircbot:2.30
