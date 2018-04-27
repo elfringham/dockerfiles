@@ -9,7 +9,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
    done; \
    echo; \
  done) > /etc/apt/sources.list \
- && dpkg --add-architecture i386 \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -125,4 +124,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 854f35d984723a9e22351421c0ddb55b
+# checksum: 1ca472bbd2df82f0d2c86bd2517231a9
