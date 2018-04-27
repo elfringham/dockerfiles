@@ -55,9 +55,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  emacs \
  fakeroot \
  flex \
-#if ARCH_amd64 || ARCH_i386
- g++-multilib \
-#endif
  gawk \
  gdb \
  gdbserver \

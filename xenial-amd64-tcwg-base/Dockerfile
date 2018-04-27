@@ -38,7 +38,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  emacs \
  fakeroot \
  flex \
- g++-multilib \
  gawk \
  gdb \
  gdbserver \
@@ -126,4 +125,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 48814af3cc6c29ab8bb78e937ee860b5
+# checksum: 854f35d984723a9e22351421c0ddb55b
