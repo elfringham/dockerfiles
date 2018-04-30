@@ -83,7 +83,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  vim \
  virtualenv \
  wget \
- wine \
  xz-utils \
  zip \
  zlib1g-dev \
@@ -126,4 +125,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: ea201c250b9276f89d690e1ec3be5f4b
+# checksum: 9227aa22627483f371f7127894a3ba10
