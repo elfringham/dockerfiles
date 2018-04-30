@@ -24,6 +24,7 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   ansible \
+  build-essential \
   debian-keyring \
   devscripts \
   dirmngr \
