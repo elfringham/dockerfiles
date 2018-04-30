@@ -16,7 +16,7 @@ name=$(basename ${PWD} | cut -f3- -d '-')
 image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
-cp $top/tcwg-base/$name/start.sh $top/tcwg-base/$name/run.sh ./
+cp $top/tcwg-base/tcwg-dev/start.sh $top/tcwg-base/tcwg-dev/run.sh ./
 
 (cd ..; ./build.sh)
 "$top"/tcwg-base/validate-dockerfile.sh Dockerfile
