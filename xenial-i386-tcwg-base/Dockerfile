@@ -97,7 +97,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && mkdir -p /var/run/sshd \
  && sed -i \
  -e "/.*MaxStartups.*/d" \
- -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
+ -e "/.*MaxSessions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
@@ -125,4 +125,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 9227aa22627483f371f7127894a3ba10
+# checksum: 1968f52549a5f3844adbd1d98a8ad7da
