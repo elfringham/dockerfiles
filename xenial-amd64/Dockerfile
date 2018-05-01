@@ -21,7 +21,7 @@ RUN dpkg --add-architecture i386 \
  build-essential \
  ccache \
  clang \
- clang-format-3.6 \
+ clang-format-3.8 \
  curl \
  debhelper \
  debian-archive-keyring \
@@ -55,6 +55,7 @@ RUN dpkg --add-architecture i386 \
  python-mako \
  python-networkx \
  python-requests \
+ pxz \
  qemu-user-static \
  rsync \
  scons \

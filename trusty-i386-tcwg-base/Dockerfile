@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-i386-ubuntu:trusty
 
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
@@ -20,6 +21,9 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  automake \
  bc \
  bison \
+ binutils-aarch64-linux-gnu \
+ binutils-arm-linux-gnueabihf \
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
@@ -35,12 +39,13 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  emacs \
  fakeroot \
  flex \
- g++-multilib \
  gawk \
  gdb \
  gdbserver \
  git \
+ git-review \
  groff \
+ less \
  libexpat1-dev \
  libglib2.0-dev \
  liblzma-dev \
@@ -50,6 +55,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ linux-tools-generic \
  lzop \
  make \
  mingw-w64 \
@@ -62,7 +68,9 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  pkg-config \
  python-dev \
  python-virtualenv \
+ postfix \
  pxz \
+ qemu-system-arm \
  qemu-user \
  rsync \
  subversion \
@@ -75,7 +83,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  valgrind \
  vim \
  wget \
- wine \
  xz-utils \
  zip \
  zlib1g-dev \
@@ -93,6 +100,12 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
 
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
@@ -112,3 +125,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
+# checksum: 278e31f5cf7a0a180d3b43d705d4b659

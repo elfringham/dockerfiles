@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/tcwg-dev/Dockerfile.in. Do not edit.
 FROM linaro/ci-armhf-tcwg-base-ubuntu:trusty
 
 COPY run.sh .
@@ -16,8 +17,8 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
- git-review \
  git-svn \
+ gnat \
  less \
  locales \
  libgmp-dev \
@@ -27,6 +28,7 @@ RUN apt-get update \
  screen \
  stgit \
  tmux \
+ unifdef \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -44,3 +46,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
+# checksum: 3ebcf08c631348a6ee99ee7b0a574c23

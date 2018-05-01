@@ -3,6 +3,8 @@ FROM ubuntu:utopic
 COPY setup-sshd /usr/sbin/setup-sshd
 
 RUN dpkg --add-architecture i386 \
+ && echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
+ && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
  && sed -i -e 's/archive.ubuntu.com\|security.ubuntu.com/old-releases.ubuntu.com/g' /etc/apt/sources.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \
@@ -10,6 +12,7 @@ RUN dpkg --add-architecture i386 \
  && add-apt-repository -y ppa:linaro-maintainers/tools \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y locales \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  acpica-tools \
  android-tools-adb \
@@ -32,6 +35,7 @@ RUN dpkg --add-architecture i386 \
  make \
  openssh-client \
  openssh-server \
+ patch \
  python-mako \
  python-networkx \
  python-requests \
@@ -62,6 +66,8 @@ RUN useradd -m -G plugdev buildslave \
  && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
  && chmod a+x /home/buildslave/bin/* \
  && chown -R buildslave:buildslave /home/buildslave/bin
+
+ENV LC_ALL C.UTF-8
 
 EXPOSE 22
 ENTRYPOINT ["/usr/sbin/setup-sshd"]

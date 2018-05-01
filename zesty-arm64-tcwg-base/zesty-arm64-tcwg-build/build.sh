@@ -1,1 +1,0 @@
-../../tcwg-base/tcwg-build/build-image.sh

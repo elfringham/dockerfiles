@@ -38,7 +38,6 @@ RUN dpkg --add-architecture i386 \
  libvirt-clients \
  linaro-image-tools \
  lsb-release \
- openjdk-7-jdk \
  openssh-server \
  python-requests \
  qemu-user-static \
@@ -51,6 +50,10 @@ RUN dpkg --add-architecture i386 \
  zip \
  zlib1g:i386 \
  zsync \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends -t jessie-backports \
+ libsdl1.2-dev \
+ openjdk-8-jdk \
+ && update-java-alternatives -s java-1.8.0-openjdk-amd64 \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/*.key \

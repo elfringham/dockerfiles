@@ -5,9 +5,11 @@ COPY *.list *.key /etc/apt/sources.list.d/
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
  && apt-key add /etc/apt/sources.list.d/*.key \
+ && echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
+ && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts locales \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  abootimg \
  acpica-tools \

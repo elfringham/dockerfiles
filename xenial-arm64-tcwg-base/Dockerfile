@@ -1,3 +1,4 @@
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM linaro/base-arm64-ubuntu:xenial
 
 RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
@@ -18,6 +19,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  automake \
  bc \
  bison \
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
@@ -37,7 +39,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gdb \
  gdbserver \
  git \
+ git-review \
  groff \
+ less \
  libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
@@ -46,15 +50,19 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ linux-tools-generic \
  lzop \
  make \
  net-tools \
  netcat \
+ nfs-kernel-server \
  ninja-build \
  openjdk-8-jdk \
  openssh-server \
  python-dev \
+ postfix \
  pxz \
+ qemu-system-arm \
  qemu-user \
  rsync \
  subversion \
@@ -86,6 +94,12 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
@@ -95,3 +109,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+# checksum: 398e83d368854d72506e7530116ff57a
