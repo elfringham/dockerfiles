@@ -69,9 +69,14 @@ case "$slavename" in
 	;;
 esac
 
+case "$slavename" in
+    *-lld) pids_limit="15000" ;;
+    *) pids_limit="5000" ;;
+esac
+
 # IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
 # SYS_PTRACE is required for debugger work.
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=5000 $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
