@@ -15,4 +15,5 @@ RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
  && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
  && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
  && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
-# checksum: 5de8c4d4fdc7b8b350210c347928cfee
+
+# checksum: 599fae0a5672c9f658bf2b0af0ab31e3

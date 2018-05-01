@@ -18,9 +18,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
    done; \
    echo; \
  done) > /etc/apt/sources.list \
-#if ARCH_amd64
- && dpkg --add-architecture i386 \
-#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
 #if ARCH_i386
@@ -39,6 +36,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  binutils-aarch64-linux-gnu \
  binutils-arm-linux-gnueabihf \
 #endif
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
@@ -54,15 +52,13 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  emacs \
  fakeroot \
  flex \
-#if ARCH_amd64 || ARCH_i386
- g++-multilib \
-#endif
  gawk \
  gdb \
  gdbserver \
- qemu-system-arm \
  git \
+ git-review \
  groff \
+ less \
  libexpat1-dev \
 #if ARCH_amd64 || ARCH_i386
  libglib2.0-dev \
@@ -102,7 +98,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
 #if DISTRO_trusty
  python-virtualenv \
 #endif
+ postfix \
  pxz \
+ qemu-system-arm \
  qemu-user \
  rsync \
  subversion \
@@ -118,9 +116,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  virtualenv \
 #endif
  wget \
-#if ARCH_amd64 || ARCH_i386
- wine \
-#endif
  xz-utils \
  zip \
  zlib1g-dev \
@@ -135,9 +130,15 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && mkdir -p /var/run/sshd \
  && sed -i \
  -e "/.*MaxStartups.*/d" \
- -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
+ -e "/.*MaxSessions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
 
 #if ARCH_amd64 || ARCH_i386
 RUN mkdir /tmp/docker-install-qemu.$$ \

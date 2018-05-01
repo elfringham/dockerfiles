@@ -2,7 +2,7 @@
 
 set -e
 
-if [ x"$@" = x"start.sh" ]; then
+if [ x"$1" = x"start.sh" ]; then
     cat /start.sh
     exit 0
 fi

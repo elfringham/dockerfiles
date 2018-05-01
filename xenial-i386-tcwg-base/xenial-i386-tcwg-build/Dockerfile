@@ -15,4 +15,16 @@ RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
  && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
  && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
  && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
-# checksum: d3ad0282af3e17dd2bc7562dcf7c3bd9
+
+# Install wine.  On amd64 arch we need to enable i386, otherwise wine
+# won't meet dependencies (this is the case at least for trusty and xenial).
+RUN \
+ apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ wine \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+# checksum: dca3033a9d14f6f55c1ec182817af115

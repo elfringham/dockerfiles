@@ -1,5 +1,5 @@
 # Auto generated from tcwg-base/tcwg-dev/Dockerfile.in. Do not edit.
-FROM linaro/ci-armhf-tcwg-base-ubuntu:zesty
+FROM linaro/ci-i386-tcwg-base-ubuntu:xenial
 
 COPY run.sh .
 COPY start.sh .
@@ -17,7 +17,6 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
- git-review \
  git-svn \
  gnat-5 \
  less \
@@ -47,4 +46,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 2774b63a7140bd9bce9d862788c3e172
+# checksum: d4713d03be137a74e7d172adec5fd118

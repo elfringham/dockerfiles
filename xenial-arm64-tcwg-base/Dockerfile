@@ -19,6 +19,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  automake \
  bc \
  bison \
+ bsd-mailx \
  build-essential \
  byacc \
  ccache \
@@ -37,9 +38,10 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  gawk \
  gdb \
  gdbserver \
- qemu-system-arm \
  git \
+ git-review \
  groff \
+ less \
  libexpat1-dev \
  liblzma-dev \
  libncurses5-dev \
@@ -58,7 +60,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  openjdk-8-jdk \
  openssh-server \
  python-dev \
+ postfix \
  pxz \
+ qemu-system-arm \
  qemu-user \
  rsync \
  subversion \
@@ -86,9 +90,15 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && mkdir -p /var/run/sshd \
  && sed -i \
  -e "/.*MaxStartups.*/d" \
- -e "/.*MaxSesssions.*/d" /etc/ssh/sshd_config \
+ -e "/.*MaxSessions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+
+COPY postfix-main.cf.in /etc/postfix/main.cf
+COPY postfix-sasl_password.in /etc/postfix/sasl_password
+
+RUN chown root:root /etc/postfix/sasl_password \
+ && chmod 600 /etc/postfix/sasl_password
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
@@ -99,4 +109,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 40397c18fc66ea4780a088b64ff6bb9f
+# checksum: 664a02e76943616cb7d23c836accbae2

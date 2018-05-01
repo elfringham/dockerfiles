@@ -16,11 +16,7 @@ name=$(basename ${PWD} | cut -f3- -d '-')
 image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
-cat $top/tcwg-base/$name/start.sh.tmpl \
-    | sed -e "s#@IMAGE@#$image#g" \
-	  -e "s#@DISTRO@#$distro#g" > start.sh
-chmod +x start.sh
-cp $top/tcwg-base/$name/run.sh.tmpl run.sh
+cp $top/tcwg-base/$name/start.sh $top/tcwg-base/$name/run.sh ./
 
 # llvm-config repo is hosted on [secure] dev-private-git.l.o, so we
 # can't clone it in here or in "RUN" command.  The docker image

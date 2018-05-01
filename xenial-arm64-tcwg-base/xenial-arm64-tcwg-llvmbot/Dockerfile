@@ -22,11 +22,27 @@ RUN cd ./llvm-config-buildslave/ \
  /var/tmp/* \
  && sudo -i -u buildslave mkdir /home/buildslave/buildslave
 
-VOLUME /home/buildslave/buildslave
+# Add ninja with support for memory-threshold job limitation.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
+# Add current clang for libcxx bots.
+RUN \
+ clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu \
+ && cd /usr/local \
+ && wget --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
+ && rm $clang_ver.tar.xz
+
+VOLUME /home
 
 COPY run.sh .
 COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 35f5912062e53723d726e21c5fad4ba8
+# checksum: e518582a2a434e66d9c9388c0bd2fa91
