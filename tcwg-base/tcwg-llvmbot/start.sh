@@ -39,8 +39,6 @@ case "$buildmaster" in
 	masterurl="$buildmaster"
 esac
 
-# CXX, LLD and LNT bots need additional configuration, and
-# are not supported yet.
 case "$mastername:$slavename:$(hostname):$image" in
     # No restrictions for custom masters:
     custom:*:*:*) ;;
@@ -48,7 +46,8 @@ case "$mastername:$slavename:$(hostname):$image" in
     silent:*:linaro-armv8-*:*) ;;
     silent:*:r*-a*:*) ;;
     # Restrictions for the normal master:
-    normal:*:linaro-armv8-*:*) ;;
+    normal:linaro-armv8-*-arm-*:linaro-armv8-*:*-armhf-*) ;;
+    normal:linaro-armv8-*-aarch64-*:linaro-armv8-*:*-arm64-*) ;;
     normal:*:r*-a*:*-arm64-*) ;;
     *)
 	usage "ERROR: Wrong mastername:slavename:hostname:image combination: $mastername:$slavename:$(hostname):$image"
