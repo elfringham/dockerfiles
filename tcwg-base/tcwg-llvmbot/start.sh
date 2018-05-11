@@ -54,6 +54,14 @@ case "$mastername:$slavename:$(hostname):$image" in
 	;;
 esac
 
+# Set relative CPU weight of containers running silent bots to 1/20th of
+# normal containers.  We want to run a full set of silent bots for
+# troubleshooting purposes, but don't want to waste a lot of CPU cycles.
+case "$mastername" in
+    "silent") cpu_shares=50 ;;
+    *) cpu_shares=1000 ;;
+esac
+
 case "$slavename" in
     linaro-armv8-*)
 	# Use 64G out of 128G.
@@ -78,4 +86,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
