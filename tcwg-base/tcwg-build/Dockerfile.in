@@ -1,10 +1,9 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-RUN groupadd -g 9000 tcwg-infra \
- && useradd -m -g tcwg-infra -G kvm -u 11827 tcwg-buildslave \
- && useradd -m -g tcwg-infra -G kvm -u 12326 tcwg-benchmark \
- && echo '%tcwg-infra ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
- && chmod 0440 /etc/sudoers.d/jenkins \
+COPY new-user.sh /usr/local/bin/
+
+RUN new-user.sh --user tcwg-buildslave:11827 --group tcwg-infra:9000 \
+ && new-user.sh --user tcwg-benchmark:12326 --group tcwg-infra \
  && mkdir -p /home/tcwg-buildslave/workspace
 
 COPY tcwg-buildslave /home/tcwg-buildslave
