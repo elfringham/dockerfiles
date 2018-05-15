@@ -44,7 +44,7 @@ user=$(echo "$user" | cut -d: -f 1)
 useradd -m $group_opt -G kvm ${uid:+-u $uid} $user
 
 sudoers_file=/etc/sudoers.d/$(echo $user | tr "." "-")
-echo '$user ALL = NOPASSWD: ALL' > $sudoers_file
+echo "$user ALL = NOPASSWD: ALL" > $sudoers_file
 chmod 0440 $sudoers_file
 
 if [ x"$key" != x"" ] ; then
