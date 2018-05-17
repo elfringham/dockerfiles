@@ -56,6 +56,11 @@ if $verbose; then
     set -x
 fi
 
+if [ x"$image" = x"" ]; then
+  echo "ERROR: image name not provided"
+  usage
+fi
+
 if groups tcwg-buildslave 2>/dev/null | grep -q docker; then
     # If tcwg-buildslave user is present, use it to start the container
     # to have [sudo] log record of container startups.
