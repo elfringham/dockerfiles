@@ -116,9 +116,11 @@ $DOCKER run --name=$name -dt -p 22 $mounts --memory=$memlimit --pids-limit=5000 
 port=$($DOCKER port $name 22 | cut -d: -f 2)
 
 set +x
-echo "NOTE: the warning about kernel not supporting swap memory limit is expected"
-echo "To connect to container run \"ssh -p $port localhost\""
-echo "To stop container run \"docker stop $name\""
-echo "To restart container run \"docker start $name\""
-echo "To remove container run \"docker rm -fv $name\""
-echo "See https://collaborate.linaro.org/display/TCWG/How+to+setup+personal+dev+environment+using+docker for additional info"
+cat <<EOF
+NOTE: the warning about kernel not supporting swap memory limit is expected
+To connect to container run "ssh -p $port localhost"
+To stop container run "docker stop $name"
+To restart container run "docker start $name"
+To remove container run "docker rm -fv $name"
+See https://collaborate.linaro.org/display/TCWG/How+to+setup+personal+dev+environment+using+docker for additional info
+EOF
