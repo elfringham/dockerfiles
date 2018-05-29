@@ -31,6 +31,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  autogen \
  automake \
  bc \
+ bind9-host \
  bison \
 #if ARCH_amd64 || ARCH_i386
  binutils-aarch64-linux-gnu \

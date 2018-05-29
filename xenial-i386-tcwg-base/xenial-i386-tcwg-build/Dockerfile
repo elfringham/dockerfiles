@@ -1,11 +1,10 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-i386-tcwg-base-ubuntu:xenial
 
-RUN groupadd -g 9000 tcwg-infra \
- && useradd -m -g tcwg-infra -G kvm -u 11827 tcwg-buildslave \
- && useradd -m -g tcwg-infra -G kvm -u 12326 tcwg-benchmark \
- && echo '%tcwg-infra ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
- && chmod 0440 /etc/sudoers.d/jenkins \
+COPY new-user.sh /usr/local/bin/
+
+RUN new-user.sh --user tcwg-buildslave:11827 --group tcwg-infra:9000 \
+ && new-user.sh --user tcwg-benchmark:12326 --group tcwg-infra \
  && mkdir -p /home/tcwg-buildslave/workspace
 
 COPY tcwg-buildslave /home/tcwg-buildslave
@@ -27,4 +26,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: dca3033a9d14f6f55c1ec182817af115
+# checksum: c4d98a96007fb76a7e5c6114053a3c87

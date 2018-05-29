@@ -20,6 +20,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  autogen \
  automake \
  bc \
+ bind9-host \
  bison \
  binutils-aarch64-linux-gnu \
  binutils-arm-linux-gnueabihf \
@@ -125,4 +126,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 1968f52549a5f3844adbd1d98a8ad7da
+# checksum: cb6ee278c0423b5434e71afdb95b02d8
