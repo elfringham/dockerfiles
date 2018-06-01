@@ -25,10 +25,10 @@ fi
 
 case "$(uname -m)" in
     aarch64)
-	clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
+	clang_ver=clang+llvm-6.0.0-aarch64-linux-gnu
 	;;
     *)
-	clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
+	clang_ver=clang+llvm-6.0.0-armv7a-linux-gnueabihf
 	;;
 esac
 
@@ -37,7 +37,7 @@ if bare_metal_bot_p "$2"; then
     # bots.
     (
 	cd /usr/local
-	wget -c --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
+	wget -c --progress=dot:giga http://releases.llvm.org/6.0.0/$clang_ver.tar.xz
 	tar xf $clang_ver.tar.xz
     )
 fi

@@ -1,6 +1,6 @@
 FROM debian:stretch
 
-# Docker image for LAVA dispatcher with production release.
+# Docker image for LAVA dispatcher with master branch, built daily.
 
 LABEL maintainer="senthil.kumaran@linaro.org"
 
