@@ -3,8 +3,9 @@ FROM linaro/ci-i386-tcwg-base-ubuntu:xenial
 
 COPY new-user.sh /usr/local/bin/
 
-RUN new-user.sh --user tcwg-buildslave:11827 --group tcwg-infra:9000 \
- && new-user.sh --user tcwg-benchmark:12326 --group tcwg-infra \
+RUN new-user.sh --group tcwg-infra:9000 \
+ && new-user.sh --passwd "tcwg-buildslave:x:11827:9000:TCWG Buildslave::/bin/bash" \
+ && new-user.sh --passwd "tcwg-benchmark:x:12326:9000:TCWG Benchmark::/bin/bash" \
  && mkdir -p /home/tcwg-buildslave/workspace
 
 COPY tcwg-buildslave /home/tcwg-buildslave
@@ -26,4 +27,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: c4d98a96007fb76a7e5c6114053a3c87
+# checksum: aa092307b16e193c2a39ef6554ac4f4a
