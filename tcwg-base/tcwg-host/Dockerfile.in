@@ -1,0 +1,10 @@
+FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
+
+COPY authorized_keys-* passwd /
+
+RUN new-user.sh --group primary:10000 \
+ && while read line; do new-user.sh --passwd "$line"; done </passwd \
+ && for key in /authorized_keys-*; do new-user.sh --key "$key"; done \
+ && rm /passwd /authorized_keys-*
+
+COPY start.sh /
