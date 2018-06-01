@@ -65,11 +65,12 @@ if [ x"$user" != x"" ]; then
     sudoers_file=/etc/sudoers.d/$(echo $user | tr "." "-")
     echo "$user ALL = NOPASSWD: ALL" > $sudoers_file
     chmod 0440 $sudoers_file
+fi
 
-    if [ x"$key" != x"" ] ; then
-	sudo -i -u $user mkdir -p /home/$user/.ssh
-	sudo -i -u $user chmod 0700 /home/$user/.ssh
-	cat "$key" | sudo -i -u $user tee /home/$user/.ssh/authorized_keys > /dev/null
-	sudo -i -u $user chmod 0600 /home/$user/.ssh/authorized_keys
-    fi
+if [ x"$key" != x"" ]; then
+    key_user=$(echo "$key" | sed -e "s/.*authorized_keys-//")
+    sudo -i -u $key_user mkdir -p /home/$key_user/.ssh
+    sudo -i -u $key_user chmod 0700 /home/$key_user/.ssh
+    cat "$key" | sudo -i -u $key_user tee /home/$key_user/.ssh/authorized_keys > /dev/null
+    sudo -i -u $key_user chmod 0600 /home/$key_user/.ssh/authorized_keys
 fi
