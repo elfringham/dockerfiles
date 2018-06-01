@@ -1,8 +1,6 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-amd64-tcwg-base-ubuntu:xenial
 
-COPY new-user.sh /usr/local/bin/
-
 RUN new-user.sh --group tcwg-infra:9000 \
  && new-user.sh --passwd "tcwg-buildslave:x:11827:9000:TCWG Buildslave::/bin/bash" \
  && new-user.sh --passwd "tcwg-benchmark:x:12326:9000:TCWG Benchmark::/bin/bash" \
@@ -28,4 +26,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 4e6ae7dbe4ddff7b1e792d57fda62ff5
+# checksum: cb3df93de0a1a7b466665316a38399de
