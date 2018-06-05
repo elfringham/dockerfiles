@@ -1,10 +1,9 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-i386-tcwg-base-ubuntu:trusty
 
-COPY new-user.sh /usr/local/bin/
-
-RUN new-user.sh --user tcwg-buildslave:11827 --group tcwg-infra:9000 \
- && new-user.sh --user tcwg-benchmark:12326 --group tcwg-infra \
+RUN new-user.sh --group tcwg-infra:9000 \
+ && new-user.sh --passwd "tcwg-buildslave:x:11827:9000:TCWG Buildslave::/bin/bash" \
+ && new-user.sh --passwd "tcwg-benchmark:x:12326:9000:TCWG Benchmark::/bin/bash" \
  && mkdir -p /home/tcwg-buildslave/workspace
 
 COPY tcwg-buildslave /home/tcwg-buildslave
@@ -26,4 +25,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: ba06b8439f636dc78d7968329afbf02e
+# checksum: 5a3945fc03be2d9463df9c0a9f37c594
