@@ -6,7 +6,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-    rm -f authorized_keys-* passwd start.sh
+    rm -rf home/ passwd start.sh
 }
 
 export LANG=C
@@ -16,7 +16,7 @@ name=$(basename ${PWD} | cut -f3- -d '-')
 image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
-cp $top/tcwg-base/tcwg-host/authorized_keys-* ./
+rsync -aL $top/tcwg-base/tcwg-host/home/ ./home/
 cp $top/tcwg-base/tcwg-host/passwd ./
 cp $top/tcwg-base/tcwg-host/start.sh ./
 
