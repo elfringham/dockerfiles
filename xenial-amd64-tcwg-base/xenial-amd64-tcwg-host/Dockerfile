@@ -6,12 +6,7 @@ COPY home-data/ /home-data/
 
 RUN new-user.sh --group tcwg-infra:9000 && new-user.sh --group tcwg-users:10000 \
  && while read line; do \
-      new-user.sh --passwd "$line"; \
-      user=$(echo "$line" | cut -d: -f 1); \
-      gid=$(echo "$line" | cut -d: -f 4); \
-      chown -R $user:$gid /home-data/$user/; \
-      chmod -R go-rwx /home-data/$user/.ssh/ ; \
-      rsync -a /home-data/$user/ /home/$user/; \
+      new-user.sh --passwd "$line" --home-data /home-data; \
     done </passwd \
  && rm -rf /passwd /home-data/
-# checksum: 8addecd7fe9e1dbba206ef27074748d7
+# checksum: e22424698f84f6b617398c9d79f141ed

@@ -9,7 +9,7 @@ usage ()
 
 passwd_ent=""
 group=""
-key=""
+home_data=""
 user=""
 verbose=false
 
@@ -17,7 +17,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
 	--passwd) passwd_ent="$2" ;;
 	--group) group="$2" ;;
-	--key) key="$2" ;;
+	--home-data) home_data="$2" ;;
 	--user) user="$2" ;;
 	--verbose) verbose="$2"; shift ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
@@ -41,6 +41,7 @@ elif [ x"$passwd_ent" != x"" ]; then
     group_opt="-g $gid"
 else
     group_opt=""
+    gid=""
 fi
 
 if [ x"$user" = x"" ]; then
@@ -65,12 +66,10 @@ if [ x"$user" != x"" ]; then
     sudoers_file=/etc/sudoers.d/$(echo $user | tr "." "-")
     echo "$user ALL = NOPASSWD: ALL" > $sudoers_file
     chmod 0440 $sudoers_file
-fi
 
-if [ x"$key" != x"" ]; then
-    key_user=$(echo "$key" | sed -e "s/.*authorized_keys-//")
-    sudo -i -u $key_user mkdir -p /home/$key_user/.ssh
-    sudo -i -u $key_user chmod 0700 /home/$key_user/.ssh
-    cat "$key" | sudo -i -u $key_user tee /home/$key_user/.ssh/authorized_keys > /dev/null
-    sudo -i -u $key_user chmod 0600 /home/$key_user/.ssh/authorized_keys
+    if [ x"$home_data" != x"" ]; then
+	chown -R $user${gid:+:$gid} /home-data/$user/; \
+	chmod -R go-rwx /home-data/$user/.ssh/ ; \
+	rsync -a /home-data/$user/ /home/$user/; \
+    fi
 fi
