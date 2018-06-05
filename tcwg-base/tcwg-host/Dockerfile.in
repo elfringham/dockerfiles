@@ -1,7 +1,7 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
 COPY passwd start.sh /
-COPY home/ /home-data/
+COPY home-data/ /home-data/
 
 RUN new-user.sh --group tcwg-infra:9000 && new-user.sh --group primary:10000 \
  && while read line; do \

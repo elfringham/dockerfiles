@@ -2,7 +2,7 @@
 FROM linaro/ci-amd64-tcwg-base-ubuntu:xenial
 
 COPY passwd start.sh /
-COPY home/ /home-data/
+COPY home-data/ /home-data/
 
 RUN new-user.sh --group tcwg-infra:9000 && new-user.sh --group primary:10000 \
  && while read line; do \
@@ -13,4 +13,4 @@ RUN new-user.sh --group tcwg-infra:9000 && new-user.sh --group primary:10000 \
       rsync -a /home-data/$user/ /home/$user/; \
     done </passwd \
  && rm -rf /passwd /home-data/
-# checksum: 2279daf17fdc0193f60368a5cbaa1d63
+# checksum: 781c44888bfe5e3b13143d5ce9fa47bf

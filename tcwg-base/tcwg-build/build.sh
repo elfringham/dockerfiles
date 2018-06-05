@@ -16,8 +16,8 @@ name=$(basename ${PWD} | cut -f3- -d '-')
 image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
-rsync -a $top/tcwg-base/tcwg-build/tcwg-buildslave/ ./tcwg-buildslave/
-rsync -a $top/tcwg-base/tcwg-build/tcwg-benchmark/ ./tcwg-benchmark/
+rsync -a $top/tcwg-base/home-data/tcwg-buildslave/ ./tcwg-buildslave/
+rsync -a $top/tcwg-base/home-data/tcwg-benchmark/ ./tcwg-benchmark/
 
 (cd ..; ./build.sh)
 "$top"/tcwg-base/validate-dockerfile.sh Dockerfile
