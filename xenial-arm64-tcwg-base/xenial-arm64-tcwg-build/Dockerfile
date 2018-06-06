@@ -10,7 +10,6 @@ RUN new-user.sh --group tcwg-infra:9000 \
       fi; \
       new-user.sh --passwd "$line" --home-data /home-data; \
     done </home-data/passwd \
- && rm -rf /home-data/ \
- && mkdir -p /home/tcwg-buildslave/workspace
+ && rm -rf /home-data/
 
-# checksum: d4cc5ee96189482489c8b68ac4ea5f2e
+# checksum: 116223258ddae0bfc71c1aef78c673cd

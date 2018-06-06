@@ -10,8 +10,7 @@ RUN new-user.sh --group tcwg-infra:9000 \
       fi; \
       new-user.sh --passwd "$line" --home-data /home-data; \
     done </home-data/passwd \
- && rm -rf /home-data/ \
- && mkdir -p /home/tcwg-buildslave/workspace
+ && rm -rf /home-data/
 
 # Install wine.  On amd64 arch we need to enable i386, otherwise wine
 # won't meet dependencies (this is the case at least for trusty and xenial).
@@ -24,4 +23,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 6ae2ef755b8341632f2fadacc0e5eaf0
+# checksum: 15e8b16ded4fbd3a0f8395195664b61f
