@@ -68,8 +68,12 @@ if [ x"$user" != x"" ]; then
     chmod 0440 $sudoers_file
 
     if [ x"$home_data" != x"" ]; then
-	chown -R $user${gid:+:$gid} /home-data/$user/; \
-	chmod -R go-rwx /home-data/$user/.ssh/ ; \
-	rsync -a /home-data/$user/ /home/$user/; \
+	chown -R $user${gid:+:$gid} /home-data/$user/
+	chmod -R go-rwx /home-data/$user/.ssh/
+	rsync -a /home-data/$user/ /home/$user/
+	# Make /home-data/$user a prestine copy of $user's /home to have
+	# access to files even when /home volume is reused from previous
+	# container instance.
+	rsync -a /home/$user/ /home-data/$user/
     fi
 fi

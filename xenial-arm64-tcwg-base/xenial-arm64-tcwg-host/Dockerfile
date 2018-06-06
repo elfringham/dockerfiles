@@ -7,8 +7,7 @@ RUN new-user.sh --group tcwg-infra:9000 \
  && new-user.sh --group tcwg-users:10000 \
  && while read line; do \
       new-user.sh --passwd "$line" --home-data /home-data; \
-    done </home-data/passwd \
- && rm -rf /home-data/
+    done </home-data/passwd
 
 COPY start.sh /
-# checksum: 8310168236ead50fc804ff746fb423d3
+# checksum: 54381e673d7fe46ea4465c482025634b
