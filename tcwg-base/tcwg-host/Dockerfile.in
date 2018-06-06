@@ -1,7 +1,7 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
 RUN while read line; do \
-      new-user.sh --passwd "$line" --home-data /home-data; \
+      new-user.sh --passwd "$line"; \
     done </home-data/passwd
 
 COPY start.sh /

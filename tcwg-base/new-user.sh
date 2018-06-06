@@ -9,7 +9,7 @@ usage ()
 
 passwd_ent=""
 group=""
-home_data=""
+home_data="default"
 user=""
 verbose=false
 
@@ -26,6 +26,17 @@ while [ $# -gt 0 ]; do
 done
 
 if $verbose; then set -x; fi
+
+if [ x"$home_data" = "default" ]; then
+    home_data=""
+    if [ -d /home-data/ ]; then
+	home_data="/home-data"
+    fi
+fi
+
+if [ x"$passwd_ent" = x"" -a x"$home_data" != x"" -a x"$user" != x"" ]; then
+    passwd_ent=$(grep "^${user%%:*}:" "$home_data/passwd")
+fi
 
 if [ x"$group" != x"" ]; then
     gid=$(echo "$group" | cut -s -d: -f 2)
@@ -68,13 +79,13 @@ if [ x"$user" != x"" ]; then
     chmod 0440 $sudoers_file
 
     if [ x"$home_data" != x"" ]; then
-	chown -R $user${gid:+:$gid} /home-data/$user/
-	chmod -R go-w /home-data/$user/
-	chmod -R go-rwx /home-data/$user/.ssh/
-	rsync -a /home-data/$user/ /home/$user/
+	chown -R $user${gid:+:$gid} $home_data/$user/
+	chmod -R go-w $home_data/$user/
+	chmod -R go-rwx $home_data/$user/.ssh/
+	rsync -a $home_data/$user/ /home/$user/
 	# Make /home-data/$user a prestine copy of $user's /home to have
 	# access to files even when /home volume is reused from previous
 	# container instance.
-	rsync -a /home/$user/ /home-data/$user/
+	rsync -a /home/$user/ $home_data/$user/
     fi
 fi

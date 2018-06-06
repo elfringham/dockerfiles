@@ -4,7 +4,7 @@ RUN while read line; do \
       if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
         continue; \
       fi; \
-      new-user.sh --passwd "$line" --home-data /home-data; \
+      new-user.sh --passwd "$line"; \
     done </home-data/passwd
 
 #if ARCH_amd64 || ARCH_i386
