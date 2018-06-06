@@ -1,12 +1,15 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-amd64-tcwg-base-ubuntu:xenial
 
-COPY tcwg-buildslave /home-data/tcwg-buildslave
-COPY tcwg-benchmark /home-data/tcwg-benchmark
+COPY home-data/ /home-data/
 
 RUN new-user.sh --group tcwg-infra:9000 \
- && new-user.sh --passwd "tcwg-buildslave:x:11827:9000:TCWG Buildslave::/bin/bash" --home-data /home-data \
- && new-user.sh --passwd "tcwg-benchmark:x:12326:9000:TCWG Benchmark::/bin/bash" --home-data /home-data \
+ && while read line; do \
+      if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
+        continue; \
+      fi; \
+      new-user.sh --passwd "$line" --home-data /home-data; \
+    done </home-data/passwd \
  && rm -rf /home-data/ \
  && mkdir -p /home/tcwg-buildslave/workspace
 
@@ -22,4 +25,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 32efda3903352f4752d6cbc26a1666b6
+# checksum: a2d23a94f01da5685104bed8b80b8333
