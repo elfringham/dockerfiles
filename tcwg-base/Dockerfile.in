@@ -153,6 +153,11 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd && rm -rf /tmp/docker-install-qemu.$$
 
 #endif
+COPY home-data/ /home-data/
+
+RUN new-user.sh --group tcwg-infra:9000 \
+ && new-user.sh --group tcwg-users:10000
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
