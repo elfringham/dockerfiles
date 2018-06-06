@@ -6,7 +6,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-    rm -rf home-data/ passwd start.sh
+    rm -rf home-data/ start.sh
 }
 
 export LANG=C
@@ -17,7 +17,6 @@ image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
 rsync -aL $top/tcwg-base/home-data/ ./home-data/
-cp $top/tcwg-base/tcwg-host/passwd ./
 cp $top/tcwg-base/tcwg-host/start.sh ./
 
 (cd ..; ./build.sh)

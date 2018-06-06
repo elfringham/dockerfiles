@@ -1,13 +1,15 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-armhf-tcwg-base-ubuntu:trusty
 
-COPY tcwg-buildslave /home-data/tcwg-buildslave
-COPY tcwg-benchmark /home-data/tcwg-benchmark
+COPY home-data/ /home-data/
 
 RUN new-user.sh --group tcwg-infra:9000 \
- && new-user.sh --passwd "tcwg-buildslave:x:11827:9000:TCWG Buildslave::/bin/bash" --home-data /home-data \
- && new-user.sh --passwd "tcwg-benchmark:x:12326:9000:TCWG Benchmark::/bin/bash" --home-data /home-data \
- && rm -rf /home-data/ \
- && mkdir -p /home/tcwg-buildslave/workspace
+ && while read line; do \
+      if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
+        continue; \
+      fi; \
+      new-user.sh --passwd "$line" --home-data /home-data; \
+    done </home-data/passwd \
+ && rm -rf /home-data/
 
-# checksum: db0e3193be6949bae8fe11a6b4734a51
+# checksum: a71bd21690ec22f250dd6652fbefcb3c
