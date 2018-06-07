@@ -10,6 +10,7 @@ usage ()
 passwd_ent=""
 group=""
 home_data="default"
+update=false
 user=""
 verbose=false
 
@@ -18,6 +19,7 @@ while [ $# -gt 0 ]; do
 	--passwd) passwd_ent="$2" ;;
 	--group) group="$2" ;;
 	--home-data) home_data="$2" ;;
+	--update) update="$2" ;;
 	--user) user="$2" ;;
 	--verbose) verbose="$2"; shift ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
@@ -43,7 +45,11 @@ if [ x"$group" != x"" ]; then
     group=$(echo "$group" | cut -d: -f 1)
 
     if [ x"$gid" != x"" ]; then
-	groupadd -g $gid $group
+	action="add"
+	if $update && getent group $group; then
+	    action="mod"
+	fi
+	group${action} -g $gid $group
     fi
 
     group_opt="-g $group"
@@ -68,7 +74,11 @@ if [ x"$user" != x"" ]; then
 	shell=$(echo $passwd_ent | cut -d: -f 7)
     fi
 
-    useradd -m $group_opt -G kvm \
+    action="add"
+    if $update && getent passwd $user; then
+	action="mod"
+    fi
+    user${action} -m $group_opt -G kvm \
 	    ${uid:+-u $uid} \
 	    ${comment:+-c "$comment"} \
 	    ${shell:+-s "$shell"} \
