@@ -69,6 +69,7 @@ if [ x"$user" != x"" ]; then
 
     if [ x"$home_data" != x"" ]; then
 	chown -R $user${gid:+:$gid} /home-data/$user/
+	chmod -R go-w /home-data/$user/
 	chmod -R go-rwx /home-data/$user/.ssh/
 	rsync -a /home-data/$user/ /home/$user/
 	# Make /home-data/$user a prestine copy of $user's /home to have
