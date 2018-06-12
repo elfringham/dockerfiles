@@ -1,16 +1,12 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-amd64-tcwg-base-ubuntu:xenial
 
-COPY home-data/ /home-data/
-
-RUN new-user.sh --group tcwg-infra:9000 \
- && while read line; do \
+RUN while read line; do \
       if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
         continue; \
       fi; \
-      new-user.sh --passwd "$line" --home-data /home-data; \
-    done </home-data/passwd \
- && rm -rf /home-data/
+      new-user.sh --passwd "$line"; \
+    done </home-data/passwd
 
 # Install wine.  On amd64 arch we need to enable i386, otherwise wine
 # won't meet dependencies (this is the case at least for trusty and xenial).
@@ -24,4 +20,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 396ee316c32bc04ca8db0d76bf4f4948
+# checksum: 5ec4314bb47180f2d9b6430d56a1292f

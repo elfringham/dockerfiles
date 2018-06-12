@@ -101,6 +101,11 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+COPY home-data/ /home-data/
+
+RUN new-user.sh --group tcwg-infra:9000 \
+ && new-user.sh --group tcwg-users:10000
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
@@ -110,4 +115,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 7ee3d28795dd0a90fb7bd9c9087e30bf
+# checksum: 0de1a7d60f6baef0bddff3794fd783a8

@@ -6,7 +6,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-  rm -rf new-user.sh postfix*.in
+  rm -rf home-data/ new-user.sh postfix*.in
 }
 
 export LANG=C
@@ -17,6 +17,7 @@ name=$(basename ${PWD} | cut -f3- -d '-')
 image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 baseimage=$(grep "^FROM" Dockerfile | head -n 1 | cut -d" " -f 2)
 
+rsync -aL $top/tcwg-base/home-data/ ./home-data/
 cp $top/tcwg-base/new-user.sh ./
 cp $top/tcwg-base/postfix*.in .
 

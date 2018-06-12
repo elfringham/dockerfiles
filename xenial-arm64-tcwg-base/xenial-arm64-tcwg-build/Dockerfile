@@ -1,15 +1,11 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-arm64-tcwg-base-ubuntu:xenial
 
-COPY home-data/ /home-data/
-
-RUN new-user.sh --group tcwg-infra:9000 \
- && while read line; do \
+RUN while read line; do \
       if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
         continue; \
       fi; \
-      new-user.sh --passwd "$line" --home-data /home-data; \
-    done </home-data/passwd \
- && rm -rf /home-data/
+      new-user.sh --passwd "$line"; \
+    done </home-data/passwd
 
-# checksum: 116223258ddae0bfc71c1aef78c673cd
+# checksum: 4d88d7f7bd807bc14693d2641fd270c3

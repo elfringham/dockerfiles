@@ -1,9 +1,6 @@
 # Auto generated from tcwg-base/tcwg-dev/Dockerfile.in. Do not edit.
 FROM linaro/ci-arm64-tcwg-base-ubuntu:xenial
 
-COPY run.sh .
-COPY start.sh .
-
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  software-properties-common \
@@ -35,15 +32,15 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN sed -i -e '/.*AuthorizedKeysFile/ d' /etc/ssh/sshd_config \
- && echo "AuthorizedKeysFile %h/.ssh/authorized_keys.docker" >> /etc/ssh/sshd_config \
- && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
+RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && apt-file update
 
 # Create directories required for X11.
 RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
  && chmod 1777 /tmp/.X11-unix /tmp/.ICE-unix
 
+COPY run.sh start.sh /
+
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 0e9607cbb3dd157d553ffebd26d6a411
+# checksum: af20c5a49f8dfcab4991049770e8aeaf

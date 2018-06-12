@@ -9,7 +9,8 @@ usage ()
 
 passwd_ent=""
 group=""
-home_data=""
+home_data="default"
+update=false
 user=""
 verbose=false
 
@@ -18,8 +19,9 @@ while [ $# -gt 0 ]; do
 	--passwd) passwd_ent="$2" ;;
 	--group) group="$2" ;;
 	--home-data) home_data="$2" ;;
+	--update) update="$2" ;;
 	--user) user="$2" ;;
-	--verbose) verbose="$2"; shift ;;
+	--verbose) verbose="$2" ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
     esac
     shift 2
@@ -27,17 +29,32 @@ done
 
 if $verbose; then set -x; fi
 
+if [ x"$home_data" = x"default" ]; then
+    home_data=""
+    if [ -d /home-data/ ]; then
+	home_data="/home-data"
+    fi
+fi
+
+if [ x"$passwd_ent" = x"" -a x"$home_data" != x"" -a x"$user" != x"" ]; then
+    passwd_ent=$(grep "^${user%%:*}:" "$home_data/passwd")
+fi
+
 if [ x"$group" != x"" ]; then
     gid=$(echo "$group" | cut -s -d: -f 2)
     group=$(echo "$group" | cut -d: -f 1)
 
     if [ x"$gid" != x"" ]; then
-	groupadd -g $gid $group
+	action="add"
+	if $update && getent group $group >/dev/null; then
+	    action="mod"
+	fi
+	group${action} -g $gid $group
     fi
 
     group_opt="-g $group"
 elif [ x"$passwd_ent" != x"" ]; then
-    gid=$(echo $passwd_ent | cut -d: -f 4)
+    gid=$(echo "$passwd_ent" | cut -d: -f 4)
     group_opt="-g $gid"
 else
     group_opt=""
@@ -51,13 +68,22 @@ fi
 uid=$(echo "$user" | cut -s -d: -f 2)
 user=$(echo "$user" | cut -d: -f 1)
 
+if [ x"$uid" = x"" -a x"$passwd_ent" != x"" ]; then
+    uid=$(echo "$passwd_ent" | cut -d: -f 3)
+fi
+
 if [ x"$user" != x"" ]; then
     if [ x"$passwd_ent" != x"" ]; then
-	comment=$(echo $passwd_ent | cut -d: -f 5)
-	shell=$(echo $passwd_ent | cut -d: -f 7)
+	comment=$(echo "$passwd_ent" | cut -d: -f 5)
+	shell=$(echo "$passwd_ent" | cut -d: -f 7)
     fi
 
-    useradd -m $group_opt -G kvm \
+    action="add"
+    if $update && getent passwd $user >/dev/null; then
+	action="mod"
+    fi
+    user${action} $group_opt -G kvm \
+	    -m -d /home/$user \
 	    ${uid:+-u $uid} \
 	    ${comment:+-c "$comment"} \
 	    ${shell:+-s "$shell"} \
@@ -68,13 +94,13 @@ if [ x"$user" != x"" ]; then
     chmod 0440 $sudoers_file
 
     if [ x"$home_data" != x"" ]; then
-	chown -R $user${gid:+:$gid} /home-data/$user/
-	chmod -R go-w /home-data/$user/
-	chmod -R go-rwx /home-data/$user/.ssh/
-	rsync -a /home-data/$user/ /home/$user/
+	chown -R $user${gid:+:$gid} $home_data/$user/
+	chmod -R go-w $home_data/$user/
+	chmod -R go-rwx $home_data/$user/.ssh/
+	rsync -a $home_data/$user/ /home/$user/
 	# Make /home-data/$user a prestine copy of $user's /home to have
 	# access to files even when /home volume is reused from previous
 	# container instance.
-	rsync -a /home/$user/ /home-data/$user/
+	rsync -a /home/$user/ $home_data/$user/
     fi
 fi

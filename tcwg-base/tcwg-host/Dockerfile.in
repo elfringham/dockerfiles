@@ -1,11 +1,10 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-COPY home-data/ /home-data/
+COPY run.sh start.sh /
 
-RUN new-user.sh --group tcwg-infra:9000 \
- && new-user.sh --group tcwg-users:10000 \
- && while read line; do \
-      new-user.sh --passwd "$line" --home-data /home-data; \
-    done </home-data/passwd
-
-COPY start.sh /
+#if ARCH_amd64 || ARCH_arm64
+ENTRYPOINT ["/run.sh"]
+#else
+ENTRYPOINT ["linux32", "/run.sh"]
+#endif
+CMD ["start.sh"]

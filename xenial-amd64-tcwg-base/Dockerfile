@@ -116,6 +116,11 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && make all install -j $(nproc --all) \
  && cd && rm -rf /tmp/docker-install-qemu.$$
 
+COPY home-data/ /home-data/
+
+RUN new-user.sh --group tcwg-infra:9000 \
+ && new-user.sh --group tcwg-users:10000
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
@@ -125,4 +130,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 076425a20c7afb989affdede4481c722
+# checksum: e837e40e5e63b791c76cf9d24d64ea9e
