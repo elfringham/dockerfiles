@@ -70,11 +70,22 @@ fi
 
 mounts=""
 
-home_top="/home"
+docker_host=false
 if [ -f "/.dockerenv" ] && mount | grep -q "/run/docker.sock "; then
+    docker_host=true
+fi
+
+home_top="/home"
+if $docker_host; then
     # If inside "host" container (with proxied docker and /home from host-home
     # volume), convert paths to refer to volume's path on bare-metal.
-    home_top=/var/lib/docker/volumes/host-home/_data/
+    home_top=/var/lib/docker/volumes/host-home/_data
+fi
+
+if $docker_host || [ -d "$home_top/tcwg-buildslave" ]; then
+    # Bind-mount /home/tcwg-buildslave read-only to get access to
+    # /home/tcwg-buildslave/snapshots-ref/
+    mounts="$mounts -v $home_top/tcwg-buildslave:/home/tcwg-buildslave:ro"
 fi
 
 case "$home" in
@@ -88,20 +99,13 @@ case "$home" in
 	;;
 esac
 
-
-if [ -d "$home_top/tcwg-buildslave" ]; then
-    # Bind-mount /home/tcwg-buildslave read-only to get access to
-    # /home/tcwg-buildslave/snapshots-ref/
-    mounts="$mounts -v $home_top/tcwg-buildslave:/home/tcwg-buildslave:ro"
-fi
-
 # Use at most half of all available RAM.
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
 # IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
 # SYS_PTRACE is required for debugger work.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE"
 
-$DOCKER run --name=$name -dt -p 22 $mounts --memory=$memlimit --pids-limit=5000 $caps $image --user $user "$@"
+$DOCKER run --name=$name --hostname=$(basename $(hostname) -dckr)-dev -dt -p 22 $mounts --memory=$memlimit --pids-limit=5000 $caps $image --user $user "$@"
 
 port=$($DOCKER port $name 22 | cut -d: -f 2)
 
