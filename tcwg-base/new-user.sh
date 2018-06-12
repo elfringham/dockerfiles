@@ -29,7 +29,7 @@ done
 
 if $verbose; then set -x; fi
 
-if [ x"$home_data" = "default" ]; then
+if [ x"$home_data" = x"default" ]; then
     home_data=""
     if [ -d /home-data/ ]; then
 	home_data="/home-data"
