@@ -21,7 +21,7 @@ while [ $# -gt 0 ]; do
 	--home-data) home_data="$2" ;;
 	--update) update="$2" ;;
 	--user) user="$2" ;;
-	--verbose) verbose="$2"; shift ;;
+	--verbose) verbose="$2" ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
     esac
     shift 2
@@ -46,7 +46,7 @@ if [ x"$group" != x"" ]; then
 
     if [ x"$gid" != x"" ]; then
 	action="add"
-	if $update && getent group $group; then
+	if $update && getent group $group >/dev/null; then
 	    action="mod"
 	fi
 	group${action} -g $gid $group
@@ -54,7 +54,7 @@ if [ x"$group" != x"" ]; then
 
     group_opt="-g $group"
 elif [ x"$passwd_ent" != x"" ]; then
-    gid=$(echo $passwd_ent | cut -d: -f 4)
+    gid=$(echo "$passwd_ent" | cut -d: -f 4)
     group_opt="-g $gid"
 else
     group_opt=""
@@ -68,17 +68,22 @@ fi
 uid=$(echo "$user" | cut -s -d: -f 2)
 user=$(echo "$user" | cut -d: -f 1)
 
+if [ x"$uid" = x"" -a x"$passwd_ent" != x"" ]; then
+    uid=$(echo "$passwd_ent" | cut -d: -f 3)
+fi
+
 if [ x"$user" != x"" ]; then
     if [ x"$passwd_ent" != x"" ]; then
-	comment=$(echo $passwd_ent | cut -d: -f 5)
-	shell=$(echo $passwd_ent | cut -d: -f 7)
+	comment=$(echo "$passwd_ent" | cut -d: -f 5)
+	shell=$(echo "$passwd_ent" | cut -d: -f 7)
     fi
 
     action="add"
-    if $update && getent passwd $user; then
+    if $update && getent passwd $user >/dev/null; then
 	action="mod"
     fi
-    user${action} -m $group_opt -G kvm \
+    user${action} $group_opt -G kvm \
+	    -m -d /home/$user \
 	    ${uid:+-u $uid} \
 	    ${comment:+-c "$comment"} \
 	    ${shell:+-s "$shell"} \
