@@ -14,7 +14,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
     qemu-system-x86 qemu-system-arm qemu-user-static libguestfs-tools \
     nfs-kernel-server rpcbind u-boot-tools unzip xz-utils debootstrap \
     bridge-utils dfu-util img2simg emacs-nox vim gnupg2 sed expect grep wget \
-    openssh-server
+    openssh-server adb fastboot simg2img img2simg
 
 # Add LAVA stretch-backports production repo
 RUN wget -qO - http://images.validation.linaro.org/production-repo/production-repo.key.asc | apt-key add - && \
