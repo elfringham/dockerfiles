@@ -1,7 +1,10 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-RUN while read line; do \
-      new-user.sh --passwd "$line"; \
-    done </home-data/passwd
+COPY run.sh start.sh /
 
-COPY start.sh /
+#if ARCH_amd64 || ARCH_arm64
+ENTRYPOINT ["/run.sh"]
+#else
+ENTRYPOINT ["linux32", "/run.sh"]
+#endif
+CMD ["start.sh"]
