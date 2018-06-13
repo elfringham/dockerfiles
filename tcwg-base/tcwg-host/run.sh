@@ -7,16 +7,16 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-case "$1" in
-    "all")
-	while read line; do
-	    new-user.sh --update true --passwd "$line"
-	done </home-data/passwd
-	;;
-    *)
-	echo "ERROR: Unknown group $1"
-	exit 1
-	;;
-esac
+group="$1"
+if [ x"$group" = x"all" ]; then
+    group=".*"
+fi
+
+while read line; do
+    user=$(echo "$line" | cut -d: -f 1)
+    if grep "^$group:x:" /home-data/group | cut -d: -f 4 | grep -q "$user,\?"; then
+	new-user.sh --update true --passwd "$line"
+    fi
+done </home-data/passwd
 
 exec /usr/sbin/sshd -D
