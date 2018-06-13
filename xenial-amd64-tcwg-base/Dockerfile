@@ -100,7 +100,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
-COPY new-user.sh /usr/local/bin/
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
 
@@ -117,9 +116,12 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd && rm -rf /tmp/docker-install-qemu.$$
 
 COPY home-data/ /home-data/
+COPY new-user.sh /usr/local/bin/
 
-RUN new-user.sh --group tcwg-infra:9000 \
- && new-user.sh --group tcwg-users:10000
+RUN \
+ while read line; do \
+   new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
+ done </home-data/group
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
@@ -130,4 +132,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: e837e40e5e63b791c76cf9d24d64ea9e
+# checksum: 40b22144fd4022bdf4d94df0f4c40fcc
