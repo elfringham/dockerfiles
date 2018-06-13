@@ -101,7 +101,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config
 
-COPY new-user.sh /usr/local/bin/
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
 
@@ -118,6 +117,7 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd && rm -rf /tmp/docker-install-qemu.$$
 
 COPY home-data/ /home-data/
+COPY new-user.sh /usr/local/bin/
 
 RUN new-user.sh --group tcwg-infra:9000 \
  && new-user.sh --group tcwg-users:10000
@@ -131,4 +131,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 1028517dc84401930713b47048f71585
+# checksum: 51b9b026132ce81af8734caef644e682
