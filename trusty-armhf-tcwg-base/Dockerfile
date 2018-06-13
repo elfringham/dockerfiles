@@ -103,8 +103,10 @@ RUN chown root:root /etc/postfix/sasl_password \
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
-RUN new-user.sh --group tcwg-infra:9000 \
- && new-user.sh --group tcwg-users:10000
+RUN \
+ while read line; do \
+   new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
+ done </home-data/group
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
@@ -115,4 +117,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: bf86e87841037fc7383bd97d12a60bd2
+# checksum: abfd4fcc5689fdf8920906df65c7e43b

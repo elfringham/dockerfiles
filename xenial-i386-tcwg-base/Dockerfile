@@ -120,8 +120,10 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
-RUN new-user.sh --group tcwg-infra:9000 \
- && new-user.sh --group tcwg-users:10000
+RUN \
+ while read line; do \
+   new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
+ done </home-data/group
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
@@ -132,4 +134,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 6dc46e7f9236a3ad8075f90890522fe9
+# checksum: 9641887f07db3b697c9fec34e1868dc0
