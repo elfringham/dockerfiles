@@ -108,9 +108,5 @@ if [ x"$user" != x"" ]; then
 	chmod -R go-w $home_data/$user/
 	chmod -R go-rwx $home_data/$user/.ssh/
 	rsync -a $home_data/$user/ /home/$user/
-	# Make /home-data/$user a prestine copy of $user's /home to have
-	# access to files even when /home volume is reused from previous
-	# container instance.
-	rsync -a /home/$user/ $home_data/$user/
     fi
 fi
