@@ -80,4 +80,4 @@ mounts="$mounts -v $(which docker):$(which docker)"
 # Use at most half of all available RAM.
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
 
-$DOCKER run -dt -p 2222:22 --name=$task --hostname=$(hostname)-$task $mounts --memory=$memlimit --pids-limit=5000 $image "$group"
+$DOCKER run -dt -p 2222:22 --name=$task --hostname=$(hostname)-$task --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group"
