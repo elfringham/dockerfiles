@@ -57,4 +57,4 @@ mounts="$mounts -v $(which docker):$(which docker)"
 # Use at most half of all available RAM.
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
 
-$DOCKER run -dt -p 2222:22 --name=host --hostname=$(hostname)-dckr $mounts --memory=$memlimit --pids-limit=5000 --restart=unless-stopped $image "$@"
+$DOCKER run -dt -p 2222:22 --name=host --hostname=$(hostname)-dckr $mounts --memory=$memlimit --pids-limit=5000 $image "$@"
