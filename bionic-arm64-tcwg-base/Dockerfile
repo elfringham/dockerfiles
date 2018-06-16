@@ -1,33 +1,9 @@
-#if ARCH_amd64 || DISTRO_bionic
-FROM ubuntu:#{DISTRO}
-#elif DISTRO_zesty
-FROM snapcraft/zesty-#{ARCH}:latest
-#else
-FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
-#endif
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
+FROM ubuntu:bionic
 
-#if !DISTRO_bionic
-#if ARCH_amd64 || ARCH_i386
-RUN (url="http://archive.ubuntu.com/ubuntu/"; \
-#else
-RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
-#endif
- ubuntu=#{DISTRO}; \
- for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
-   for j in deb deb-src; do \
-     echo "$j $url $i main restricted universe multiverse"; \
-   done; \
-   echo; \
- done) > /etc/apt/sources.list \
-#else
 RUN true \
-#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
-#if ARCH_i386
- && dpkg-divert --local --rename --add /sbin/initctl \
- && ln -s /bin/true /sbin/initctl \
-#endif
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  alien \
@@ -37,10 +13,6 @@ RUN true \
  bc \
  bind9-host \
  bison \
-#if ARCH_amd64 || ARCH_i386
- binutils-aarch64-linux-gnu \
- binutils-arm-linux-gnueabihf \
-#endif
  bsd-mailx \
  build-essential \
  byacc \
@@ -65,9 +37,6 @@ RUN true \
  groff \
  less \
  libexpat1-dev \
-#if ARCH_amd64 || ARCH_i386
- libglib2.0-dev \
-#endif
  liblzma-dev \
  libncurses5-dev \
  libpython2.7-dev \
@@ -78,31 +47,13 @@ RUN true \
  linux-tools-generic \
  lzop \
  make \
-#if ARCH_amd64 || ARCH_i386
- mingw-w64 \
-# if DISTRO_trusty
- mingw32 \
-# endif
-#endif
  net-tools \
  netcat \
-#if ARCH_amd64 || !DISTRO_trusty
  nfs-kernel-server \
-#endif
  ninja-build \
-#if DISTRO_trusty
- openjdk-7-jdk \
-#else
  openjdk-8-jdk \
-#endif
  openssh-server \
-#if ARCH_amd64 || ARCH_i386
- pkg-config \
-#endif
  python-dev \
-#if DISTRO_trusty
- python-virtualenv \
-#endif
  postfix \
  pxz \
  qemu-system-arm \
@@ -117,9 +68,7 @@ RUN true \
  time \
  valgrind \
  vim \
-#if !DISTRO_trusty
  virtualenv \
-#endif
  wget \
  xz-utils \
  zip \
@@ -130,12 +79,8 @@ RUN true \
  /tmp/* \
  /var/tmp/*
 
-#if !DISTRO_bionic
-RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
-#else
 # Ubuntu Bionic has a quirk in installing contrib files of git; skip for now.
 RUN true \
-#endif
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
@@ -150,22 +95,8 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
-#if !DISTRO_bionic
-#if ARCH_amd64 || ARCH_i386
-RUN mkdir /tmp/docker-install-qemu.$$ \
- && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
- && tar xf qemu-${qemu_ver}.tar.xz \
- && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
- && make all install -j $(nproc --all) \
- && cd && rm -rf /tmp/docker-install-qemu.$$
-
-#endif
-#else
 # QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
-#endif
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -182,8 +113,5 @@ RUN \
 VOLUME /tmp
 
 EXPOSE 22
-#if ARCH_amd64 || ARCH_arm64
 CMD ["/usr/sbin/sshd", "-D"]
-#else
-CMD ["linux32", "/usr/sbin/sshd", "-D"]
-#endif
+# checksum: bd71d3b1f3503f6d483dbe956e2e4b7f

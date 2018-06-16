@@ -1,4 +1,5 @@
-FROM linaro/ci-#{ARCH}-tcwg-dev-ubuntu:#{DISTRO}
+# Auto generated from tcwg-base/tcwg-dev/tcwg-x2go/Dockerfile.in. Do not edit.
+FROM linaro/ci-amd64-tcwg-dev-ubuntu:bionic
 
 COPY start.sh .
 
@@ -11,19 +12,11 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-#if DISTRO_xenial
-RUN add-apt-repository ppa:x2go/stable \
-#else
 RUN true \
-#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  duplicity \
  mate-desktop-environment \
-#if DISTRO_xenial
- x2godesktopsharing \
- x2gomatebindings \
-#endif
  x2goserver \
  x2goserver-xsession \
  && apt-get clean \
@@ -40,3 +33,4 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
+# checksum: 6cae4c37eaa031fb02326a6ebda501f6
