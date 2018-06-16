@@ -1,4 +1,4 @@
-#if ARCH_amd64
+#if ARCH_amd64 || DISTRO_bionic
 FROM ubuntu:#{DISTRO}
 #elif DISTRO_zesty
 FROM snapcraft/zesty-#{ARCH}:latest
@@ -6,6 +6,7 @@ FROM snapcraft/zesty-#{ARCH}:latest
 FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
 #endif
 
+#if !DISTRO_bionic
 #if ARCH_amd64 || ARCH_i386
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
 #else
@@ -18,6 +19,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
    done; \
    echo; \
  done) > /etc/apt/sources.list \
+#else
+RUN true \
+#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
 #if ARCH_i386
@@ -126,7 +130,12 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  /tmp/* \
  /var/tmp/*
 
+#if !DISTRO_bionic
 RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
+#else
+# Ubuntu Bionic has a quirk in installing contrib files of git; skip for now.
+RUN true \
+#endif
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
@@ -141,6 +150,7 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+#if !DISTRO_bionic
 #if ARCH_amd64 || ARCH_i386
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
@@ -150,6 +160,10 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
  && make all install -j $(nproc --all) \
  && cd && rm -rf /tmp/docker-install-qemu.$$
+
+#endif
+#else
+# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
 #endif
 COPY home-data/ /home-data/

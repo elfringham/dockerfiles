@@ -11,13 +11,19 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
+#if DISTRO_xenial
 RUN add-apt-repository ppa:x2go/stable \
+#else
+RUN true \
+#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  duplicity \
  mate-desktop-environment \
+#if DISTRO_xenial
  x2godesktopsharing \
  x2gomatebindings \
+#endif
  x2goserver \
  x2goserver-xsession \
  && apt-get clean \
