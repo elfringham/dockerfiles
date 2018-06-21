@@ -112,7 +112,8 @@ port=$($DOCKER port $name 22 | cut -d: -f 2)
 set +x
 cat <<EOF
 NOTE: the warning about kernel not supporting swap memory limit is expected
-To connect to container run "ssh -p $port $user@localhost"
+To connect to the container run "ssh -p $port $user@$hostname" from your local
+machine.
 To stop container run "docker stop $name"
 To restart container run "docker start $name"
 To remove container run "docker rm -fv $name"
