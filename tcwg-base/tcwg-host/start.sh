@@ -75,7 +75,7 @@ esac
 mounts=""
 mounts="$mounts -v host-home:/home"
 mounts="$mounts -v /var/run/docker.sock:/var/run/docker.sock"
-mounts="$mounts -v $(which docker):$(which docker)"
+mounts="$mounts -v /usr/bin/docker:/usr/bin/docker"
 
 # Use at most half of all available RAM.
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
