@@ -8,6 +8,8 @@ if [ x"$1" = x"start.sh" ]; then
 fi
 
 group="$1"
+task="$2"
+
 if [ x"$group" = x"all" ]; then
     group=".*"
 fi
@@ -18,5 +20,13 @@ while read line; do
 	new-user.sh --update true --passwd "$line"
     fi
 done </home-data/passwd
+
+port="2222"
+if [ x"$task" = x"jenkins" ]; then
+    port="2022"
+fi
+
+sed -i -e "/.*Port.*/d" /etc/ssh/sshd_config
+echo "Port $port" >> /etc/ssh/sshd_config
 
 exec /usr/sbin/sshd -D

@@ -57,10 +57,8 @@ fi
 group="$1"
 case "$task" in
     host)
-	port=2222
 	;;
     jenkins)
-	port=2022
 	if [ x"$group" != x"tcwg-infra" ]; then
 	    echo "ERROR: group for task $task should be tcwg-infra"
 	    exit 1
@@ -80,4 +78,4 @@ mounts="$mounts -v /usr/bin/docker:/usr/bin/docker"
 # Use at most half of all available RAM.
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
 
-$DOCKER run -dt -p $port:22 --name=$task --hostname=$(hostname)-$task --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group"
+$DOCKER run -dt --name=$task --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$task"
