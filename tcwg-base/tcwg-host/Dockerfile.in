@@ -1,5 +1,7 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
+COPY docker-wrapper /usr/local/bin/docker
+
 COPY run.sh start.sh /
 
 #if ARCH_amd64 || ARCH_arm64
