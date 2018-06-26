@@ -108,6 +108,7 @@ caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE"
 $DOCKER run --name=$name --hostname=$(hostname)-dev --restart=unless-stopped -dt -p 22 $mounts --memory=$memlimit --pids-limit=5000 $caps $image --user $user "$@"
 
 port=$($DOCKER port $name 22 | cut -d: -f 2)
+hostname=$(echo ${SSH_CONNECTION} | { read client_ip client_port server_ip server_port; echo $server_ip; })
 
 set +x
 cat <<EOF
