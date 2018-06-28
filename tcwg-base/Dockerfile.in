@@ -100,10 +100,8 @@ RUN true \
  pkg-config \
 #endif
  python-dev \
-#if DISTRO_trusty
- python-virtualenv \
-#endif
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -119,6 +117,8 @@ RUN true \
  vim \
 #if !DISTRO_trusty
  virtualenv \
+#else
+ python-virtualenv \
 #endif
  wget \
  xz-utils \

@@ -62,6 +62,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  openssh-server \
  python-dev \
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -118,4 +119,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 2c82ed366ede3a5d2b1b808e5c5a90e2
+# checksum: f331e97904e7806cfc56a0a00c8aaaae

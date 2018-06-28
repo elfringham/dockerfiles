@@ -69,6 +69,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  pkg-config \
  python-dev \
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -134,4 +135,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 9641887f07db3b697c9fec34e1868dc0
+# checksum: 69c56b854878cdb5a7cba9969ac207ea
