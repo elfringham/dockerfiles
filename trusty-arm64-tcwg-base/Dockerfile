@@ -60,8 +60,8 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  openjdk-7-jdk \
  openssh-server \
  python-dev \
- python-virtualenv \
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -75,6 +75,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  time \
  valgrind \
  vim \
+ python-virtualenv \
  wget \
  xz-utils \
  zip \
@@ -117,4 +118,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: ea4ba289a97e70fde67e11f9bd6f6463
+# checksum: 6cf5d2ef5d0c45e74eb710cb5660ab3c

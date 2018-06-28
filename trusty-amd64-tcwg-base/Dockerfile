@@ -67,8 +67,8 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  openssh-server \
  pkg-config \
  python-dev \
- python-virtualenv \
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -82,6 +82,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  time \
  valgrind \
  vim \
+ python-virtualenv \
  wget \
  xz-utils \
  zip \
@@ -133,4 +134,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 75b8465234510ee1512eb784e8495764
+# checksum: 814a72154c55af0cb2e75c091393359b
