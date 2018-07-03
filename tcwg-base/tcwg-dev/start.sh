@@ -103,7 +103,8 @@ esac
 memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
 # IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
 # SYS_PTRACE is required for debugger work.
-caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE"
+# seccomp=unconfined to allow disabling of ASLR for sanitizer regression tests.
+caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
 $DOCKER run --name=$name --hostname=$(hostname)-dev --restart=unless-stopped -dt -p 22 $mounts --memory=$memlimit --pids-limit=5000 $caps $image --user $user "$@"
 
