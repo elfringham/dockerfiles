@@ -31,6 +31,7 @@ groovy-postbuild:2.4.1
 heavy-job:1.1
 htmlpublisher:1.16
 ircbot:2.30
+jdk-tool:1.1
 jira:3.0.0
 jenkins-multijob-plugin:1.30
 jobConfigHistory:2.18
