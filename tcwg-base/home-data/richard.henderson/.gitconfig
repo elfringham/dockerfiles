@@ -1,0 +1,7 @@
+[user]
+	email = richard.henderson@linaro.org
+[push]
+	default = simple
+[diff]
+	renames = true
+	algorithm = histogram
