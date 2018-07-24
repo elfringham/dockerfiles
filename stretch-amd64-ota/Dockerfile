@@ -1,4 +1,4 @@
-FROM opensourcefoundries/aktualizr-build:0.23
+FROM opensourcefoundries/aktualizr:0.23
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
