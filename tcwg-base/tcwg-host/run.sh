@@ -17,7 +17,11 @@ fi
 while read line; do
     user=$(echo "$line" | cut -d: -f 1)
     if grep "^$group:x:" /home-data/group | cut -d: -f 4 | grep -q "$user,\?"; then
-	new-user.sh --update true --passwd "$line"
+	new-user.sh --update true --passwd "$line" &
+	res=0; wait $! || res=$?
+	if [ x"$res" = x"0" ]; then
+	    echo "WARNING: User configuration failed: $line"
+	fi
     fi
 done </home-data/passwd
 
