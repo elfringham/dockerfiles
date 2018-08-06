@@ -21,6 +21,7 @@ dynamic-axis:1.0.3
 ec2:1.39
 email-ext:2.62
 embeddable-build-status:1.9
+extended-choice-parameter:0.76
 extended-read-permission:2.0
 external-monitor-job:1.7
 ghprb:1.42.0
