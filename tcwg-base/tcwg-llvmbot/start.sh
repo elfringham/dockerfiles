@@ -39,21 +39,6 @@ case "$buildmaster" in
 	masterurl="$buildmaster"
 esac
 
-case "$mastername:$slavename:$(hostname):$image" in
-    # No restrictions for custom masters:
-    custom:*:*:*) ;;
-    # Almost no restrictions for the silent master:
-    silent:*:linaro-armv8-*:*) ;;
-    silent:*:r*-a*:*) ;;
-    # Restrictions for the normal master:
-    normal:linaro-armv8-*-arm-*:linaro-armv8-*:*-armhf-*) ;;
-    normal:linaro-armv8-*-aarch64-*:linaro-armv8-*:*-arm64-*) ;;
-    normal:*:r*-a*:*-arm64-*) ;;
-    *)
-	usage "ERROR: Wrong mastername:slavename:hostname:image combination: $mastername:$slavename:$(hostname):$image"
-	;;
-esac
-
 # Set relative CPU weight of containers running silent bots to 1/20th of
 # normal containers.  We want to run a full set of silent bots for
 # troubleshooting purposes, but don't want to waste a lot of CPU cycles.
@@ -62,19 +47,8 @@ case "$mastername" in
     *) cpu_shares=1000 ;;
 esac
 
-case "$slavename" in
-    linaro-armv8-*)
-	# Use 64G out of 128G.
-	memlimit="64"
-	;;
-    *)
-	# Use at most 30G or 90% of all RAM.
-	memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') * 9 / 10))
-	if [ "$memlimit" -gt "30" ]; then
-	    memlimit="30"
-	fi
-	;;
-esac
+# Use 64G out of 128G.
+memlimit="64"
 
 case "$slavename" in
     *-lld) pids_limit="15000" ;;
