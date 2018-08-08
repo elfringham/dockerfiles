@@ -1,19 +1,12 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-i386-tcwg-base-ubuntu:trusty
 
-COPY new-user.sh /usr/local/bin/
-
-RUN new-user.sh --user tcwg-buildslave:11827 --group tcwg-infra:9000 \
- && new-user.sh --user tcwg-benchmark:12326 --group tcwg-infra \
- && mkdir -p /home/tcwg-buildslave/workspace
-
-COPY tcwg-buildslave /home/tcwg-buildslave
-COPY tcwg-benchmark /home/tcwg-benchmark
-
-RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
- && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
- && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
- && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
+RUN while read line; do \
+      if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
+        continue; \
+      fi; \
+      new-user.sh --passwd "$line"; \
+    done </home-data/passwd
 
 # Install wine.  On amd64 arch we need to enable i386, otherwise wine
 # won't meet dependencies (this is the case at least for trusty and xenial).
@@ -26,4 +19,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: ba06b8439f636dc78d7968329afbf02e
+# checksum: 05747b8e543f8061bcbfb8136b6d852b

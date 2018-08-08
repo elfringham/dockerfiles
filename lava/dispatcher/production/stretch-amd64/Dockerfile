@@ -2,7 +2,7 @@ FROM debian:stretch
 
 # Docker image for LAVA dispatcher with production release.
 
-MAINTAINER Senthil Kumaran S <senthil.kumaran@linaro.org>
+LABEL maintainer="senthil.kumaran@linaro.org"
 
 # Install the required dependencies
 RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections && \
@@ -14,7 +14,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
     qemu-system-x86 qemu-system-arm qemu-user-static libguestfs-tools \
     nfs-kernel-server rpcbind u-boot-tools unzip xz-utils debootstrap \
     bridge-utils dfu-util img2simg emacs-nox vim gnupg2 sed expect grep wget \
-    openssh-server
+    openssh-server adb fastboot simg2img img2simg
 
 # Add LAVA stretch-backports production repo
 RUN wget -qO - http://images.validation.linaro.org/production-repo/production-repo.key.asc | apt-key add - && \
@@ -25,7 +25,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
     export DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
     apt-get -y upgrade && \
-    apt-get -y -t stretch-backports install lava-dispatcher \
+    apt-get -y -t stretch-backports install lava-common lava-dispatcher \
     lava-lxc-mocker && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -34,7 +34,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
 EXPOSE 22
 
 # Set entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+COPY ./entrypoint.sh /entrypoint.sh
 ENTRYPOINT [ "/entrypoint.sh" ]
 
 # Following is a sample docker run command to use this image

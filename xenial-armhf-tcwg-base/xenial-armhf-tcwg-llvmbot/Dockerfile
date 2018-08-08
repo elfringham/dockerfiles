@@ -32,9 +32,9 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
 
 # Add current clang for libcxx bots.
 RUN \
- clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf \
+ clang_ver=clang+llvm-6.0.0-armv7a-linux-gnueabihf \
  && cd /usr/local \
- && wget --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz \
+ && wget --progress=dot:giga http://releases.llvm.org/6.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
@@ -45,4 +45,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 478e345cb93c7e7a70535a26606fb9ed
+# checksum: fba53876c5cbd698ed2ca6b27da7f04e

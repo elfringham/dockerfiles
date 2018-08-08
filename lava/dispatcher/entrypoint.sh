@@ -23,9 +23,6 @@
 #  LOG_LEVEL    Log level (DEBUG, ERROR, INFO, WARN); default to INFO
 #               Example: LOG_LEVEL='DEBUG'
 #
-#  TIMEOUT      Socket connection timeout in seconds; default to 5
-#               Example: TIMEOUT=10
-#
 #  IPV6         Enable IPv6
 #               Example: IPV6=True
 #
@@ -69,11 +66,6 @@ then
     LOG_LEVEL='INFO'
 fi
 
-if [ -z "${TIMEOUT}" ]
-then
-    TIMEOUT=5
-fi
-
 if [ -z "${ENCRYPT}" ]
 then
     ENCRYPT=''
@@ -104,12 +96,10 @@ fi
 
 echo "Starting lava-slave with the following command:"
 
-echo "/usr/bin/python /usr/bin/lava-slave --hostname ${HOSTNAME} \
+echo "/usr/bin/python3 /usr/bin/lava-slave --hostname ${HOSTNAME} \
 --master ${MASTER} --socket-addr ${SOCKET_ADDR} ${LOG_FILE} \
---level ${LOG_LEVEL} --timeout ${TIMEOUT} ${ENCRYPT} ${IPV6} \
-${MASTER_CERT} ${SLAVE_CERT}"
+--level ${LOG_LEVEL} ${ENCRYPT} ${IPV6} ${MASTER_CERT} ${SLAVE_CERT}"
 
-/usr/bin/python /usr/bin/lava-slave --hostname ${HOSTNAME} \
+/usr/bin/python3 /usr/bin/lava-slave --hostname ${HOSTNAME} \
 --master ${MASTER} --socket-addr ${SOCKET_ADDR} ${LOG_FILE} \
---level ${LOG_LEVEL} --timeout ${TIMEOUT} ${ENCRYPT} ${IPV6} \
-${MASTER_CERT} ${SLAVE_CERT}
+--level ${LOG_LEVEL} ${ENCRYPT} ${IPV6} ${MASTER_CERT} ${SLAVE_CERT}

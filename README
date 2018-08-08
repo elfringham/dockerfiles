@@ -9,6 +9,21 @@ Contributing
 If you want to contribute changes, you can send Gerrit merge requests at
 https://review.linaro.org/#/q/project:ci/dockerfiles
 
+TCWG images
+-----------
+
+Docker images used by the TCWG team are generated slightly differently
+from the other ones. The source files describing the images contents
+are stored under tcwg-base, in nested directories where nesting shows
+images dependencies. For instance, tcwg-build type of images depend on
+tcwg-base.
+
+If you want to (re)build locally a TCWG image after updating its
+Dockerfile.in or its build.sh, go to the directory whose name fully
+describes the image. For instance
+xenial-arm64-tcwg-base/xenial-arm64-tcwg-build, and run ./build.sh
+from there to rebuild the xenial-arm64-tcwg-build image.
+
 Maintainer(s)
 -------------
 
