@@ -2,9 +2,10 @@
 FROM linaro/ci-amd64-tcwg-base-ubuntu:xenial
 
 COPY docker-wrapper /usr/local/bin/docker
+COPY docker-stats /usr/local/bin/
 
 COPY run.sh start.sh /
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 476d3063728acd718302d2d7bad5e711
+# checksum: 9f94a8be2756ffabb6ebafa75127f228

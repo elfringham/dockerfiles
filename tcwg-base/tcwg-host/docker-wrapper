@@ -1,2 +1,2 @@
 #!/bin/sh
-sudo /usr/bin/docker "$@"
+exec sudo /usr/bin/docker "$@"
