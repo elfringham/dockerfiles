@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if ip addr show 2>&1 | grep -q "inet 192\.168\.1[678]\."; then
+if grep -q "nameserver 192.168.16.3" /etc/resolv.conf; then
     # If we are in one of TCWG Cambridge subnetworks, then use straight nc.
     exec nc "$@"
 else
