@@ -6,8 +6,6 @@ bare_metal_bot_p ()
 {
     case "$1" in
 	"linaro-tk1-"*) return 0 ;;
-	"linaro-apm-02"|"linaro-apm-05") return 1 ;;
-	"linaro-apm-"*) return 0 ;;
 	*) return 1 ;;
     esac
 }
@@ -20,8 +18,8 @@ use_clang_p ()
     # Typically we've used clang when the default gcc has problems
     # otherwise gcc is used.
     case "$1" in
-        *-libcxx*|linaro-tk1-01|linaro-apm-03) return 0 ;;
-        *-lld|linaro-apm-04) return 0 ;;
+        *-libcxx*|linaro-tk1-01) return 0 ;;
+        *-lld) return 0 ;;
         *-arm-quick|linaro-tk1-06) return 0 ;;
         *-arm-full-selfhost|linaro-tk1-05) return 0 ;;
         *-arm-full|linaro-tk1-08) return 0 ;;
@@ -88,7 +86,7 @@ EOF
 chmod +x /usr/local/bin/c++
 
 case "$2" in
-    *-lld|linaro-apm-04)
+    *-lld)
 	# LLD buildbot needs to find ld.lld for stage1 build. GCC does not
         # support -fuse-ld=lld.
 	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
@@ -104,8 +102,8 @@ EOF
 
 n_cores=$(nproc --all)
 case "$2" in
-    linaro-apm-*) hw="APM Mustang ${n_cores}-core X-Gene" ;;
     linaro-armv8-*) hw="${n_cores}-core ARMv8 provided by Packet.net (Type 2A2)" ;;
+    linaro-thx1-*) hw="${n_cores}-core ThunderX1 provided by Packet.net (Type 2A)" ;;
     linaro-tk1-*) hw="NVIDIA TK1 ${n_cores}-core Cortex-A15" ;;
 esac
 
