@@ -6,10 +6,51 @@ bare_metal_bot_p ()
 {
     case "$1" in
 	"linaro-tk1-"*) return 0 ;;
-	"linaro-apm-02"|"linaro-apm-05") return 1 ;;
-	"linaro-apm-"*) return 0 ;;
 	*) return 1 ;;
     esac
+}
+
+use_clang_p ()
+{
+    # The LLD buildbot needs clang for -fuse-ld=lld in stage 2
+    # The libcxx bot needs a recent clang to compile tests that
+    # require new C++ standard support.
+    # Typically we've used clang when the default gcc has problems
+    # otherwise gcc is used.
+    case "$1" in
+        *-libcxx*|linaro-tk1-01) return 0 ;;
+        *-lld) return 0 ;;
+        *-arm-quick|linaro-tk1-06) return 0 ;;
+        *-arm-full-selfhost|linaro-tk1-05) return 0 ;;
+        *-arm-full|linaro-tk1-08) return 0 ;;
+        *-arm-global-isel|linaro-tk1-09) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+# Use the oldest maintained clang release (latest - 1).
+setup_clang_release()
+{
+    # There is a 6.0.1 release but there aren't any AArch64 binaries available
+    # so we use 6.0.0 for now.
+    local release_num=6.0.0
+    case "$(uname -m)" in
+    aarch64)
+	local clang_ver=clang+llvm-${release_num}-aarch64-linux-gnu
+	;;
+    *)
+	local clang_ver=clang+llvm-${release_num}-armv7a-linux-gnueabihf
+	;;
+    esac
+
+    # Download and install clang+llvm into /usr/local
+    (
+	cd /usr/local
+	wget -c --progress=dot:giga http://releases.llvm.org/${release_num}/$clang_ver.tar.xz
+	tar xf $clang_ver.tar.xz
+    )
+    cc=/usr/local/$clang_ver/bin/clang
+    cxx=/usr/local/$clang_ver/bin/clang++
 }
 
 if [ x"$1" = x"start.sh" ]; then
@@ -23,61 +64,12 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
     sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
 fi
 
-case "$(uname -m)" in
-    aarch64)
-	clang_ver=clang+llvm-5.0.1-aarch64-linux-gnu
-	;;
-    *)
-	clang_ver=clang+llvm-5.0.1-armv7a-linux-gnueabihf
-	;;
-esac
-
-if bare_metal_bot_p "$2"; then
-    # Download and install clang+llvm into /usr/local for bare-metal
-    # bots.
-    (
-	cd /usr/local
-	wget -c --progress=dot:giga http://releases.llvm.org/5.0.1/$clang_ver.tar.xz
-	tar xf $clang_ver.tar.xz
-    )
+if use_clang_p $2 ; then
+    setup_clang_release
+else
+    cc=gcc
+    cxx=g++
 fi
-
-case "$2" in
-    *-libcxx*|linaro-tk1-01|linaro-apm-03)
-	# Libcxx bots need to be compiled with *recent* clang.
-	cc=/usr/local/$clang_ver/bin/clang
-	cxx=/usr/local/$clang_ver/bin/clang++
-	;;
-    *-lld|linaro-apm-04)
-	# LLD bots need to be compiled with clang.
-	# ??? Adding testStage1=False to LLD bot might enable it to not depend on clang.
-	cc=/usr/bin/clang
-	cxx=/usr/bin/clang++
-	;;
-    *-arm-quick|linaro-tk1-06)
-	cc=/usr/bin/clang
-	cxx=/usr/bin/clang++
-	;;
-    *-arm-full-selfhost|linaro-tk1-05)
-	# ??? *-arm-full-selfhost bot doesn't look like it depends on clang.
-	cc=/usr/bin/clang
-	cxx=/usr/bin/clang++
-	;;
-    *-arm-full|linaro-tk1-08)
-	# ??? For now we preserve host compiler configuration from non-docker bots.
-	cc=/usr/bin/clang
-	cxx=/usr/bin/clang++
-	;;
-    *-arm-global-isel|linaro-tk1-09)
-	# ??? For now we preserve host compiler configuration from non-docker bots.
-	cc=/usr/bin/clang
-	cxx=/usr/bin/clang++
-	;;
-    *)
-	cc=gcc
-	cxx=g++
-	;;
-esac
 
 # With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as
 # system compilers.  No danger in ccaching results of system compiler since
@@ -94,8 +86,9 @@ EOF
 chmod +x /usr/local/bin/c++
 
 case "$2" in
-    *-lld|linaro-apm-04)
-	# LLD buildbot needs to find ld.lld for stage1 build.
+    *-lld)
+	# LLD buildbot needs to find ld.lld for stage1 build. GCC does not
+        # support -fuse-ld=lld.
 	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
 	;;
     *)
@@ -109,8 +102,8 @@ EOF
 
 n_cores=$(nproc --all)
 case "$2" in
-    linaro-apm-*) hw="APM Mustang ${n_cores}-core X-Gene" ;;
     linaro-armv8-*) hw="${n_cores}-core ARMv8 provided by Packet.net (Type 2A2)" ;;
+    linaro-thx1-*) hw="${n_cores}-core ThunderX1 provided by Packet.net (Type 2A)" ;;
     linaro-tk1-*) hw="NVIDIA TK1 ${n_cores}-core Cortex-A15" ;;
 esac
 

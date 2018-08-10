@@ -39,35 +39,16 @@ case "$buildmaster" in
 	masterurl="$buildmaster"
 esac
 
-# CXX, LLD and LNT bots need additional configuration, and
-# are not supported yet.
-case "$mastername:$slavename:$(hostname):$image" in
-    # No restrictions for custom masters:
-    custom:*:*:*) ;;
-    # Almost no restrictions for the silent master:
-    silent:*:linaro-armv8-*:*) ;;
-    silent:*:r*-a*:*) ;;
-    # Restrictions for the normal master:
-    normal:*:linaro-armv8-*:*) ;;
-    normal:*:r*-a*:*-arm64-*) ;;
-    *)
-	usage "ERROR: Wrong mastername:slavename:hostname:image combination: $mastername:$slavename:$(hostname):$image"
-	;;
+# Set relative CPU weight of containers running silent bots to 1/20th of
+# normal containers.  We want to run a full set of silent bots for
+# troubleshooting purposes, but don't want to waste a lot of CPU cycles.
+case "$mastername" in
+    "silent") cpu_shares=50 ;;
+    *) cpu_shares=1000 ;;
 esac
 
-case "$slavename" in
-    linaro-armv8-*)
-	# Use 64G out of 128G.
-	memlimit="64"
-	;;
-    *)
-	# Use at most 30G or 90% of all RAM.
-	memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') * 9 / 10))
-	if [ "$memlimit" -gt "30" ]; then
-	    memlimit="30"
-	fi
-	;;
-esac
+# Use 64G out of 128G.
+memlimit="64"
 
 case "$slavename" in
     *-lld) pids_limit="15000" ;;
@@ -79,4 +60,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"

@@ -1,0 +1,13 @@
+FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
+
+COPY docker-wrapper /usr/local/bin/docker
+COPY docker-stats /usr/local/bin/
+
+COPY run.sh start.sh /
+
+#if ARCH_amd64 || ARCH_arm64
+ENTRYPOINT ["/run.sh"]
+#else
+ENTRYPOINT ["linux32", "/run.sh"]
+#endif
+CMD ["start.sh"]

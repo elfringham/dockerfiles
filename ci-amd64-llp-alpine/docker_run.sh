@@ -12,15 +12,14 @@ if [ -z "$DJANGO_DEBUG" ] ; then
         echo "$html_header" >> /srv/header_override.html
     fi
 
-    if [ ! -z "$DJANGO_MIGRATE" ]; then
-        python $APPDIR/manage.py migrate --noinput
-    fi
-    if [ ! -z "$DJANGO_COLLECTSTATIC" ]; then
-        python $APPDIR/manage.py collectstatic --noinput
-    fi
-
     exec /usr/bin/gunicorn -w4 -b 0.0.0.0:$PORT $LLP_APP
 fi
 
-python $APPDIR/manage.py migrate --noinput --settings=settings
-exec python $APPDIR/manage.py runserver 0.0.0.0:8080 --settings=settings
+if [ ! -z "$DJANGO_MIGRATE" ]; then
+   python $APPDIR/manage.py migrate --noinput --settings=$DJANGO_SETTINGS_MODULE
+fi
+if [ ! -z "$DJANGO_COLLECTSTATIC" ]; then
+   python $APPDIR/manage.py collectstatic --noinput --settings=$DJANGO_SETTINGS_MODULE
+fi
+
+exec python $APPDIR/manage.py runserver 0.0.0.0:8080 --settings=$DJANGO_SETTINGS_MODULE

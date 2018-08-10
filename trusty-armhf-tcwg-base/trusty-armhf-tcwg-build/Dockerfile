@@ -1,19 +1,11 @@
 # Auto generated from tcwg-base/tcwg-build/Dockerfile.in. Do not edit.
 FROM linaro/ci-armhf-tcwg-base-ubuntu:trusty
 
-RUN groupadd -g 9000 tcwg-infra \
- && useradd -m -g tcwg-infra -G kvm -u 11827 tcwg-buildslave \
- && useradd -m -g tcwg-infra -G kvm -u 12326 tcwg-benchmark \
- && echo '%tcwg-infra ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
- && chmod 0440 /etc/sudoers.d/jenkins \
- && mkdir -p /home/tcwg-buildslave/workspace
+RUN while read line; do \
+      if [ x"$(echo "$line" | cut -d: -f 4)" != x"9000" ]; then \
+        continue; \
+      fi; \
+      new-user.sh --passwd "$line"; \
+    done </home-data/passwd
 
-COPY tcwg-buildslave /home/tcwg-buildslave
-COPY tcwg-benchmark /home/tcwg-benchmark
-
-RUN chown -R tcwg-buildslave:tcwg-infra /home/tcwg-buildslave/ \
- && chown -R tcwg-benchmark:tcwg-infra /home/tcwg-benchmark/ \
- && chmod 0700 /home/tcwg-buildslave/.ssh/ /home/tcwg-benchmark/.ssh/ \
- && chmod 0600 /home/tcwg-buildslave/.ssh/* /home/tcwg-benchmark/.ssh/*
-
-# checksum: 16c7b81789c72e4ca4703f9e020406a8
+# checksum: f0b16677dd91a122dea1a7f6cb00c8a9

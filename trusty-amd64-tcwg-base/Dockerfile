@@ -18,6 +18,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  autogen \
  automake \
  bc \
+ bind9-host \
  bison \
  binutils-aarch64-linux-gnu \
  binutils-arm-linux-gnueabihf \
@@ -66,8 +67,8 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  openssh-server \
  pkg-config \
  python-dev \
- python-virtualenv \
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -81,6 +82,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  time \
  valgrind \
  vim \
+ python-virtualenv \
  wget \
  xz-utils \
  zip \
@@ -115,6 +117,14 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && make all install -j $(nproc --all) \
  && cd && rm -rf /tmp/docker-install-qemu.$$
 
+COPY home-data/ /home-data/
+COPY new-user.sh /usr/local/bin/
+
+RUN \
+ while read line; do \
+   new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
+ done </home-data/group
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
@@ -124,4 +134,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: af7e4ca6d6d6f9e6cb0d1eb355552d2b
+# checksum: 814a72154c55af0cb2e75c091393359b

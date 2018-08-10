@@ -18,6 +18,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  autogen \
  automake \
  bc \
+ bind9-host \
  bison \
  bsd-mailx \
  build-essential \
@@ -61,6 +62,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  openssh-server \
  python-dev \
  postfix \
+ psmisc \
  pxz \
  qemu-system-arm \
  qemu-user \
@@ -100,6 +102,14 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+COPY home-data/ /home-data/
+COPY new-user.sh /usr/local/bin/
+
+RUN \
+ while read line; do \
+   new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
+ done </home-data/group
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
@@ -109,4 +119,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 32595bbead434c67c37058718d33e771
+# checksum: 3e029e523b443199b700a681508f4514
