@@ -102,6 +102,16 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -119,4 +129,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 3e029e523b443199b700a681508f4514
+# checksum: 9e84e195ed26a9679567e57ce96a562a

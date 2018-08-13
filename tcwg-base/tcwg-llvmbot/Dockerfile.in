@@ -21,14 +21,6 @@ RUN cd ./llvm-config-buildslave/ \
  /var/tmp/* \
  && sudo -i -u buildslave mkdir /home/buildslave/buildslave
 
-# Add ninja with support for memory-threshold job limitation.
-RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
- && cd ninja \
- && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
- && mv ninja /usr/local/bin/ninja.bin \
- && cd .. \
- && rm -rf ninja
-
 # Add current clang for libcxx bots.
 RUN \
 #if ARCH_arm64
