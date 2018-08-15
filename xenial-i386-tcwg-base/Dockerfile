@@ -109,6 +109,16 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
  && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
@@ -135,4 +145,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 69c56b854878cdb5a7cba9969ac207ea
+# checksum: 31824103532a473e425f6d789e304ebe

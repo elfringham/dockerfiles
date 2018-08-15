@@ -101,6 +101,16 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 # QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
 COPY home-data/ /home-data/
@@ -120,4 +130,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 4b61b97898b5eb0c598c220cc2d50f6a
+# checksum: fa213957a4fc7a908973c51924561dfe
