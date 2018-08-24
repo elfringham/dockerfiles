@@ -31,6 +31,8 @@ use_clang_p ()
 # Use the oldest maintained clang release (latest - 1).
 setup_clang_release()
 {
+    local bot_name="$1"
+
     # There is a 6.0.1 release but there aren't any AArch64 binaries available
     # so we use 6.0.0 for now.
     local release_num=6.0.0
@@ -44,11 +46,14 @@ setup_clang_release()
     esac
 
     # Download and install clang+llvm into /usr/local
-    (
-	cd /usr/local
-	wget -c --progress=dot:giga http://releases.llvm.org/${release_num}/$clang_ver.tar.xz
-	tar xf $clang_ver.tar.xz
-    )
+    # Docker bots already have clang+llvm downloaded and installed in the image.
+    if bare_metal_bot_p $bot_name; then
+	(
+	    cd /usr/local
+	    wget -c --progress=dot:giga http://releases.llvm.org/${release_num}/$clang_ver.tar.xz
+	    tar xf $clang_ver.tar.xz
+	)
+    fi
     cc=/usr/local/$clang_ver/bin/clang
     cxx=/usr/local/$clang_ver/bin/clang++
 }
@@ -65,7 +70,7 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
 fi
 
 if use_clang_p $2 ; then
-    setup_clang_release
+    setup_clang_release $2
 else
     cc=gcc
     cxx=g++
