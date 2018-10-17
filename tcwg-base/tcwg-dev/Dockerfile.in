@@ -23,9 +23,6 @@ RUN apt-get update \
 #endif
  less \
  locales \
- libgmp-dev \
- libmpc-dev \
- libmpfr-dev \
  mc \
  screen \
  stgit \

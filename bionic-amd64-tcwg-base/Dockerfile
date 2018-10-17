@@ -40,7 +40,10 @@ RUN true \
  less \
  libexpat1-dev \
  libglib2.0-dev \
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
@@ -130,4 +133,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: fa213957a4fc7a908973c51924561dfe
+# checksum: b823c13903486b4054594c3cfa8ada4e

@@ -18,9 +18,6 @@ RUN apt-get update \
  gnat \
  less \
  locales \
- libgmp-dev \
- libmpc-dev \
- libmpfr-dev \
  mc \
  screen \
  stgit \
@@ -43,4 +40,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 13bbddb6be801c28b19e50633ed8f6c8
+# checksum: 6d5a31fd3800e81abbdebdb08d87c819
