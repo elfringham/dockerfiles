@@ -49,7 +49,10 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  less \
  libexpat1-dev \
  libglib2.0-dev \
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
@@ -145,4 +148,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: e46b23869a18b0b8eb0412d13dacacb4
+# checksum: 45b6db837958fc416425896f90378452

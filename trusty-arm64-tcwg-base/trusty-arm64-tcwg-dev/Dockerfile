@@ -17,9 +17,6 @@ RUN apt-get update \
  git-svn \
  less \
  locales \
- libgmp-dev \
- libmpc-dev \
- libmpfr-dev \
  mc \
  screen \
  stgit \
@@ -42,4 +39,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 136835f5e64afb27c28164ca451962f4
+# checksum: bae8d9026b39936255d5c03147dffbb7

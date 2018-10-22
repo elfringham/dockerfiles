@@ -68,7 +68,10 @@ RUN true \
 #if ARCH_amd64 || ARCH_i386
  libglib2.0-dev \
 #endif
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
