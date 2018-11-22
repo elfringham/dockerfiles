@@ -4,10 +4,10 @@ set -e
 
 bare_metal_bot_p ()
 {
-    case "$1" in
-	"linaro-tk1-"*) return 0 ;;
-	*) return 1 ;;
-    esac
+    if [ -f "/.dockerenv" ]; then
+       return 1
+    fi
+    return 0
 }
 
 use_clang_p ()
@@ -127,24 +127,27 @@ Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
 
-if bare_metal_bot_p "$2"; then
-    # TK1s have CPU hot-plug, so ninja might detect smaller number of cores
-    # available for parallelism.  Explicitly set "default" parallelism.
-    cat > /usr/local/bin/ninja <<EOF
+case "$2" in
+    linaro-tk1-*)
+	# TK1s have CPU hot-plug, so ninja might detect smaller number of cores
+	# available for parallelism.  Explicitly set "default" parallelism.
+	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
 exec /usr/bin/ninja -j$n_cores "\$@"
 EOF
-else
-    # Throttle ninja on system load, system memory and container memory limit.
-    # When running with "-l 2*N_CORES -m 50 -M 50" ninja will not start new jobs
-    # if system or container memory utilization is beyond 50% or when load is
-    # above double the core count.  Ninja will also stall up to 5 seconds (-D 5000)
-    # before starting a new job to avoid rapid increase of resource usage.
-    cat > /usr/local/bin/ninja <<EOF
+	;;
+    *)
+	# Throttle ninja on system load, system memory and container memory limit.
+	# When running with "-l 2*N_CORES -m 50 -M 50" ninja will not start new jobs
+	# if system or container memory utilization is beyond 50% or when load is
+	# above double the core count.  Ninja will also stall up to 5 seconds (-D 5000)
+	# before starting a new job to avoid rapid increase of resource usage.
+	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
 exec /usr/local/bin/ninja.bin -j$n_cores -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
 EOF
-fi
+	;;
+esac
 chmod +x /usr/local/bin/ninja
 
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
