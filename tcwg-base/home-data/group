@@ -1,3 +1,3 @@
 tcwg-infra:x:9000:tcwg-buildslave,tcwg-benchmark
-tcwg-users:x:10000:maxim.kuvyrkov,alex.bennee,christophe.lyon,peter.smith,thomas.preudhomme,richard.henderson,prathamesh.kulkarni,omair.javaid,kugan.vivekanandarajah
-tcwg-llvm:x:9001:maxim.kuvyrkov,peter.smith,thomas.preudhomme,omair.javaid
+tcwg-users:x:10000:maxim.kuvyrkov,alex.bennee,christophe.lyon,peter.smith,thomas.preudhomme,richard.henderson,prathamesh.kulkarni,omair.javaid,kugan.vivekanandarajah,diana.picus,yvan.roux
+tcwg-llvm:x:9001:maxim.kuvyrkov,peter.smith,thomas.preudhomme,omair.javaid,diana.picus,yvan.roux

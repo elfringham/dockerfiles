@@ -1,5 +1,5 @@
-ansicolor:0.5.2
-ant:1.8
+ansicolor:0.5.3
+ant:1.9
 antisamy-markup-formatter:1.5
 apache-httpcomponents-client-4-api:4.5.5-3.0
 bouncycastle-api:2.17
@@ -10,7 +10,7 @@ build-timeout:1.19
 command-launcher:1.2
 copy-to-slave:1.4.4
 copyartifact:1.41
-coverity:1.11.1
+coverity:1.11.2
 crowd2:2.0.1
 cvs:2.14
 docker-build-publish:1.3.2
@@ -33,9 +33,9 @@ heavy-job:1.1
 htmlpublisher:1.17
 ircbot:2.30
 jdk-tool:1.1
-jira:3.0.3
+jira:3.0.5
 jenkins-multijob-plugin:1.31
-jobConfigHistory:2.18.2
+jobConfigHistory:2.18.3
 ldap:1.20
 leastload:2.0.1
 log-parser:2.0
@@ -50,7 +50,7 @@ naginator:1.17.2
 nodelabelparameter:1.7.2
 pam-auth:1.4
 postbuildscript:2.8.1
-pipeline-utility-steps:2.1.0
+pipeline-utility-steps:2.2.0
 plot:1.11
 PrioritySorter:3.6.0
 publish-over-ssh:1.20.1
