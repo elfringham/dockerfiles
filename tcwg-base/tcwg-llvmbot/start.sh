@@ -47,8 +47,17 @@ case "$mastername" in
     *) cpu_shares=1000 ;;
 esac
 
-# Use 64G out of 128G.
-memlimit="64"
+memlimit=$(free -m | awk '/^Mem/ { print $2 }')
+case "$slavename" in
+    linaro-tk1-*)
+	# Use at most 90% of RAM on TK1s
+	memlimit=$(($memlimit * 9 / 10))m
+	;;
+    *)
+	# Use at most half of all available RAM.
+	memlimit=$(($memlimit / 2))m
+	;;
+esac
 
 case "$slavename" in
     *-lld) pids_limit="15000" ;;
@@ -60,4 +69,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
