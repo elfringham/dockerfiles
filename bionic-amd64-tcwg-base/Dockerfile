@@ -1,7 +1,8 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:bionic
 
-RUN true \
+# Unminimize Ubuntu Bionic to install contrib files of git
+RUN echo y | unminimize \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -88,8 +89,7 @@ RUN true \
  /tmp/* \
  /var/tmp/*
 
-# Ubuntu Bionic has a quirk in installing contrib files of git; skip for now.
-RUN true \
+RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
@@ -133,4 +133,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: b823c13903486b4054594c3cfa8ada4e
+# checksum: 8127518c31a4a5ba7b356416d94cfdff
