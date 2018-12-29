@@ -20,11 +20,15 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
    echo; \
  done) > /etc/apt/sources.list \
 #else
-# Unminimize Ubuntu Bionic to install contrib files of git
-RUN echo y | unminimize \
+# Unminimize Ubuntu Bionic to install contrib files of git (after package
+# update, otherwise unminimize's "apt upgrade" might fail).
+RUN true \
 #endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+#if DISTRO_bionic
+ && echo y | unminimize \
+#endif
 #if ARCH_i386
  && dpkg-divert --local --rename --add /sbin/initctl \
  && ln -s /bin/true /sbin/initctl \

@@ -1,10 +1,12 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:bionic
 
-# Unminimize Ubuntu Bionic to install contrib files of git
-RUN echo y | unminimize \
+# Unminimize Ubuntu Bionic to install contrib files of git (after package
+# update, otherwise unminimize's "apt upgrade" might fail).
+RUN true \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+ && echo y | unminimize \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  alien \
@@ -133,4 +135,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 8127518c31a4a5ba7b356416d94cfdff
+# checksum: fab1bb0245b3bc80c5d67c6cd491a80b
