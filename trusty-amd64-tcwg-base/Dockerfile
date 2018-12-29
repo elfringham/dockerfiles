@@ -47,7 +47,10 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  less \
  libexpat1-dev \
  libglib2.0-dev \
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
@@ -108,6 +111,16 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
  && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
@@ -134,4 +147,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 814a72154c55af0cb2e75c091393359b
+# checksum: 7308a6409f6d660bac7bbed08fd6aff5

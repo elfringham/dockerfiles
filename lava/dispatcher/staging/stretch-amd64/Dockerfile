@@ -16,9 +16,9 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
     bridge-utils dfu-util img2simg emacs-nox vim gnupg2 sed expect grep wget \
     openssh-server adb fastboot simg2img img2simg
 
-# Add LAVA stretch-backports production repo
-RUN wget -qO - http://images.validation.linaro.org/production-repo/production-repo.key.asc | apt-key add - && \
-    echo "deb http://images.validation.linaro.org/production-repo stretch-backports main" >/etc/apt/sources.list.d/linaro.list
+# Add LAVA stretch-backports staging repo
+RUN wget -qO - http://images.validation.linaro.org/staging-repo/staging-repo.key.asc | apt-key add - && \
+    echo "deb http://images.validation.linaro.org/staging-repo stretch-backports main" >/etc/apt/sources.list.d/linaro.list
 
 RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections && \
     echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections && \

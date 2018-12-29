@@ -20,7 +20,8 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
    echo; \
  done) > /etc/apt/sources.list \
 #else
-RUN true \
+# Unminimize Ubuntu Bionic to install contrib files of git
+RUN echo y | unminimize \
 #endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -68,7 +69,10 @@ RUN true \
 #if ARCH_amd64 || ARCH_i386
  libglib2.0-dev \
 #endif
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
@@ -130,12 +134,7 @@ RUN true \
  /tmp/* \
  /var/tmp/*
 
-#if !DISTRO_bionic
 RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
-#else
-# Ubuntu Bionic has a quirk in installing contrib files of git; skip for now.
-RUN true \
-#endif
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
@@ -149,6 +148,16 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
+
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
 
 #if !DISTRO_bionic
 #if ARCH_amd64 || ARCH_i386

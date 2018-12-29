@@ -4,10 +4,10 @@ set -e
 
 bare_metal_bot_p ()
 {
-    case "$1" in
-	"linaro-tk1-"*) return 0 ;;
-	*) return 1 ;;
-    esac
+    if [ -f "/.dockerenv" ]; then
+       return 1
+    fi
+    return 0
 }
 
 use_clang_p ()
@@ -31,6 +31,8 @@ use_clang_p ()
 # Use the oldest maintained clang release (latest - 1).
 setup_clang_release()
 {
+    local bot_name="$1"
+
     # There is a 6.0.1 release but there aren't any AArch64 binaries available
     # so we use 6.0.0 for now.
     local release_num=6.0.0
@@ -44,11 +46,14 @@ setup_clang_release()
     esac
 
     # Download and install clang+llvm into /usr/local
-    (
-	cd /usr/local
-	wget -c --progress=dot:giga http://releases.llvm.org/${release_num}/$clang_ver.tar.xz
-	tar xf $clang_ver.tar.xz
-    )
+    # Docker bots already have clang+llvm downloaded and installed in the image.
+    if bare_metal_bot_p $bot_name; then
+	(
+	    cd /usr/local
+	    wget -c --progress=dot:giga http://releases.llvm.org/${release_num}/$clang_ver.tar.xz
+	    tar xf $clang_ver.tar.xz
+	)
+    fi
     cc=/usr/local/$clang_ver/bin/clang
     cxx=/usr/local/$clang_ver/bin/clang++
 }
@@ -65,7 +70,7 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
 fi
 
 if use_clang_p $2 ; then
-    setup_clang_release
+    setup_clang_release $2
 else
     cc=gcc
     cxx=g++
@@ -122,24 +127,39 @@ Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
 
-if bare_metal_bot_p "$2"; then
-    # TK1s have CPU hot-plug, so ninja might detect smaller number of cores
-    # available for parallelism.  Explicitly set "default" parallelism.
-    cat > /usr/local/bin/ninja <<EOF
+case "$2" in
+    linaro-tk1-*)
+	# TK1s have CPU hot-plug, so ninja might detect smaller number of cores
+	# available for parallelism.  Explicitly set "default" parallelism.
+	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
 exec /usr/bin/ninja -j$n_cores "\$@"
 EOF
-else
-    # Throttle ninja on system load, system memory and container memory limit.
-    # When running with "-l 2*N_CORES -m 50 -M 50" ninja will not start new jobs
-    # if system or container memory utilization is beyond 50% or when load is
-    # above double the core count.  Ninja will also stall up to 5 seconds (-D 5000)
-    # before starting a new job to avoid rapid increase of resource usage.
-    cat > /usr/local/bin/ninja <<EOF
+	;;
+    *)
+	# Throttle ninja on system load, system memory and container memory
+	# limits.
+	case "$1" in
+	    lab.llvm.org:9994)
+		# Run silent bots with single-threaded ninja when average load
+		# is beyond twice the number of cores.
+		avg_load_opt="-l $((2*$n_cores))"
+		;;
+	    *)
+		avg_load_opt=""
+		;;
+	esac
+	# Make ninja run single-threaded if system or container memory
+	# utilization is beyond 50% (-m 50 -M 50).
+	# Make ninja stall for up to 5 seconds (-D 5000) before starting
+	# a new job when usage decreases under threshold (to avoid rapid
+	# increase of resource usage from N_CORES-1 new processes).
+	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
-exec /usr/local/bin/ninja.bin -j$n_cores -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
+exec /usr/local/bin/ninja.bin -j$n_cores $avg_load_opt -m 50 -M 50 -D 5000 "\$@"
 EOF
-fi
+	;;
+esac
 chmod +x /usr/local/bin/ninja
 
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
