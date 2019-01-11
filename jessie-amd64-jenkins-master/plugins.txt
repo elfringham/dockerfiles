@@ -9,6 +9,7 @@ build-name-setter:1.6.9
 build-timeout:1.19
 command-launcher:1.2
 copyartifact:1.41
+copy-to-slave:1.4.4
 coverity:1.11.3
 crowd2:2.0.1
 cvs:2.14
