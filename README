@@ -24,6 +24,23 @@ describes the image. For instance
 xenial-arm64-tcwg-base/xenial-arm64-tcwg-build, and run ./build.sh
 from there to rebuild the xenial-arm64-tcwg-build image.
 
+TCWG's Dockerfiles in DISTRO-ARCH-tcwg-base/* directories are generated
+from Dockerfile.in templates in respective tcwg-base/* directories.  Run
+tcwg-base/generate-dockerfiles.sh (without parameters) whenever you
+change any of Dockerfile.in templates -- this will update all affected
+Dockerfiles.
+
+Once Dockerfiles are regenerated, you should test your change locally
+by building the image.  For this go to image's directory and run
+"./build.sh".  "./build.sh" script uses name of current directory to
+determine distro version and other parameters, so it's important
+to run "./build.sh" from its own directory.
+
+Note that "./build.sh" will first re-build all images that current image
+is derived from.  E.g., *-tcwg-dev image will first re-build respective
+*-tcwg-base image -- this can take a lot of time for the first run,
+but, once cache is populated, re-builds are very quick.
+
 Maintainer(s)
 -------------
 
