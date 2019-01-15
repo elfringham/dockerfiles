@@ -22,7 +22,6 @@ RUN apt-get update \
  screen \
  stgit \
  tmux \
- unifdef \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -40,4 +39,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 2386be7a139346d1966ba5178a04873a
+# checksum: 90d1e1a9e15795b10ffa8fa8009d9a23

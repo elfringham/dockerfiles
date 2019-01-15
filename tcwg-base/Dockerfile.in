@@ -121,6 +121,7 @@ RUN true \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
 #if !DISTRO_trusty

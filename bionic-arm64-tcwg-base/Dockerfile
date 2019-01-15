@@ -73,6 +73,7 @@ RUN true \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  virtualenv \
@@ -130,4 +131,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: d97d07ff2c450badb0db303a2be43909
+# checksum: 43d074346b3d3307d32cac2ebcebd820
