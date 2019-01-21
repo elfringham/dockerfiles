@@ -1,4 +1,4 @@
-ansicolor:0.6.0
+ansicolor:0.6.1
 ant:1.9
 antisamy-markup-formatter:1.5
 apache-httpcomponents-client-4-api:4.5.5-3.0
@@ -24,7 +24,7 @@ extended-choice-parameter:0.76
 extended-read-permission:2.0
 external-monitor-job:1.7
 ghprb:1.42.0
-gerrit-trigger:2.28
+gerrit-trigger:2.28.0
 github-organization-folder:1.6
 greenballs:1.15
 groovy-postbuild:2.4.3
@@ -63,7 +63,7 @@ throttle-concurrents:2.0.1
 timestamper:1.8.10
 translation:1.16
 urltrigger:0.44
-warnings:5.00
+warnings:5.0.0
 windows-slaves:1.4
 workflow-aggregator:2.6
 ws-cleanup:0.37
