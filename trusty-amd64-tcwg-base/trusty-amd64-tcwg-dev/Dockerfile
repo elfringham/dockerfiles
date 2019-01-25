@@ -3,15 +3,6 @@ FROM linaro/ci-amd64-tcwg-base-ubuntu:trusty
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
- software-properties-common \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
-
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
  git-svn \
@@ -20,6 +11,7 @@ RUN apt-get update \
  locales \
  mc \
  screen \
+ software-properties-common \
  stgit \
  tmux \
  && apt-get clean \
@@ -39,4 +31,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: b8ed8d306171b3fd9b0ff9c094480185
+# checksum: 4b050cb9917e9068a64dccf1f6d4f57a

@@ -12,8 +12,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN true \
- && apt-get update \
+RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  duplicity \
  mate-desktop-environment \
@@ -33,4 +32,4 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 6cae4c37eaa031fb02326a6ebda501f6
+# checksum: a30214ab5fb77eefe535dc3b2edc9d44
