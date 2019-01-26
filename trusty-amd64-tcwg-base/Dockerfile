@@ -83,6 +83,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  python-virtualenv \
@@ -147,4 +148,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 7308a6409f6d660bac7bbed08fd6aff5
+# checksum: 2661c449ac5d56e53d78ae12e847a7c2
