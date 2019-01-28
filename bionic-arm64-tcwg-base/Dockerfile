@@ -51,6 +51,7 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ linux-tools-4.18.0-13-generic \
  lzop \
  make \
  net-tools \
@@ -131,4 +132,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 43d074346b3d3307d32cac2ebcebd820
+# checksum: f06707867303dcd39a170f5fd441c5e6

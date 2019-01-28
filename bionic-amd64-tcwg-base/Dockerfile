@@ -54,6 +54,7 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ linux-tools-4.18.0-13-generic \
  lzop \
  make \
  mingw-w64 \
@@ -136,4 +137,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: a7074ea6a9883b18c96c67078a846f6f
+# checksum: 0194b0d4caf4b187b4db2feced288faa

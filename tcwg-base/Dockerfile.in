@@ -84,6 +84,9 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+#if DISTRO_bionic
+ linux-tools-4.18.0-13-generic \
+#endif
  lzop \
  make \
 #if ARCH_amd64 || ARCH_i386
