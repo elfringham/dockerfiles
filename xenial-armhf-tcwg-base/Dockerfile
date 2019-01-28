@@ -116,6 +116,7 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -133,4 +134,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: cb84052322f12cc9ebfc7de5a7433c30
+# checksum: 85986dd6dd8ddc162d40addb2a4f80b8
