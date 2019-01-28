@@ -113,7 +113,6 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -132,4 +131,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: f06707867303dcd39a170f5fd441c5e6
+# checksum: 50a99c601dd50c455613a9aa28c5c136
