@@ -51,6 +51,7 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ linux-tools-4.18.0-13-generic \
  lzop \
  make \
  net-tools \
@@ -112,7 +113,6 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -131,4 +131,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 43d074346b3d3307d32cac2ebcebd820
+# checksum: 50a99c601dd50c455613a9aa28c5c136

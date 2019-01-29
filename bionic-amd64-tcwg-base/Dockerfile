@@ -48,12 +48,14 @@ RUN true \
  libmpc-dev \
  libmpfr-dev \
  libncurses5-dev \
+ libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ linux-tools-4.18.0-13-generic \
  lzop \
  make \
  mingw-w64 \
@@ -117,7 +119,15 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
+RUN mkdir /tmp/docker-install-qemu.$$ \
+ && cd /tmp/docker-install-qemu.$$ \
+ && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && tar xf qemu-${qemu_ver}.tar.xz \
+ && mkdir build && cd build \
+ && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
+ && make all install -j $(nproc --all) \
+ && cd && rm -rf /tmp/docker-install-qemu.$$
+
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -136,4 +146,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: a7074ea6a9883b18c96c67078a846f6f
+# checksum: af1326e7c8496d13d3b9983562697055
