@@ -1,10 +1,12 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:bionic
 
-# Unminimize Ubuntu Bionic to install contrib files of git
-RUN echo y | unminimize \
+# Unminimize Ubuntu Bionic to install contrib files of git (after package
+# update, otherwise unminimize's "apt upgrade" might fail).
+RUN true \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+ && echo y | unminimize \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  alien \
@@ -49,6 +51,7 @@ RUN echo y | unminimize \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ linux-tools-4.18.0-13-generic \
  lzop \
  make \
  net-tools \
@@ -71,6 +74,7 @@ RUN echo y | unminimize \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  virtualenv \
@@ -109,7 +113,6 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -128,4 +131,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 94b7dcd8368a0647ea0f057275d1e7e0
+# checksum: 50a99c601dd50c455613a9aa28c5c136

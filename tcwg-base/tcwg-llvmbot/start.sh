@@ -25,6 +25,37 @@ else
     DOCKER="sudo docker"
 fi
 
+case "$slavename" in
+  linaro-armv8-01-aarch64-full) ;;
+  linaro-armv8-01-aarch64-global-isel) ;;
+  linaro-armv8-01-aarch64-libcxx) ;;
+  linaro-armv8-01-aarch64-libcxx-noeh) ;;
+  linaro-armv8-01-aarch64-lld) ;;
+  linaro-armv8-01-aarch64-quick) ;;
+  linaro-armv8-01-arm-full) ;;
+  linaro-armv8-01-arm-full-selfhost) ;;
+  linaro-armv8-01-arm-global-isel) ;;
+  linaro-armv8-01-arm-libcxx) ;;
+  linaro-armv8-01-arm-libcxx-noeh) ;;
+  linaro-armv8-01-arm-lld) ;;
+  linaro-armv8-01-arm-lnt) ;;
+  linaro-armv8-01-arm-quick) ;;
+  linaro-armv8-01-arm-selfhost-neon) ;;
+  linaro-tk1-*) ;;
+  *)
+    echo "WARNING: Unknown slavename $slavename"
+esac
+
+case "$slavename:$image" in
+  *-aarch64-*:*-arm64-*) ;;
+  *-arm-*:*-armhf-*) ;;
+  linaro-tk1-*:*-armhf-*) ;;
+  *)
+    echo "ERROR: $slavename should not run on $image."
+    echo "Make sure you're running an AArch64 bot on an arm64 image or an ARM bot on an armhf image."
+    exit 1
+esac
+
 case "$buildmaster" in
     "normal")
 	mastername="normal"

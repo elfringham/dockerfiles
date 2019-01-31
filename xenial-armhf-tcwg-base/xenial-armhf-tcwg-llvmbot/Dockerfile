@@ -2,8 +2,12 @@
 FROM linaro/ci-armhf-tcwg-base-ubuntu:xenial
 
 RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+ && DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  buildbot \
+ g++-7 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -37,4 +41,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: b6f879f70c04bfe8edb4e2543cc07115
+# checksum: cf73c99640ab904d9997a941177001f1

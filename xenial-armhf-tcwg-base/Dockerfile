@@ -77,6 +77,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  virtualenv \
@@ -115,6 +116,7 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -132,4 +134,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 9e10760c085e078a6a8980804fe4f8b5
+# checksum: 85986dd6dd8ddc162d40addb2a4f80b8

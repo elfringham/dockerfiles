@@ -52,6 +52,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libmpc-dev \
  libmpfr-dev \
  libncurses5-dev \
+ libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
@@ -83,6 +84,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  python-virtualenv \
@@ -123,12 +125,13 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
 
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
  && tar xf qemu-${qemu_ver}.tar.xz \
  && mkdir build && cd build \
  && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
  && make all install -j $(nproc --all) \
  && cd && rm -rf /tmp/docker-install-qemu.$$
+
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -147,4 +150,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 7308a6409f6d660bac7bbed08fd6aff5
+# checksum: af4fa2fbc82a8ade63491e2a489bb96b
