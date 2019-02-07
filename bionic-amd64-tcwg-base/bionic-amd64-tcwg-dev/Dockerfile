@@ -3,29 +3,17 @@ FROM linaro/ci-amd64-tcwg-base-ubuntu:bionic
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
- software-properties-common \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
-
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
  git-svn \
  gnat-5 \
  less \
  locales \
- libgmp-dev \
- libmpc-dev \
- libmpfr-dev \
  mc \
  screen \
+ software-properties-common \
  stgit \
  tmux \
- unifdef \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -43,4 +31,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 286aa782c315c534aeae4e1fef031429
+# checksum: e0acd069d02b7a2424ac723f3a7bf358

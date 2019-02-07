@@ -47,8 +47,12 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  less \
  libexpat1-dev \
  libglib2.0-dev \
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
+ libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
@@ -79,6 +83,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  virtualenv \
@@ -107,14 +112,25 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
  && tar xf qemu-${qemu_ver}.tar.xz \
  && mkdir build && cd build \
  && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
  && make all install -j $(nproc --all) \
  && cd && rm -rf /tmp/docker-install-qemu.$$
+
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -133,4 +149,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 99c24a8b676909e9f2ea94c1942a3d14
+# checksum: 45c951efede684cca687084277d49621

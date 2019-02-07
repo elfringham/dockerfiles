@@ -3,29 +3,17 @@ FROM linaro/ci-armhf-tcwg-base-ubuntu:trusty
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
- software-properties-common \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
-
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  apt-file \
  git-gui \
  git-svn \
  gnat \
  less \
  locales \
- libgmp-dev \
- libmpc-dev \
- libmpfr-dev \
  mc \
  screen \
+ software-properties-common \
  stgit \
  tmux \
- unifdef \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -43,4 +31,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 13bbddb6be801c28b19e50633ed8f6c8
+# checksum: 3da6f55017f367a840b7513fb3479177

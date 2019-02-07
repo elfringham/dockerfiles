@@ -25,6 +25,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
+
 COPY start-obsworker /
 
 CMD ["/start-obsworker"]

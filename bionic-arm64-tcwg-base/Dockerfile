@@ -1,9 +1,12 @@
 # Auto generated from tcwg-base/Dockerfile.in. Do not edit.
 FROM ubuntu:bionic
 
+# Unminimize Ubuntu Bionic to install contrib files of git (after package
+# update, otherwise unminimize's "apt upgrade" might fail).
 RUN true \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+ && echo y | unminimize \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  alien \
@@ -37,7 +40,10 @@ RUN true \
  groff \
  less \
  libexpat1-dev \
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
  libpython2.7-dev \
  libreadline-dev \
@@ -45,6 +51,7 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ linux-tools-4.18.0-13-generic \
  lzop \
  make \
  net-tools \
@@ -67,6 +74,7 @@ RUN true \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
  virtualenv \
@@ -80,8 +88,7 @@ RUN true \
  /tmp/* \
  /var/tmp/*
 
-# Ubuntu Bionic has a quirk in installing contrib files of git; skip for now.
-RUN true \
+RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
@@ -96,7 +103,16 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
-# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -115,4 +131,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 70e28af2a1592e6c1a4c267f37866dff
+# checksum: 50a99c601dd50c455613a9aa28c5c136

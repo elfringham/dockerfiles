@@ -20,10 +20,15 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
    echo; \
  done) > /etc/apt/sources.list \
 #else
+# Unminimize Ubuntu Bionic to install contrib files of git (after package
+# update, otherwise unminimize's "apt upgrade" might fail).
 RUN true \
 #endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
+#if DISTRO_bionic
+ && echo y | unminimize \
+#endif
 #if ARCH_i386
  && dpkg-divert --local --rename --add /sbin/initctl \
  && ln -s /bin/true /sbin/initctl \
@@ -68,14 +73,23 @@ RUN true \
 #if ARCH_amd64 || ARCH_i386
  libglib2.0-dev \
 #endif
+ libgmp-dev \
  liblzma-dev \
+ libmpc-dev \
+ libmpfr-dev \
  libncurses5-dev \
+#if ARCH_amd64 || ARCH_i386
+ libpixman-1-dev \
+#endif
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+#if DISTRO_bionic
+ linux-tools-4.18.0-13-generic \
+#endif
  lzop \
  make \
 #if ARCH_amd64 || ARCH_i386
@@ -113,6 +127,7 @@ RUN true \
  texlive-fonts-recommended \
  texlive-latex-recommended \
  time \
+ unifdef \
  valgrind \
  vim \
 #if !DISTRO_trusty
@@ -130,12 +145,7 @@ RUN true \
  /tmp/* \
  /var/tmp/*
 
-#if !DISTRO_bionic
 RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr/local/bin/git-new-workdir \
-#else
-# Ubuntu Bionic has a quirk in installing contrib files of git; skip for now.
-RUN true \
-#endif
  && sed -i -e 's:^session *required *pam_loginuid.so:# session required pam_loginuid.so:' /etc/pam.d/sshd \
  && mkdir -p /var/run/sshd \
  && sed -i \
@@ -150,11 +160,20 @@ COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
  && chmod 600 /etc/postfix/sasl_password
 
-#if !DISTRO_bionic
+# Add ninja with support for memory-threshold job limitation.
+# It's installed with ".bin" extension and containers then
+# make wrappers around it in /usr/local/bin/ninja as needed.
+RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+ && cd ninja \
+ && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && mv ninja /usr/local/bin/ninja.bin \
+ && cd .. \
+ && rm -rf ninja
+
 #if ARCH_amd64 || ARCH_i386
 RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=2.8.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
  && tar xf qemu-${qemu_ver}.tar.xz \
  && mkdir build && cd build \
  && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
@@ -162,10 +181,7 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && cd && rm -rf /tmp/docker-install-qemu.$$
 
 #endif
-#else
-# QEMU 2.8 doesn't build cleanly with Ubuntu Bionic's gcc.
 
-#endif
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 

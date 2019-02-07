@@ -100,7 +100,9 @@ case "$home" in
 esac
 
 # Use at most half of all available RAM.
-memlimit=$(($(free -g | awk '/^Mem/ { print $2 }') / 2))G
+memlimit=$(free -m | awk '/^Mem/ { print $2 }')
+memlimit=$(($memlimit / 2))m
+
 # IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
 # SYS_PTRACE is required for debugger work.
 # seccomp=unconfined to allow disabling of ASLR for sanitizer regression tests.

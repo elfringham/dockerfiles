@@ -6,6 +6,8 @@ RUN while read line; do \
         continue; \
       fi; \
       new-user.sh --passwd "$line"; \
+      user=$(echo "$line" | cut -d: -f 1); \
+      sudo -i -u $user ccache --print-config; \
     done </home-data/passwd
 
-# checksum: f0b16677dd91a122dea1a7f6cb00c8a9
+# checksum: 65590c772b7855a6a5746503ff220e72

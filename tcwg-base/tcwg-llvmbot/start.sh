@@ -25,6 +25,37 @@ else
     DOCKER="sudo docker"
 fi
 
+case "$slavename" in
+  linaro-armv8-01-aarch64-full) ;;
+  linaro-armv8-01-aarch64-global-isel) ;;
+  linaro-armv8-01-aarch64-libcxx) ;;
+  linaro-armv8-01-aarch64-libcxx-noeh) ;;
+  linaro-armv8-01-aarch64-lld) ;;
+  linaro-armv8-01-aarch64-quick) ;;
+  linaro-armv8-01-arm-full) ;;
+  linaro-armv8-01-arm-full-selfhost) ;;
+  linaro-armv8-01-arm-global-isel) ;;
+  linaro-armv8-01-arm-libcxx) ;;
+  linaro-armv8-01-arm-libcxx-noeh) ;;
+  linaro-armv8-01-arm-lld) ;;
+  linaro-armv8-01-arm-lnt) ;;
+  linaro-armv8-01-arm-quick) ;;
+  linaro-armv8-01-arm-selfhost-neon) ;;
+  linaro-tk1-*) ;;
+  *)
+    echo "WARNING: Unknown slavename $slavename"
+esac
+
+case "$slavename:$image" in
+  *-aarch64-*:*-arm64-*) ;;
+  *-arm-*:*-armhf-*) ;;
+  linaro-tk1-*:*-armhf-*) ;;
+  *)
+    echo "ERROR: $slavename should not run on $image."
+    echo "Make sure you're running an AArch64 bot on an arm64 image or an ARM bot on an armhf image."
+    exit 1
+esac
+
 case "$buildmaster" in
     "normal")
 	mastername="normal"
@@ -47,8 +78,17 @@ case "$mastername" in
     *) cpu_shares=1000 ;;
 esac
 
-# Use 64G out of 128G.
-memlimit="64"
+memlimit=$(free -m | awk '/^Mem/ { print $2 }')
+case "$slavename" in
+    linaro-tk1-*)
+	# Use at most 90% of RAM on TK1s
+	memlimit=$(($memlimit * 9 / 10))m
+	;;
+    *)
+	# Use at most half of all available RAM.
+	memlimit=$(($memlimit / 2))m
+	;;
+esac
 
 case "$slavename" in
     *-lld) pids_limit="15000" ;;
@@ -60,4 +100,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=${memlimit}G --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"

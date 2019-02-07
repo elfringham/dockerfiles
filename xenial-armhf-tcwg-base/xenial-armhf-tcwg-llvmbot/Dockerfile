@@ -2,8 +2,12 @@
 FROM linaro/ci-armhf-tcwg-base-ubuntu:xenial
 
 RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+ && DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  buildbot \
+ g++-7 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -22,14 +26,6 @@ RUN cd ./llvm-config-buildslave/ \
  /var/tmp/* \
  && sudo -i -u buildslave mkdir /home/buildslave/buildslave
 
-# Add ninja with support for memory-threshold job limitation.
-RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
- && cd ninja \
- && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
- && mv ninja /usr/local/bin/ninja.bin \
- && cd .. \
- && rm -rf ninja
-
 # Add current clang for libcxx bots.
 RUN \
  clang_ver=clang+llvm-6.0.0-armv7a-linux-gnueabihf \
@@ -45,4 +41,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: fba53876c5cbd698ed2ca6b27da7f04e
+# checksum: cf73c99640ab904d9997a941177001f1
