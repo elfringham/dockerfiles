@@ -1,4 +1,4 @@
-FROM linaro/base-arm64-debian:jessie
+FROM debian:jessie
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
