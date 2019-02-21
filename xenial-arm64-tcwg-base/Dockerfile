@@ -67,6 +67,8 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  postfix \
  psmisc \
  pxz \
+ qemu-system-arm \
+ qemu-user \
  rsync \
  subversion \
  sudo \
@@ -114,14 +116,6 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-RUN mkdir /tmp/docker-install-qemu.$$ \
- && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
- && tar xf qemu-${qemu_ver}.tar.xz \
- && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
- && make all install -j $(nproc --all) \
- && cd && rm -rf /tmp/docker-install-qemu.$$
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -140,4 +134,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 89d31fdc23d5558de8fafe7865d30c6a
+# checksum: 5d69a0e67de38ed9fb2fd87244c1b6ce

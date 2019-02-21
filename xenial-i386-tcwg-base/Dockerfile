@@ -75,6 +75,8 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  postfix \
  psmisc \
  pxz \
+ qemu-system-arm \
+ qemu-user \
  rsync \
  subversion \
  sudo \
@@ -127,9 +129,10 @@ RUN mkdir /tmp/docker-install-qemu.$$ \
  && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
  && tar xf qemu-${qemu_ver}.tar.xz \
  && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
+ && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
  && make all install -j $(nproc --all) \
  && cd && rm -rf /tmp/docker-install-qemu.$$
+
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -148,4 +151,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 9b290936a4dda6d83db518a2d8dfd4ad
+# checksum: 6250ecddc1d62a1bd9c34d0a1af2b5de
