@@ -1,4 +1,4 @@
-FROM linaro/base-armhf-debian:stretch
+FROM arm32v7/debian:stretch
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
