@@ -48,13 +48,11 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  groff \
  less \
  libexpat1-dev \
- libglib2.0-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
  libmpfr-dev \
  libncurses5-dev \
- libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
@@ -70,13 +68,10 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ninja-build \
  openjdk-8-jdk \
  openssh-server \
- pkg-config \
  python-dev \
  postfix \
  psmisc \
  pxz \
- qemu-system-arm \
- qemu-user \
  rsync \
  subversion \
  sudo \
@@ -124,15 +119,28 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-RUN mkdir /tmp/docker-install-qemu.$$ \
+# Build latest QEMU release (and install pre-requisites for the build).
+# Install qemu-system-common to configure rootfs for KVM virtualization
+# (e.g., create "kvm" user group, which we expect to exist in newuser.sh).
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ libglib2.0-dev \
+ libpixman-1-dev \
+ pkg-config \
+ qemu-system-common \
+ && mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
  && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
  && tar xf qemu-${qemu_ver}.tar.xz \
  && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=armeb-linux-user \
+ && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
  && make all install -j $(nproc --all) \
- && cd && rm -rf /tmp/docker-install-qemu.$$
-
+ && apt-get clean \
+ && rm -rf \
+ /tmp/docker-install-qemu.$$ \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -151,4 +159,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 6250ecddc1d62a1bd9c34d0a1af2b5de
+# checksum: fd99246bfc1c97deae5cc6bcb21249d2

@@ -1,4 +1,4 @@
-FROM linaro/base-arm64-debian:stretch
+FROM debian:stretch
 
 COPY *.list *.key /etc/apt/sources.list.d/
 

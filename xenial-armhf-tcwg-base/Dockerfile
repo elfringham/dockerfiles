@@ -67,8 +67,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  postfix \
  psmisc \
  pxz \
- qemu-system-arm \
- qemu-user \
  rsync \
  subversion \
  sudo \
@@ -116,6 +114,28 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
+# Build latest QEMU release (and install pre-requisites for the build).
+# Install qemu-system-common to configure rootfs for KVM virtualization
+# (e.g., create "kvm" user group, which we expect to exist in newuser.sh).
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ libglib2.0-dev \
+ libpixman-1-dev \
+ pkg-config \
+ qemu-system-common \
+ && mkdir /tmp/docker-install-qemu.$$ \
+ && cd /tmp/docker-install-qemu.$$ \
+ && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && tar xf qemu-${qemu_ver}.tar.xz \
+ && mkdir build && cd build \
+ && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
+ && make all install -j $(nproc --all) \
+ && apt-get clean \
+ && rm -rf \
+ /tmp/docker-install-qemu.$$ \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -134,4 +154,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 85986dd6dd8ddc162d40addb2a4f80b8
+# checksum: a5723646bc8cd809f34d6c7c944abc47
