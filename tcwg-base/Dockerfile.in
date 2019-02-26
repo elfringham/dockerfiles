@@ -46,6 +46,7 @@ RUN true \
  binutils-aarch64-linux-gnu \
  binutils-arm-linux-gnueabihf \
 #endif
+ binutils-dev \
  bsd-mailx \
  build-essential \
  byacc \
