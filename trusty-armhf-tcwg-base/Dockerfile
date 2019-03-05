@@ -20,6 +20,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  bc \
  bind9-host \
  bison \
+ binutils-dev \
  bsd-mailx \
  build-essential \
  byacc \
@@ -153,4 +154,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 622805f59e849f816a209f2ad9b5fb6f
+# checksum: 01e6a7ae2eb7bfa2758c427344370e0a
