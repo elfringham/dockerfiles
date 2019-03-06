@@ -17,6 +17,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  bison \
  build-essential \
  ccache \
+ clang-format-3.8 \
  curl \
  debhelper \
  debian-archive-keyring \
