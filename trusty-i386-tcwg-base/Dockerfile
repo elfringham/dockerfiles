@@ -33,6 +33,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  chrpath \
  clang \
  cmake \
+ curl \
  debhelper \
  dejagnu \
  dh-autoreconf \
@@ -160,4 +161,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 102b8bf846c173180958b53ec91f2b7c
+# checksum: 982e3690a794b237e0ce93aec764ad7c
