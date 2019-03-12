@@ -27,6 +27,7 @@ RUN true \
  chrpath \
  clang \
  cmake \
+ curl \
  debhelper \
  dejagnu \
  dh-autoreconf \
@@ -155,4 +156,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 18b9e02b79d99c17db819a8ae79830ed
+# checksum: 48bcf9fbb0cb915293289dd022756c06

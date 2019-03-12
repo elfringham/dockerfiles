@@ -29,6 +29,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  chrpath \
  clang \
  cmake \
+ curl \
  debhelper \
  dejagnu \
  dh-autoreconf \
@@ -155,4 +156,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: c35ef6e62f5a9b4dcf6173ff680eea43
+# checksum: dece38908f2a259a933a692922daa41d
