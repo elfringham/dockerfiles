@@ -32,7 +32,6 @@ heavy-job:1.1
 htmlpublisher:1.18
 ircbot:2.30
 jdk-tool:1.2
-jira:3.0.5
 jenkins-multijob-plugin:1.32
 jobConfigHistory:2.19
 ldap:1.20
