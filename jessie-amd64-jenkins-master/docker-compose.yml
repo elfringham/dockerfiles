@@ -1,0 +1,14 @@
+version: '3'
+services:
+  jenkins:
+    image: 'linaro/ci-x86_64-jenkins-master-debian:lts'
+    container_name: jenkins-master
+    logging:
+      driver: journald
+    ports:
+      - "2222:2222"
+      - "2233:2233"
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - "${JENKINS_HOST_PATH}:/var/jenkins_home:rw"
