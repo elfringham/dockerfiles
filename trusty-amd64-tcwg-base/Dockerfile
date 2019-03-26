@@ -63,6 +63,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  make \
  mingw-w64 \
  mingw32 \
+ moreutils \
  net-tools \
  netcat \
  nfs-kernel-server \
@@ -160,4 +161,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: d927ec5fa89a5b34e15cca589704d30e
+# checksum: 16f2e734ae5fe72b3920a639ede1adc2

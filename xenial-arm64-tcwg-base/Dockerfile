@@ -59,6 +59,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  linux-tools-generic \
  lzop \
  make \
+ moreutils \
  net-tools \
  netcat \
  nfs-kernel-server \
@@ -156,4 +157,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: dece38908f2a259a933a692922daa41d
+# checksum: 5b69369b1be3bcbb5e43b8c2d93fcfc9

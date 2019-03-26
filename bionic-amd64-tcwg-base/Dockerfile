@@ -59,6 +59,7 @@ RUN true \
  lzop \
  make \
  mingw-w64 \
+ moreutils \
  net-tools \
  netcat \
  nfs-kernel-server \
@@ -156,4 +157,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 48bcf9fbb0cb915293289dd022756c06
+# checksum: 6557eb002e8396d3ec863a57ea8f1e8d
