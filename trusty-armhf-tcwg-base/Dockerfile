@@ -59,6 +59,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  linux-tools-generic \
  lzop \
  make \
+ moreutils \
  net-tools \
  netcat \
  ninja-build \
@@ -155,4 +156,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 46b798cacf9e40d6d4e6a73aac8b2616
+# checksum: e383207cdc6c689f05f85d079cc38483

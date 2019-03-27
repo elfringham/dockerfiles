@@ -65,6 +65,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  make \
  mingw-w64 \
  mingw32 \
+ moreutils \
  net-tools \
  netcat \
  ninja-build \
@@ -161,4 +162,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 982e3690a794b237e0ce93aec764ad7c
+# checksum: e705dbcdca303d1857ccb16f98476be9

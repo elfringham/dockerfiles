@@ -56,6 +56,7 @@ RUN true \
  linux-tools-4.18.0-13-generic \
  lzop \
  make \
+ moreutils \
  net-tools \
  netcat \
  nfs-kernel-server \
@@ -153,4 +154,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: fa5fe3a80b8ed152cb8dbe143e32a8c6
+# checksum: b7528ad090564ce715db5a3f2f7c8ef5

@@ -94,6 +94,7 @@ RUN true \
  mingw32 \
 # endif
 #endif
+ moreutils \
  net-tools \
  netcat \
 #if ARCH_amd64 || !DISTRO_trusty
