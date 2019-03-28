@@ -10,7 +10,7 @@ USER root
 RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && python /tmp/get-pip.py \
   && rm -f /tmp/get-pip.py \
-  && pip install jenkins-job-builder==2.9.1 pyyaml==3.13 jinja2==2.10 python-jenkins==1.4.0 \
+  && pip install jenkins-job-builder==2.9.1 pyyaml==3.13 jinja2==2.10 python-jenkins==1.4.0 requests \
   && git clone --depth 1 https://git.linaro.org/infrastructure/jjb-linaro-plugin.git \
   && cd jjb-linaro-plugin && python setup.py install \
   && cd .. && rm -rf jjb-linaro-plugin \
