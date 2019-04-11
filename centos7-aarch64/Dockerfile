@@ -1,9 +1,8 @@
-FROM linaro/base-aarch64-centos:7
+FROM centos:7
 
 ENV container docker
 
-RUN rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7 \
- && yum -y update \
+RUN yum -y update \
  && yum --nogpgcheck --setopt=tsflags=nodocs -y install \
  git \
  java-1.8.0-openjdk \
