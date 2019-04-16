@@ -59,6 +59,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ locales \
  lzop \
  make \
  mingw-w64 \
@@ -102,7 +103,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSessions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
+ && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
@@ -160,4 +162,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 785d4b0313efe6f38be1e6e7f533460c
+# checksum: a5e9bc2d1911b43b8da1a4d3bcfb086d

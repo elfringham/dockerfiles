@@ -13,7 +13,6 @@ RUN apt-get update \
  gnat-5 \
 #endif
  less \
- locales \
  mc \
  screen \
  software-properties-common \
@@ -25,8 +24,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && apt-file update
+RUN apt-file update
 
 # Create directories required for X11.
 RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
