@@ -20,27 +20,6 @@ use_clang_p ()
     esac
 }
 
-# Use the oldest maintained clang release (latest - 1).
-setup_clang_release()
-{
-    local bot_name="$1"
-
-    # There is a 6.0.1 release but there aren't any AArch64 binaries available
-    # so we use 6.0.0 for now.
-    local release_num=6.0.0
-    case "$(uname -m)" in
-    aarch64)
-	local clang_ver=clang+llvm-${release_num}-aarch64-linux-gnu
-	;;
-    *)
-	local clang_ver=clang+llvm-${release_num}-armv7a-linux-gnueabihf
-	;;
-    esac
-
-    cc=/usr/local/$clang_ver/bin/clang
-    cxx=/usr/local/$clang_ver/bin/clang++
-}
-
 if [ x"$1" = x"start.sh" ]; then
     cat /start.sh
     exit 0
@@ -53,7 +32,17 @@ if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
 fi
 
 if use_clang_p $2 ; then
-    setup_clang_release $2
+    # Use the oldest maintained clang release (latest - 1).
+    # There is a 6.0.1 release but there aren't any AArch64 binaries available
+    # so we use 6.0.0 for now.
+    release_num=6.0.0
+    case "$(uname -m)" in
+	aarch64) release_arch=aarch64 ;;
+	*) release_arch=armv7a ;;
+    esac
+    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}-linux-gnu/bin
+    cc=$release_path/clang
+    cxx=$release_path/clang++
 else
     cc=gcc-7
     cxx=g++-7
