@@ -2,14 +2,6 @@
 
 set -e
 
-bare_metal_bot_p ()
-{
-    if [ -f "/.dockerenv" ]; then
-       return 1
-    fi
-    return 0
-}
-
 use_clang_p ()
 {
     # The LLD buildbot needs clang for -fuse-ld=lld in stage 2
@@ -45,15 +37,6 @@ setup_clang_release()
 	;;
     esac
 
-    # Download and install clang+llvm into /usr/local
-    # Docker bots already have clang+llvm downloaded and installed in the image.
-    if bare_metal_bot_p $bot_name; then
-	(
-	    cd /usr/local
-	    wget -c --progress=dot:giga http://releases.llvm.org/${release_num}/$clang_ver.tar.xz
-	    tar xf $clang_ver.tar.xz
-	)
-    fi
     cc=/usr/local/$clang_ver/bin/clang
     cxx=/usr/local/$clang_ver/bin/clang++
 }
@@ -183,9 +166,5 @@ EOF
 esac
 
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
-
-if bare_metal_bot_p "$2"; then
-    exit 0
-fi
 
 exec /usr/sbin/sshd -D
