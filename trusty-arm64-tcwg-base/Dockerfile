@@ -57,6 +57,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
+ locales \
  lzop \
  make \
  moreutils \
@@ -98,7 +99,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxStartups.*/d" \
  -e "/.*MaxSessions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
- && echo "MaxSessions 256" >> /etc/ssh/sshd_config
+ && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
+ && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
@@ -156,4 +158,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: cb07809e8e2d842cafcde91d0f4df056
+# checksum: eb3f4e310ee4c7d1538332d9a884be05

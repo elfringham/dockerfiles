@@ -8,7 +8,6 @@ RUN apt-get update \
  git-svn \
  gnat-5 \
  less \
- locales \
  mc \
  screen \
  software-properties-common \
@@ -20,8 +19,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && apt-file update
+RUN apt-file update
 
 # Create directories required for X11.
 RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
@@ -31,4 +29,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: b8cb9f0df64f714ab0d4514517850f35
+# checksum: 748125866a01f18208609545f724d9a6
