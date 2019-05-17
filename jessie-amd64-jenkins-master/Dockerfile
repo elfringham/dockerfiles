@@ -29,6 +29,7 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   devscripts \
   dirmngr \
   dput \
+  gettext \
   jq \
   moreutils \
   python-future \
