@@ -42,13 +42,13 @@ if [ x"$image" = x"" ]; then
   usage
 fi
 
-if groups tcwg-buildslave 2>/dev/null | grep -q docker; then
+if [ x"$(id -u)" = x"0" ] || groups 2>/dev/null | grep -q docker; then
+    # Run docker straight up if $USER is root or in "docker" group.
+    DOCKER="docker"
+elif groups tcwg-buildslave 2>/dev/null | grep -q docker; then
     # If tcwg-buildslave user is present, use it to start the container
     # to have [sudo] log record of container startups.
     DOCKER="sudo -u tcwg-buildslave docker"
-elif [ x"$(id -u)" = x"0" ] || groups 2>/dev/null | grep -q docker; then
-    # Run docker straight up if $USER is root or in "docker" group.
-    DOCKER="docker"
 else
     # Fallback to sudo otherwise.
     DOCKER="sudo docker"
