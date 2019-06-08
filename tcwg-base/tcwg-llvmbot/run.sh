@@ -162,6 +162,26 @@ EOF
 esac
 chmod +x /usr/local/bin/ninja
 
+# Handle LNT performance bot.
+case "$2" in
+    linaro-tk1-02)
+	# Borrowed from bmk-scripts.git/perfdatadir2csv.sh
+	perf_bin="/usr/lib/linux-tools/$(uname -r)/perf"
+	if ! [ -e "$perf_bin" ]; then
+	    perf_bin="$(find /usr/lib/linux-tools/ -name perf | tail -n 1)"
+	    if ! [ -e "$perf_bin" ]; then
+		echo "ERROR: Cannot find perf binary"
+		exit 1
+	    fi
+	fi
+	cat > /usr/local/bin/perf <<EOF
+#!/bin/sh
+exec $perf_bin "\$@"
+EOF
+	chmod +x /usr/local/bin/perf
+	;;
+esac
+
 sudo -i -u buildslave buildslave restart ~buildslave/buildslave
 
 if bare_metal_bot_p "$2"; then
