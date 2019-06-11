@@ -70,6 +70,11 @@ case "$buildmaster" in
 	masterurl="$buildmaster"
 esac
 
+case "$buildmaster" in
+    "normal") hostname="$slavename" ;;
+    *) hostname="$mastername-$slavename" ;;
+esac
+
 # Set relative CPU weight of containers running silent bots to 1/20th of
 # normal containers.  We want to run a full set of silent bots for
 # troubleshooting purposes, but don't want to waste a lot of CPU cycles.
@@ -100,4 +105,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$mastername-$slavename --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
