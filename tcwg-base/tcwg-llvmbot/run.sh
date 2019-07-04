@@ -37,10 +37,10 @@ if use_clang_p $2 ; then
     # so we use 6.0.0 for now.
     release_num=6.0.0
     case "$(uname -m)" in
-	aarch64) release_arch=aarch64 ;;
-	*) release_arch=armv7a ;;
+	aarch64) release_arch=aarch64-linux-gnu ;;
+	*) release_arch=armv7a-linux-gnueabihf ;;
     esac
-    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}-linux-gnu/bin
+    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
     cc=$release_path/clang
     cxx=$release_path/clang++
 else

@@ -22,6 +22,7 @@ RUN dpkg --add-architecture i386 \
  ccache \
  clang \
  clang-format-3.8 \
+ clang-tidy-3.8 \
  curl \
  debhelper \
  debian-archive-keyring \

@@ -18,6 +18,7 @@ RUN echo 'deb http://ports.ubuntu.com/ubuntu-ports xenial main universe' > /etc/
  build-essential \
  ccache \
  clang-format-3.8 \
+ clang-tidy-3.8 \
  curl \
  debhelper \
  debian-archive-keyring \
