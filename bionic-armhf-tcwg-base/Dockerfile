@@ -1,40 +1,12 @@
-#if ARCH_armhf && DISTRO_bionic
-FROM arm32v7/ubuntu:#{DISTRO}
-#elif ARCH_amd64 || DISTRO_bionic
-FROM ubuntu:#{DISTRO}
-#elif DISTRO_zesty
-FROM snapcraft/zesty-#{ARCH}:latest
-#else
-FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
-#endif
+# Auto generated from tcwg-base/Dockerfile.in. Do not edit.
+FROM arm32v7/ubuntu:bionic
 
-#if !DISTRO_bionic
-#if ARCH_amd64 || ARCH_i386
-RUN (url="http://archive.ubuntu.com/ubuntu/"; \
-#else
-RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
-#endif
- ubuntu=#{DISTRO}; \
- for i in $ubuntu $ubuntu-updates $ubuntu-backports $ubuntu-security; do \
-   for j in deb deb-src; do \
-     echo "$j $url $i main restricted universe multiverse"; \
-   done; \
-   echo; \
- done) > /etc/apt/sources.list \
-#else
 # Unminimize Ubuntu Bionic to install contrib files of git (after package
 # update, otherwise unminimize's "apt upgrade" might fail).
 RUN true \
-#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
-#if DISTRO_bionic
  && echo y | unminimize \
-#endif
-#if ARCH_i386
- && dpkg-divert --local --rename --add /sbin/initctl \
- && ln -s /bin/true /sbin/initctl \
-#endif
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  alien \
@@ -44,10 +16,6 @@ RUN true \
  bc \
  bind9-host \
  bison \
-#if ARCH_amd64 || ARCH_i386
- binutils-aarch64-linux-gnu \
- binutils-arm-linux-gnueabihf \
-#endif
  binutils-dev \
  bsd-mailx \
  build-essential \
@@ -85,30 +53,16 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-generic \
-#if DISTRO_bionic
  linux-tools-4.18.0-13-generic \
-#endif
  locales \
  lzop \
  make \
-#if ARCH_amd64 || ARCH_i386
- mingw-w64 \
-# if DISTRO_trusty
- mingw32 \
-# endif
-#endif
  moreutils \
  net-tools \
  netcat \
-#if ARCH_amd64 || !DISTRO_trusty
  nfs-kernel-server \
-#endif
  ninja-build \
-#if DISTRO_trusty
- openjdk-7-jdk \
-#else
  openjdk-8-jdk \
-#endif
  openssh-server \
  python-dev \
  postfix \
@@ -125,11 +79,7 @@ RUN true \
  unifdef \
  valgrind \
  vim \
-#if !DISTRO_trusty
  virtualenv \
-#else
- python-virtualenv \
-#endif
  wget \
  xz-utils \
  zip \
@@ -205,8 +155,5 @@ RUN \
 VOLUME /tmp
 
 EXPOSE 22
-#if ARCH_amd64 || ARCH_arm64
-CMD ["/usr/sbin/sshd", "-D"]
-#else
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-#endif
+# checksum: ceaddddd35e736f82cab441457ea2034
