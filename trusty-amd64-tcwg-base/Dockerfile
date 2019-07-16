@@ -44,7 +44,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  gdb \
  gdbserver \
  git \
- git-review \
  groff \
  less \
  libexpat1-dev \
@@ -71,10 +70,11 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ninja-build \
  openjdk-7-jdk \
  openssh-server \
- python-dev \
  postfix \
  psmisc \
  pxz \
+ python-dev \
+ python-pip \
  rsync \
  subversion \
  sudo \
@@ -105,7 +105,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  -e "/.*MaxSessions.*/d" /etc/ssh/sshd_config \
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
- && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
+ && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
+ && pip install git-review
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
@@ -163,4 +164,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 9a5d7447f874d8e8f29df9b8d64aced5
+# checksum: 9d97ca89c44c3782b47f28dab0feb015
