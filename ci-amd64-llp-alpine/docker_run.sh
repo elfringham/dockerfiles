@@ -12,7 +12,7 @@ if [ -z "$DJANGO_DEBUG" ] ; then
         echo "$html_header" >> /srv/header_override.html
     fi
 
-    exec /usr/bin/gunicorn -w4 -b 0.0.0.0:$PORT $LLP_APP
+    exec /usr/bin/gunicorn -w4 -k gevent -b 0.0.0.0:$PORT $LLP_APP
 fi
 
 if [ ! -z "$DJANGO_MIGRATE" ]; then
