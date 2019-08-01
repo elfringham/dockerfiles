@@ -6,7 +6,6 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 (
     hosts=(
 	ex40-01.tcwglab.linaro.org
-	aus-colo.linaro.org
 	lab.validation.linaro.org
 	people.linaro.org
 	git.linaro.org
@@ -14,6 +13,14 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	dev-private-git.linaro.org
 	review.linaro.org
 	dev-private-review.linaro.org
+	139.178.85.194  # tcwg-amp-01
+	139.178.85.198  # tcwg-amp-02
+	147.75.106.138  # tcwg-d05-01
+	213.146.141.80  # tcwg-m1-01
+	213.146.141.115 # tcwg-m1-02
+	213.146.141.96  # tcwg-m1-03
+	213.146.141.34  # tcwg-m1-04
+	147.75.77.198   # tcwg-thx1-01
     )
     ssh-keyscan -t rsa,dsa,ecdsa "${hosts[@]}"
 
