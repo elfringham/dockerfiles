@@ -13,7 +13,7 @@ RUN mkdir -p $APPDIR
 WORKDIR $APPDIR
 
 RUN apk update && \
-  apk --no-cache add python2 py2-pip mysql-client git py-gunicorn sqlite && \
+  apk --no-cache add python2 py2-pip mysql-client git py-gunicorn py-gevent sqlite && \
   apk --no-cache add gcc g++ python2-dev musl-dev libffi-dev postgresql-dev && \
   git clone https://git.linaro.org/infrastructure/linaro-license-protection.git/ $APPDIR && \
   pip2 install --upgrade pip setuptools six && \
