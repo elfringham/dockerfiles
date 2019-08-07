@@ -17,5 +17,11 @@ ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 cp -a ../linaro-overlay-${DISTRIBUTION}.list ../linaro-overlay-obs.key .
 
 image=linaro/ci-${ARCHITECTURE}-debian:${DISTRIBUTION}
+
+if [ ! -e Dockerfile ]
+then
+    cp ../${DISTRIBUTION}-amd64/Dockerfile .
+fi
+
 docker build --pull --tag=$image .
 echo $image > .docker-tag
