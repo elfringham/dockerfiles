@@ -107,6 +107,6 @@ if [ x"$user" != x"" ]; then
 	chown -R $user${gid:+:$gid} $home_data/$user/
 	chmod -R go-w $home_data/$user/
 	chmod -R go-rwx $home_data/$user/.ssh/
-	rsync -a $home_data/$user/ /home/$user/
+	rsync -ab $home_data/$user/ /home/$user/
     fi
 fi
