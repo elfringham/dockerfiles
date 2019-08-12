@@ -53,7 +53,6 @@ RUN true \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-generic \
  linux-tools-4.18.0-13-generic \
  locales \
  lzop \
@@ -160,4 +159,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: cd01f10303cc32d832b40fb9260d3ebd
+# checksum: eab27129c004bc43abae66e666a97198
