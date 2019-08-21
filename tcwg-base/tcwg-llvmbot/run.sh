@@ -10,12 +10,11 @@ use_clang_p ()
     # Typically we've used clang when the default gcc has problems
     # otherwise gcc is used.
     case "$1" in
-        *-libcxx*|linaro-tk1-01) return 0 ;;
+        *-libcxx*|linaro-tk1-02) return 0 ;;
         *-lld) return 0 ;;
-        *-arm-quick|linaro-tk1-06) return 0 ;;
-        *-arm-full-selfhost|linaro-tk1-05) return 0 ;;
-        *-arm-full|linaro-tk1-08) return 0 ;;
-        *-arm-global-isel|linaro-tk1-09) return 0 ;;
+        *-arm-quick) return 0 ;;
+        *-linaro-tk1-01|linaro-tk1-03|linaro-tk1-04|linaro-tk1-05) return 0 ;;
+        *-arm-global-isel) return 0 ;;
         *) return 1 ;;
     esac
 }
