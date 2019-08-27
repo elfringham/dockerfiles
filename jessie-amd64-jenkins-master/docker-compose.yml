@@ -12,3 +12,15 @@ services:
       - "50000:50000"
     volumes:
       - "${JENKINS_HOST_PATH}:/var/jenkins_home:rw"
+  gerrit:
+    image: 'debian:buster'
+    container_name: gerrit
+    logging:
+      driver: journald
+    ports:
+      - "2222:2222"
+      - "2233:2233"
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - "${JENKINS_HOST_PATH}:/var/jenkins_home:rw"
