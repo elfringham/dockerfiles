@@ -25,6 +25,9 @@ RUN true \
  chrpath \
  clang \
  cmake \
+# cpufrequtils is used by our benchmarking scripts, but we should update them to
+# use cpupower from linux-tools everywhere instead.
+ cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -51,6 +54,7 @@ RUN true \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ linux-tools-common \
  linux-tools-4.18.0-13-generic \
  locales \
  lzop \
@@ -60,6 +64,7 @@ RUN true \
  netcat \
  nfs-kernel-server \
  ninja-build \
+ ntp \
  openjdk-8-jdk \
  openssh-server \
  postfix \
@@ -156,4 +161,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 6767c5f456d912dcbab18fe457673396
+# checksum: a01ca8cd008c4abe34ed0ffb277a4f40
