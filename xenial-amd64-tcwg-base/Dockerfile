@@ -31,6 +31,9 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  chrpath \
  clang \
  cmake \
+# cpufrequtils is used by our benchmarking scripts, but we should update them to
+# use cpupower from linux-tools everywhere instead.
+ cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -57,7 +60,9 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-generic \
+ linux-tools-common \
+# We want to control the perf version used by the benchmarking jobs.
+ linux-tools-4.4.0-59-generic \
  locales \
  lzop \
  make \
@@ -67,6 +72,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  netcat \
  nfs-kernel-server \
  ninja-build \
+ ntp \
  openjdk-8-jdk \
  openssh-server \
  postfix \
@@ -163,4 +169,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 01185de8e336b6e383a2fd730bfce7d9
+# checksum: f3c5aef634349241a2bb991d951215c4
