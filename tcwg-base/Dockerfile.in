@@ -57,6 +57,9 @@ RUN true \
  chrpath \
  clang \
  cmake \
+# cpufrequtils is used by our benchmarking scripts, but we should update them to
+# use cpupower from linux-tools everywhere instead.
+ cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -83,10 +86,12 @@ RUN true \
  libssl-dev \
  libtcnative-1 \
  libtool \
+ linux-tools-common \
 #if DISTRO_bionic
  linux-tools-4.18.0-13-generic \
 #else
- linux-tools-generic \
+# We want to control the perf version used by the benchmarking jobs.
+ linux-tools-4.4.0-59-generic \
 #endif
  locales \
  lzop \
@@ -104,6 +109,7 @@ RUN true \
  nfs-kernel-server \
 #endif
  ninja-build \
+ ntp \
 #if DISTRO_trusty
  openjdk-7-jdk \
 #else

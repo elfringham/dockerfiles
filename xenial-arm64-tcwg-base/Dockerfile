@@ -29,6 +29,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  chrpath \
  clang \
  cmake \
+# cpufrequtils is used by our benchmarking scripts, but we should update them to
+# use cpupower from linux-tools everywhere instead.
+ cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -55,7 +58,9 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-generic \
+ linux-tools-common \
+# We want to control the perf version used by the benchmarking jobs.
+ linux-tools-4.4.0-59-generic \
  locales \
  lzop \
  make \
@@ -64,6 +69,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  netcat \
  nfs-kernel-server \
  ninja-build \
+ ntp \
  openjdk-8-jdk \
  openssh-server \
  postfix \
@@ -160,4 +166,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 6128be3e09834b7bf14f01049bbdc886
+# checksum: 1c6253780a9c752978f6175f855103ac
