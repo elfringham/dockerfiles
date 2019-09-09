@@ -13,6 +13,7 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	dev-private-git.linaro.org
 	review.linaro.org
 	dev-private-review.linaro.org
+	147.75.199.202  # linaro-armv8-01
 	139.178.82.90   # tcwg-amp-01
 	139.178.83.86   # tcwg-amp-02
 	147.75.106.138  # tcwg-d05-01
