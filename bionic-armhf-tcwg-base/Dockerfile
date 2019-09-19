@@ -72,6 +72,7 @@ RUN true \
  pxz \
  python-dev \
  python-pip \
+ python3-pip \
  rsync \
  subversion \
  sudo \
@@ -104,6 +105,13 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip install setuptools git-review
+
+# Install jipdate to add comments to Jira card from CI jobs
+RUN cd /usr/local \
+ && git clone -b master https://github.com/Linaro/jipdate.git \
+ && cd jipdate \
+ && pip3 install -r requirements.txt \
+ && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
@@ -161,4 +169,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: a01ca8cd008c4abe34ed0ffb277a4f40
+# checksum: a660d7ed57130498bbc38ca451dd5c8d

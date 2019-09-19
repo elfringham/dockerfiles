@@ -76,6 +76,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  pxz \
  python-dev \
  python-pip \
+ python3-pip \
  rsync \
  subversion \
  sudo \
@@ -108,6 +109,13 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip install setuptools git-review
+
+# Install jipdate to add comments to Jira card from CI jobs
+RUN cd /usr/local \
+ && git clone -b master https://github.com/Linaro/jipdate.git \
+ && cd jipdate \
+ && pip3 install -r requirements.txt \
+ && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
@@ -165,4 +173,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: a0808d7a5c4c71ea7f5824c939f0c08b
+# checksum: a063fc47a3d6e2f7f560fd4721780bac
