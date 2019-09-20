@@ -120,6 +120,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 RUN cd /usr/local \
  && git clone -b master https://github.com/Linaro/jipdate.git \
  && cd jipdate \
+ && pip3 install setuptools \
  && pip3 install -r requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
@@ -179,4 +180,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 4648d5eea278c01d4c6426c0fe386784
+# checksum: 0e9a16a4bf001a3bd997d67388ecdc6f
