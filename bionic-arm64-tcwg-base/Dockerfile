@@ -74,6 +74,8 @@ RUN true \
  python-pip \
  python-setuptools \
  python-wheel \
+# Install pre-requisites for jipdate.  It is tricky to make these work
+# for Trusty and Xenial, so don't bother.
  python3-jira \
  python3-pip \
  python3-setuptools \
@@ -172,4 +174,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: d8db611c496c2fdac35250da567273b0
+# checksum: 6660345741e6a9db2bce64e6a5628049

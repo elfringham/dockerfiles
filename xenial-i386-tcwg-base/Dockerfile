@@ -84,11 +84,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  python-pip \
  python-setuptools \
  python-wheel \
- python3-jira \
- python3-pip \
- python3-setuptools \
- python3-wheel \
- python3-yaml \
  rsync \
  subversion \
  sudo \
@@ -182,4 +177,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 70f6f0ead005040f2c533243ff785d75
+# checksum: 83a0ef34da07eb0ea7ecf8e5e824c73a

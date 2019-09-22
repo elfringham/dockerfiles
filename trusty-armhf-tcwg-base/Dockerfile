@@ -78,11 +78,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  python-pip \
  python-setuptools \
  python-wheel \
- python3-jira \
- python3-pip \
- python3-setuptools \
- python3-wheel \
- python3-yaml \
  rsync \
  subversion \
  sudo \
@@ -176,4 +171,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: c29d60ff93529b58bb5661db967e2ad3
+# checksum: 7cd8fad0f2b6f5f80e368b06d5f8c4c6

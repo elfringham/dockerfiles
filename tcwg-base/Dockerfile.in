@@ -123,11 +123,15 @@ RUN true \
  python-pip \
  python-setuptools \
  python-wheel \
+#if !DISTRO_trusty && !DISTRO_xenial
+# Install pre-requisites for jipdate.  It is tricky to make these work
+# for Trusty and Xenial, so don't bother.
  python3-jira \
  python3-pip \
  python3-setuptools \
  python3-wheel \
  python3-yaml \
+#endif
  rsync \
  subversion \
  sudo \
