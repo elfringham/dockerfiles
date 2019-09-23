@@ -83,6 +83,9 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  python-pip \
  python-setuptools \
  python-wheel \
+ python3-pip \
+ python3-setuptools \
+ python3-wheel \
  rsync \
  subversion \
  sudo \
@@ -116,9 +119,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip install git-review
 
-# Install jipdate to add comments to Jira cards from CI jobs
-RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
- && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
@@ -176,4 +176,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 7958059cd004348f08ba7ceb517d6692
+# checksum: 2efc57640d5e6b307dce68908ecd2537

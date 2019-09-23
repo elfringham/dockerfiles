@@ -74,13 +74,9 @@ RUN true \
  python-pip \
  python-setuptools \
  python-wheel \
-# Install pre-requisites for jipdate.  It is tricky to make these work
-# for Trusty and Xenial, so don't bother.
- python3-jira \
  python3-pip \
  python3-setuptools \
  python3-wheel \
- python3-yaml \
  rsync \
  subversion \
  sudo \
@@ -114,8 +110,10 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip install git-review
 
-# Install jipdate to add comments to Jira cards from CI jobs
+# Install jipdate.  It is tricky to make these work
+# for Trusty and Xenial, so don't bother.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
+ && pip3 install -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -174,4 +172,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 6660345741e6a9db2bce64e6a5628049
+# checksum: db7133740e610d44f72967793c25ec1b
