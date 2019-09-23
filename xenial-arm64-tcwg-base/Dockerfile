@@ -79,6 +79,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  python-pip \
  python-setuptools \
  python-wheel \
+ python3-dev \
  python3-pip \
  python3-setuptools \
  python3-wheel \
@@ -172,4 +173,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 14fe81d2e7d1d806150ba4be8d0732db
+# checksum: cb6840af5c200b73d82d4cc260ce1831

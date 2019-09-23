@@ -77,6 +77,7 @@ RUN true \
  python-pip \
  python-setuptools \
  python-wheel \
+ python3-dev \
  python3-pip \
  python3-setuptools \
  python3-wheel \
@@ -175,4 +176,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 2cb2e2a8a31655b12a4f719fae5de879
+# checksum: e82a49430c9bc648796fa9fb2f2e5b3b

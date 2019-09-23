@@ -83,6 +83,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  python-pip \
  python-setuptools \
  python-wheel \
+ python3-dev \
  python3-pip \
  python3-setuptools \
  python3-wheel \
@@ -176,4 +177,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 2efc57640d5e6b307dce68908ecd2537
+# checksum: 21bf8f31a615fe43660706243a5784d4
