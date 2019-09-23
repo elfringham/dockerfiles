@@ -52,6 +52,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  groff \
  less \
  libexpat1-dev \
+ libffi-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
@@ -178,4 +179,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: c44438b1aea17c5bd094229bc0333f89
+# checksum: 9583fd5cd512fb9185f9bea1c95de3e7

@@ -48,6 +48,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  groff \
  less \
  libexpat1-dev \
+ libffi-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
@@ -172,4 +173,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 23de55cb74a835e43c7efde3b30b100b
+# checksum: a9324ea3392900a6f2cd7324a0247d33

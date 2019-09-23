@@ -44,6 +44,7 @@ RUN true \
  groff \
  less \
  libexpat1-dev \
+ libffi-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
@@ -114,7 +115,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 # Install jipdate.  It is tricky to make these work
 # for Trusty and Xenial, so don't bother.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
- && pip3 install -r /usr/local/jipdate/requirements.txt \
+ && pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -173,4 +174,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 1710501bd13d5b4d451176a654abe278
+# checksum: 3c93f29a4edba87bc0da1edf6a56d5ad
