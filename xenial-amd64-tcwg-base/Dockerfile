@@ -103,6 +103,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  xz-utils \
  zip \
  zlib1g-dev \
+ && rm -f /etc/ssh/ssh_host_*_key* \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -177,4 +178,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: e9eda4bc928abf15917aef8a7f61be34
+# checksum: b3f30890f29d748c9489eef0b3a69380

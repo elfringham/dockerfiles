@@ -100,6 +100,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  xz-utils \
  zip \
  zlib1g-dev \
+ && rm -f /etc/ssh/ssh_host_*_key* \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -174,4 +175,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 69140889bcea7c436a99ac9a9417f93f
+# checksum: cfcd77280f38584b463a9ce90202b0b2

@@ -95,6 +95,7 @@ RUN true \
  xz-utils \
  zip \
  zlib1g-dev \
+ && rm -f /etc/ssh/ssh_host_*_key* \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -174,4 +175,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 3c93f29a4edba87bc0da1edf6a56d5ad
+# checksum: 4830e3559b7b1c82d202627eb4a4a4d3
