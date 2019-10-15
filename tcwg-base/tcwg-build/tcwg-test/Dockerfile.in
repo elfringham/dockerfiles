@@ -1,1 +1,0 @@
-FROM linaro/ci-#{ARCH}-tcwg-build-ubuntu:#{DISTRO}

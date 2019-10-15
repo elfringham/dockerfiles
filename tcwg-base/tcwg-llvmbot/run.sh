@@ -73,7 +73,7 @@ case "$2" in
 esac
 
 cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
-Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>
+Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
 EOF
 
 n_cores=$(nproc --all)
