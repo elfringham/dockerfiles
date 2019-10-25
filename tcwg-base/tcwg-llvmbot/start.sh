@@ -83,6 +83,12 @@ case "$mastername" in
     *) cpu_shares=1000 ;;
 esac
 
+mounts=""
+# Bind-mount ssh host keys.
+for key in /etc/ssh/ssh_host_*_key{,.pub}; do
+    mounts="$mounts -v $key:$key:ro"
+done
+
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 case "$slavename" in
     linaro-tk1-*)
@@ -105,4 +111,4 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
 
-$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"

@@ -74,6 +74,7 @@ mounts=""
 mounts="$mounts -v host-home:/home"
 mounts="$mounts -v /var/run/docker.sock:/var/run/docker.sock"
 mounts="$mounts -v /usr/bin/docker:/usr/bin/docker"
+# Bind-mount ssh host keys.
 for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done

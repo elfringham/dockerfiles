@@ -98,6 +98,10 @@ case "$home" in
 	mounts="$mounts -v home-$user:/home"
 	;;
 esac
+# Bind-mount ssh host keys.
+for key in /etc/ssh/ssh_host_*_key{,.pub}; do
+    mounts="$mounts -v $key:$key:ro"
+done
 
 # Use at most half of all available RAM.
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
