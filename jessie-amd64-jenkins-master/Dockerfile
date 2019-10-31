@@ -35,6 +35,7 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   python-future \
   python-paramiko \
   python-requests \
+ python3-requests \
   python3-setuptools \
   python3-wheel \
   sshpass \
