@@ -56,6 +56,7 @@ RUN dpkg --add-architecture i386 \
  python-mako \
  python-networkx \
  python-requests \
+ python3-requests \
  pxz \
  qemu-user-static \
  rsync \

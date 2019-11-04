@@ -42,6 +42,7 @@ RUN dpkg --add-architecture i386 \
  openjdk-8-jdk \
  openssh-server \
  python-requests \
+ python3-requests \
  qemu-user-static \
  sudo \
  time \

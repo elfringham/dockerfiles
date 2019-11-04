@@ -54,6 +54,7 @@ RUN dpkg --add-architecture i386 \
  pigz \
  python-pip \
  python-requests \
+ python3-requests \
  qemu-user-static \
  sudo \
  texinfo \

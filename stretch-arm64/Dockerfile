@@ -40,6 +40,7 @@ RUN apt-get update \
  openjdk-8-jdk \
  openssh-server \
  python-requests \
+ python3-requests \
  qemu-user-static \
  sudo \
  time \
