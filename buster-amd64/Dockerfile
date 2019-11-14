@@ -20,6 +20,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  bison \
  build-essential \
  ccache \
+ cpio \
  curl \
  debhelper \
  debian-archive-keyring \
@@ -28,18 +29,20 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  doxygen \
  fakeroot \
  flex \
- gcc \
+ genisoimage \
  gdisk \
  git \
  kernel-wedge \
  kpartx \
  lava-tool \
  libtool \
- linaro-image-tools \
+ libssl-dev \
  lsb-release \
+ mdadm \
+ mtools \
  openjdk-11-jdk \
  openssh-server \
- python-requests \
+ python3-pip \
  python3-requests \
  qemu-user-static \
  sudo \
@@ -47,6 +50,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  u-boot-tools \
  uuid-dev \
  wget \
+ xz-utils \
  zip \
  zsync \
  && apt-get clean \
