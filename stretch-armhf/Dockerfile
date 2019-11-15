@@ -20,6 +20,7 @@ RUN apt-get update \
  bison \
  build-essential \
  ccache \
+ cpio \
  curl \
  debhelper \
  debian-archive-keyring \
@@ -28,17 +29,20 @@ RUN apt-get update \
  doxygen \
  fakeroot \
  flex \
- gcc \
+ genisoimage \
  gdisk \
  git \
  kernel-wedge \
  kpartx \
  lava-tool \
+ libssl-dev \
  libtool \
- linaro-image-tools \
  lsb-release \
+ mdadm \
+ mtools \
  openjdk-8-jdk \
  openssh-server \
+ python-pip \
  python-requests \
  python3-requests \
  qemu-user-static \
@@ -47,6 +51,7 @@ RUN apt-get update \
  u-boot-tools \
  uuid-dev \
  wget \
+ xz-utils \
  zip \
  zsync \
  && apt-get clean \

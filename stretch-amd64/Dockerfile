@@ -21,6 +21,7 @@ RUN dpkg --add-architecture i386 \
  bison \
  build-essential \
  ccache \
+ cpio \
  curl \
  debhelper \
  debian-archive-keyring \
@@ -29,18 +30,21 @@ RUN dpkg --add-architecture i386 \
  doxygen \
  fakeroot \
  flex \
- gcc \
+ genisoimage \
  gdisk \
  git \
  kernel-wedge \
  kpartx \
  lava-tool \
+ libssl-dev \
  libstdc++6:i386 \
  libtool \
- linaro-image-tools \
  lsb-release \
+ mdadm \
+ mtools \
  openjdk-8-jdk \
  openssh-server \
+ python-pip \
  python-requests \
  python3-requests \
  qemu-user-static \
@@ -49,6 +53,7 @@ RUN dpkg --add-architecture i386 \
  u-boot-tools \
  uuid-dev \
  wget \
+ xz-utils \
  zip \
  zlib1g:i386 \
  zsync \
