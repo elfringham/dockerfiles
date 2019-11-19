@@ -27,6 +27,7 @@ RUN dpkg --add-architecture i386 \
  debian-archive-keyring \
  debian-keyring \
  device-tree-compiler \
+ dosfstools \
  doxygen \
  fakeroot \
  flex \
@@ -39,11 +40,13 @@ RUN dpkg --add-architecture i386 \
  libssl-dev \
  libstdc++6:i386 \
  libtool \
+ linaro-image-tools \
  lsb-release \
  mdadm \
  mtools \
  openjdk-8-jdk \
  openssh-server \
+ parted \
  python-pip \
  python-requests \
  python3-requests \

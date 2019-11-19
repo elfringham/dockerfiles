@@ -26,6 +26,7 @@ RUN apt-get update \
  debian-archive-keyring \
  debian-keyring \
  device-tree-compiler \
+ dosfstools \
  doxygen \
  fakeroot \
  flex \
@@ -37,11 +38,13 @@ RUN apt-get update \
  lava-tool \
  libssl-dev \
  libtool \
+ linaro-image-tools \
  lsb-release \
  mdadm \
  mtools \
  openjdk-8-jdk \
  openssh-server \
+ parted \
  python-pip \
  python-requests \
  python3-requests \

@@ -26,6 +26,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  debian-archive-keyring \
  debian-keyring \
  device-tree-compiler \
+ dosfstools \
  doxygen \
  fakeroot \
  flex \
@@ -36,12 +37,14 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  kpartx \
  lava-tool \
  libtool \
+ linaro-image-tools \
  libssl-dev \
  lsb-release \
  mdadm \
  mtools \
  openjdk-11-jdk \
  openssh-server \
+ parted \
  python3-pip \
  python3-requests \
  qemu-user-static \
