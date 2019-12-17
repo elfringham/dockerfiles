@@ -50,7 +50,7 @@ USER jenkins
 # Install jenkins plugins
 COPY plugins.txt .
 RUN install-plugins.sh $(echo $(cat plugins.txt)) \
-  && wget -q http://people.linaro.org/~paul.sokolovsky/jenkins/linaro-pubapi-1.3.hpi -O /usr/share/jenkins/ref/plugins/linaro-pubapi-1.3.hpi
+  && wget -q https://jenkins-linaro-pubapi.s3.amazonaws.com/linaro-pubapi-1.3.hpi -O /usr/share/jenkins/ref/plugins/linaro-pubapi-1.3.hpi
 
 # Forward ports to host
 EXPOSE 2222
