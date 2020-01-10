@@ -25,6 +25,7 @@ RUN apt-get update \
  debhelper \
  debian-archive-keyring \
  debian-keyring \
+ debootstrap \
  device-tree-compiler \
  dosfstools \
  doxygen \
@@ -40,6 +41,7 @@ RUN apt-get update \
  libtool \
  linaro-image-tools \
  lsb-release \
+ lvm2 \
  mdadm \
  mtools \
  openjdk-8-jdk \

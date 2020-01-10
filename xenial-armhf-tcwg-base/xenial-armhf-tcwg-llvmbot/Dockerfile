@@ -7,7 +7,7 @@ RUN apt-get update \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  buildbot \
- g++-7 \
+ g++-9 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -41,4 +41,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: cf73c99640ab904d9997a941177001f1
+# checksum: b9323fa7dde77c04b9c7785c7f013cc1

@@ -25,6 +25,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  debhelper \
  debian-archive-keyring \
  debian-keyring \
+ debootstrap \
  device-tree-compiler \
  dosfstools \
  doxygen \
@@ -40,6 +41,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  linaro-image-tools \
  libssl-dev \
  lsb-release \
+ lvm2 \
  mdadm \
  mtools \
  openjdk-11-jdk \

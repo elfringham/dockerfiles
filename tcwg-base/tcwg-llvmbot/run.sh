@@ -43,8 +43,8 @@ if use_clang_p $2 ; then
     cc=$release_path/clang
     cxx=$release_path/clang++
 else
-    cc=gcc-7
-    cxx=g++-7
+    cc=gcc-9
+    cxx=g++-9
 fi
 
 # With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as
