@@ -100,7 +100,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  zip \
  zlib1g-dev \
 # Update tzdata, because some base images have an incorrect file for UTC.
- && apt install --reinstall tzdata \
+ && DEBIAN_FRONTEND=noninteractive apt-get install --reinstall tzdata \
  && rm -f /etc/ssh/ssh_host_*_key* \
  && apt-get clean \
  && rm -rf \
@@ -176,4 +176,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: cadeadd57a669c97ad402f69541dd4d2
+# checksum: b5742db35c73db92f2d8a47705fec266
