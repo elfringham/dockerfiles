@@ -106,7 +106,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  zip \
  zlib1g-dev \
 # Update tzdata, because some base images have an incorrect file for UTC.
- && apt install --reinstall tzdata \
+ && DEBIAN_FRONTEND=noninteractive apt-get install --reinstall tzdata \
  && rm -f /etc/ssh/ssh_host_*_key* \
  && apt-get clean \
  && rm -rf \
@@ -182,4 +182,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 96943396dd2e71ea5fffd903469d550a
+# checksum: 9a6cf6ee2d7fe9820ebbab3edbcea503
