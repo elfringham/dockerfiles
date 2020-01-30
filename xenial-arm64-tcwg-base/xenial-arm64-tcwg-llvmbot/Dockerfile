@@ -8,8 +8,6 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  buildbot \
  g++-9 \
-# Workaround tzdata not being updated in tcwg-base image.
- && DEBIAN_FRONTEND=noninteractive apt-get install --reinstall tzdata \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -43,4 +41,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: fc1baae7571d9d2bc8c6512561e0f4c5
+# checksum: 33c74b3c9e96ea6b3c906fe8e6183f1d
