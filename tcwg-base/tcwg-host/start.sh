@@ -8,8 +8,8 @@ usage ()
 $0 [OPTIONS] -- IMAGE GROUP
 
 Options:
-  --task host/jenkins
-	Task to serve: "host" is for all users, "jenkins" is for tcwg-infra
+  --node jenkins-id/host
+	Jenkins node ID to connect as; or "host"
 
   --verbose true/false
 	Whether to run in verbose mode
@@ -22,7 +22,7 @@ verbose=false
 
 while [ $# -gt 0 ]; do
     case $1 in
-	--task) task="$2"; shift ;;
+	--node|--task) node="$2"; shift ;;
 	--verbose) verbose="$2"; shift ;;
 	--) shift; break ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
@@ -55,17 +55,11 @@ else
 fi
 
 group="$1"
-case "$task" in
-    host)
-	;;
-    jenkins)
-	if [ x"$group" != x"tcwg-infra" ]; then
-	    echo "ERROR: group for task $task should be tcwg-infra"
-	    exit 1
-	fi
-	;;
+case "$node:$group" in
+    host:*) ;;
+    *:tcwg-infra) ;;
     *)
-	echo "ERROR: wrong task $task"
+	echo "ERROR: group for node $node should be tcwg-infra"
 	exit 1
 	;;
 esac
@@ -79,8 +73,22 @@ for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done
 
+case "$node" in
+    host) ;;
+    tcwg-bmk-*)
+	mounts="$mounts -v /root/jenkins/$node.secret:/home/tcwg-benchmark/secret-file"
+	;;
+    tcwg-*)
+	mounts="$mounts -v /root/jenkins/$node.secret:/home/tcwg-buildslave/secret-file"
+	;;
+    *)
+	echo "ERROR: Wrong node $node"
+	exit 1
+	;;
+esac
+
 # Use at most half of all available RAM.
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 memlimit=$(($memlimit / 2))m
 
-$DOCKER run -dt --name=$task --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$task"
+$DOCKER run -dt --name=$node --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$node"
