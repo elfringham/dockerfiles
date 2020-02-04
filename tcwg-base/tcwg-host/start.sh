@@ -5,24 +5,30 @@ set -e
 usage ()
 {
     cat <<EOF
-$0 [OPTIONS] -- IMAGE GROUP
+$0 [OPTIONS] -- IMAGE [GROUP [NODE]]
 
 Options:
-  --node jenkins-id/host
-	Jenkins node ID to connect as; or "host"
-
   --verbose true/false
 	Whether to run in verbose mode
+
+  IMAGE
+	Docker tcwg-host image
+
+  GROUP
+	User group to configure access to; or "all"
+
+  NODE
+	Jenkins node ID to connect as; or "host"
 EOF
     exit 1
 }
 
-task="host"
+group="all"
+node="host"
 verbose=false
 
 while [ $# -gt 0 ]; do
     case $1 in
-	--node|--task) node="$2"; shift ;;
 	--verbose) verbose="$2"; shift ;;
 	--) shift; break ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
@@ -31,7 +37,8 @@ while [ $# -gt 0 ]; do
 done
 
 image="$1"
-shift
+group="${2-$group}"
+node="${3-$node}"
 
 if $verbose; then
     set -x
@@ -54,16 +61,6 @@ else
     DOCKER="sudo docker"
 fi
 
-group="$1"
-case "$node:$group" in
-    host:*) ;;
-    *:tcwg-infra) ;;
-    *)
-	echo "ERROR: group for node $node should be tcwg-infra"
-	exit 1
-	;;
-esac
-
 mounts=""
 mounts="$mounts -v host-home:/home"
 mounts="$mounts -v /var/run/docker.sock:/var/run/docker.sock"
@@ -72,20 +69,6 @@ mounts="$mounts -v /usr/bin/docker:/usr/bin/docker"
 for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done
-
-case "$node" in
-    host) ;;
-    tcwg-bmk-*)
-	mounts="$mounts -v /root/jenkins/$node.secret:/home/tcwg-benchmark/secret-file"
-	;;
-    tcwg-*)
-	mounts="$mounts -v /root/jenkins/$node.secret:/home/tcwg-buildslave/secret-file"
-	;;
-    *)
-	echo "ERROR: Wrong node $node"
-	exit 1
-	;;
-esac
 
 # Use at most half of all available RAM.
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
