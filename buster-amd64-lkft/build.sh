@@ -16,6 +16,6 @@ ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 
 cp -a ../linaro-overlay-${DISTRIBUTION}.list ../linaro-overlay-obs.key .
 
-image=linaro/ci-${ARCHITECTURE}-debian-lkft:${DISTRIBUTION}
+image=linaro/jenkins-${ARCHITECTURE}-debian-lkft:${DISTRIBUTION}
 docker build --pull --tag=$image .
 echo $image > .docker-tag
