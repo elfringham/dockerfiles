@@ -5,24 +5,30 @@ set -e
 usage ()
 {
     cat <<EOF
-$0 [OPTIONS] -- IMAGE GROUP
+$0 [OPTIONS] -- IMAGE [GROUP [NODE]]
 
 Options:
-  --task host/jenkins
-	Task to serve: "host" is for all users, "jenkins" is for tcwg-infra
-
   --verbose true/false
 	Whether to run in verbose mode
+
+  IMAGE
+	Docker tcwg-host image
+
+  GROUP
+	User group to configure access to; or "all"
+
+  NODE
+	Jenkins node ID to connect as; or "host"
 EOF
     exit 1
 }
 
-task="host"
+group="all"
+node="host"
 verbose=false
 
 while [ $# -gt 0 ]; do
     case $1 in
-	--task) task="$2"; shift ;;
 	--verbose) verbose="$2"; shift ;;
 	--) shift; break ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
@@ -31,7 +37,8 @@ while [ $# -gt 0 ]; do
 done
 
 image="$1"
-shift
+group="${2-$group}"
+node="${3-$node}"
 
 if $verbose; then
     set -x
@@ -54,22 +61,6 @@ else
     DOCKER="sudo docker"
 fi
 
-group="$1"
-case "$task" in
-    host)
-	;;
-    jenkins)
-	if [ x"$group" != x"tcwg-infra" ]; then
-	    echo "ERROR: group for task $task should be tcwg-infra"
-	    exit 1
-	fi
-	;;
-    *)
-	echo "ERROR: wrong task $task"
-	exit 1
-	;;
-esac
-
 mounts=""
 mounts="$mounts -v host-home:/home"
 mounts="$mounts -v /var/run/docker.sock:/var/run/docker.sock"
@@ -83,4 +74,4 @@ done
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 memlimit=$(($memlimit / 2))m
 
-$DOCKER run -dt --name=$task --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$task"
+$DOCKER run -dt --name=$node --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$node"

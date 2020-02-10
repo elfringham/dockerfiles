@@ -8,7 +8,7 @@ if [ x"$1" = x"start.sh" ]; then
 fi
 
 group="$1"
-task="$2"
+node="$2"
 
 if [ x"$group" = x"all" ]; then
     group=".*"
@@ -25,12 +25,15 @@ while read line; do
     fi
 done </home-data/passwd
 
-port="2222"
-if [ x"$task" = x"jenkins" ]; then
-    port="2022"
-fi
+case "$node" in
+    host)
+	sed -i -e "/.*Port.*/d" /etc/ssh/sshd_config
+	echo "Port 2222" >> /etc/ssh/sshd_config
+	exec /usr/sbin/sshd -D
+	;;
+    tcwg-bmk-*) user=tcwg-benchmark ;;
+    *) user=tcwg-buildslave ;;
+esac
 
-sed -i -e "/.*Port.*/d" /etc/ssh/sshd_config
-echo "Port $port" >> /etc/ssh/sshd_config
-
-exec /usr/sbin/sshd -D
+sudo -i -u $user curl -o agent.jar https://ci.linaro.org/jnlpJars/agent.jar
+exec sudo -i -u $user java -jar agent.jar -jnlpUrl https://ci.linaro.org/computer/$node/slave-agent.jnlp -secret @jenkins/$node.secret -workDir "/home/$user"

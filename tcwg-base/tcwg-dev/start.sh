@@ -79,7 +79,8 @@ home_top="/home"
 if $docker_host; then
     # If inside "host" container (with proxied docker and /home from host-home
     # volume), convert paths to refer to volume's path on bare-metal.
-    home_top=/var/lib/docker/volumes/host-home/_data
+    docker_root=$($DOCKER info | grep "Docker Root Dir:" | cut -d: -f 2)
+    home_top=$docker_root/volumes/host-home/_data
 fi
 
 if $docker_host || [ -d "$home_top/tcwg-buildslave" ]; then
