@@ -6,6 +6,10 @@ COPY docker-stats /usr/local/bin/
 
 COPY run.sh start.sh /
 
-ENTRYPOINT ["/run.sh"]
+ENV TINI_VERSION v0.18.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}-arm64/tini /sbin/tini
+RUN chmod +x /sbin/tini
+
+ENTRYPOINT ["/sbin/tini", "--", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 8498aac781566adf4cb5a246369137bd
+# checksum: f68590e5a0e6a62c88271098df9d2d0f
