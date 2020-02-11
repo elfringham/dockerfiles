@@ -6,7 +6,7 @@ COPY docker-stats /usr/local/bin/
 COPY run.sh start.sh /
 
 ENV TINI_VERSION v0.18.0
-ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}-#{ARCH}/tini /sbin/tini
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-#{ARCH} /sbin/tini
 RUN chmod +x /sbin/tini
 
 #if ARCH_amd64 || ARCH_arm64
