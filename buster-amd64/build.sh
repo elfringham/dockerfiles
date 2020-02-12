@@ -16,7 +16,7 @@ ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 
 cp -a ../linaro-overlay-${DISTRIBUTION}.list ../linaro-overlay-obs.key .
 
-image=linaro/ci-${ARCHITECTURE}-debian:${DISTRIBUTION}
+image=linaro/jenkins-${ARCHITECTURE}-debian:${DISTRIBUTION}
 
 if [ ! -e Dockerfile ]
 then

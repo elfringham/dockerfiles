@@ -16,6 +16,6 @@ ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 
 cp -a ../setup-sshd .
 
-image=linaro/ci-${ARCHITECTURE}-art-ubuntu:${DISTRIBUTION}
+image=linaro/jenkins-${ARCHITECTURE}-art-ubuntu:${DISTRIBUTION}
 docker build --pull --tag=$image .
 echo $image > .docker-tag
