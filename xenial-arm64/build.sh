@@ -17,6 +17,6 @@ ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 cp -a ../linaro-overlay-repo.list ../linaro-overlay-repo.key .
 sed -e "s|@DISTRIBUTION@|${DISTRIBUTION}|" -i *.list
 
-image=linaro/ci-${ARCHITECTURE}-ubuntu:${DISTRIBUTION}
+image=linaro/jenkins-${ARCHITECTURE}-ubuntu:${DISTRIBUTION}
 docker build --pull --tag=$image .
 echo $image > .docker-tag
