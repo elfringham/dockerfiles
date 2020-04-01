@@ -95,6 +95,7 @@ RUN true \
  xz-utils \
  zip \
  zlib1g-dev \
+ shellcheck \
 # Update tzdata, because some base images have an incorrect file for UTC.
  && DEBIAN_FRONTEND=noninteractive apt-get install --reinstall tzdata \
  && rm -f /etc/ssh/ssh_host_*_key* \
@@ -177,4 +178,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: b4e350d88f0288960aa919aae3091264
+# checksum: f2eee40bb1eff9e8762c976a36a0af6e
