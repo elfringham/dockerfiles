@@ -119,6 +119,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 # Install jipdate.  It is tricky to make these work
 # for Trusty and Xenial, so don't bother.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
+ && git -C /usr/local/jipdate/ fetch origin pull/36/head:pull-36 \
+ && git -C /usr/local/jipdate/ checkout pull-36 \
  && pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
@@ -178,4 +180,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: df5357d4011dc7eea96c8233004d0bf7
+# checksum: 67b9c167cb8d3b5969679cde4f3dbc09
