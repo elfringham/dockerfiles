@@ -24,6 +24,6 @@ generate_dockerfile ()
     )
 }
 
-for i in $(find $top -name "*-tcwg-*"); do
+for i in $(find $top -type d -name "*-tcwg-*"); do
     generate_dockerfile $i
 done
