@@ -2,8 +2,6 @@
 FROM arm32v7/ubuntu:#{DISTRO}
 #elif ARCH_amd64 || DISTRO_bionic
 FROM ubuntu:#{DISTRO}
-#elif DISTRO_zesty
-FROM snapcraft/zesty-#{ARCH}:latest
 #else
 FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
 #endif
