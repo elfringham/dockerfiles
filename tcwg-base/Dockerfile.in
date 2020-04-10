@@ -1,12 +1,12 @@
-#if ARCH_armhf && DISTRO_bionic
+#if ARCH_armhf && !DISTRO_trusty && !DISTRO_xenial
 FROM arm32v7/ubuntu:#{DISTRO}
-#elif ARCH_amd64 || DISTRO_bionic
+#elif ARCH_amd64 || (!DISTRO_trusty && !DISTRO_xenial)
 FROM ubuntu:#{DISTRO}
 #else
 FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
 #endif
 
-#if !DISTRO_bionic
+#if DISTRO_trusty || DISTRO_xenial
 #if ARCH_amd64 || ARCH_i386
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
 #else
@@ -26,7 +26,7 @@ RUN true \
 #endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
-#if DISTRO_bionic
+#if !DISTRO_trusty && !DISTRO_xenial
  && echo y | unminimize \
 #endif
 #if ARCH_i386
