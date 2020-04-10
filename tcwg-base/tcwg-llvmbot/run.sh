@@ -24,9 +24,11 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-if ! [ -f ~tcwg-buildslave/buildslave/buildbot.tac ]; then
-    # Connect to silent master.
-    # Reconnecting to main master should be done by hand.
+if [ -f ~tcwg-buildslave/buildslave/buildbot.tac ]; then
+    :
+elif which buildbot-worker >/dev/null; then
+    sudo -i -u tcwg-buildslave buildbot-worker create-worker --umask=022 ~tcwg-buildslave/worker "$@"
+else
     sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 ~tcwg-buildslave/buildslave "$@"
 fi
 
@@ -153,6 +155,10 @@ EOF
 	;;
 esac
 
-sudo -i -u tcwg-buildslave buildslave restart ~tcwg-buildslave/buildslave
+if which buildbot-worker >/dev/null; then
+    sudo -i -u tcwg-buildslave buildbot-worker restart ~tcwg-buildslave/worker
+else
+    sudo -i -u tcwg-buildslave buildslave restart ~tcwg-buildslave/buildslave
+fi
 
 exec /usr/sbin/sshd -D
