@@ -6,25 +6,27 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ubuntu-toolchain-r/test \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ binutils-gold \
  buildbot \
+ cpio \
  g++-9 \
+ htop \
+ iotop \
+ libedit-dev \
+ libjson-perl \
+ libtinfo-dev \
+ libxml2-dev \
+ python-sphinx \
+ swig \
+ tmux \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
 
-COPY buildslave/ llvm-config-buildslave/
-RUN cd ./llvm-config-buildslave/ \
- && HOME=$(pwd) ./llvm-setup \
- && ./cleanup-users \
- && cd ../.. \
- && rm -rf \
- llvm-config-buildslave/ \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/* \
- && sudo -i -u buildslave mkdir /home/buildslave/buildslave
+RUN new-user.sh --user tcwg-buildslave \
+ && sudo -i -u tcwg-buildslave mkdir /home/tcwg-buildslave/buildslave
 
 # Add current clang for libcxx bots.
 RUN \
@@ -41,4 +43,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 33c74b3c9e96ea6b3c906fe8e6183f1d
+# checksum: 09e26cacc8ab723e20a0cd51be4312d3

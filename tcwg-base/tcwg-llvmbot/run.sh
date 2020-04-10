@@ -24,10 +24,10 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
+if ! [ -f ~tcwg-buildslave/buildslave/buildbot.tac ]; then
     # Connect to silent master.
     # Reconnecting to main master should be done by hand.
-    sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
+    sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 ~tcwg-buildslave/buildslave "$@"
 fi
 
 if use_clang_p $2 ; then
@@ -72,7 +72,7 @@ case "$2" in
 	;;
 esac
 
-cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
+cat <<EOF | sudo -i -u tcwg-buildslave tee ~tcwg-buildslave/buildslave/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
 EOF
 
@@ -88,7 +88,7 @@ if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
 else
     mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
 fi
-cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/host
+cat <<EOF | sudo -i -u tcwg-buildslave tee ~tcwg-buildslave/buildslave/info/host
 $hw; RAM ${mem_limit}GB
 
 OS: $(lsb_release -ds)
@@ -153,6 +153,6 @@ EOF
 	;;
 esac
 
-sudo -i -u buildslave buildslave restart ~buildslave/buildslave
+sudo -i -u tcwg-buildslave buildslave restart ~tcwg-buildslave/buildslave
 
 exec /usr/sbin/sshd -D
