@@ -114,7 +114,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip install git-review
+ && pip3 install git-review
 
 # Install jipdate.  It is tricky to make these work
 # for Trusty and Xenial, so don't bother.
@@ -180,4 +180,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 67b9c167cb8d3b5969679cde4f3dbc09
+# checksum: e0e56362fe78d230166da56d6a34a891

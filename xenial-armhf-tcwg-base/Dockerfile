@@ -119,7 +119,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip install git-review
+ && pip3 install git-review
 
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -178,4 +178,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 3cb157b83a03ce5a99c3ecb06da94c96
+# checksum: 85049e3b13f025bb951ede4735ff85d5
