@@ -6,7 +6,7 @@ RUN apt-get update \
  apt-file \
  git-gui \
  git-svn \
- gnat-5 \
+ gnat \
  less \
  mc \
  screen \
@@ -29,4 +29,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 676a797c4e184c915901279cc90ef1ce
+# checksum: 4c299fb99a9343a72358ab4ab9395b45

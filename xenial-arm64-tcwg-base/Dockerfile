@@ -61,6 +61,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  libtool \
  linux-tools-common \
 # We want to control the perf version used by the benchmarking jobs.
+# These versions have proven to work on TK1s and TX1s kernels.
  linux-tools-4.4.0-59-generic \
  locales \
  lzop \
@@ -178,4 +179,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 3fecf5a3f76eb2a9507fdb532e103a97
+# checksum: a1142ed63c9cc228227675ee4950d213

@@ -65,6 +65,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libtool \
  linux-tools-common \
 # We want to control the perf version used by the benchmarking jobs.
+# These versions have proven to work on TK1s and TX1s kernels.
  linux-tools-4.4.0-59-generic \
  locales \
  lzop \
@@ -183,4 +184,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 1929c86ce37e882c35e777eb9fb66bfe
+# checksum: 008109c1f41d398bc455a40489059b78

@@ -1,12 +1,18 @@
-#if ARCH_armhf && !DISTRO_trusty && !DISTRO_xenial
-FROM arm32v7/ubuntu:#{DISTRO}
-#elif ARCH_amd64 || (!DISTRO_trusty && !DISTRO_xenial)
+#if DISTRO_xenial
+# if ARCH_amd64
 FROM ubuntu:#{DISTRO}
-#else
+# else
 FROM linaro/base-#{ARCH}-ubuntu:#{DISTRO}
+# endif
+#else
+# if ARCH_armhf
+FROM arm32v7/ubuntu:#{DISTRO}
+# else
+FROM ubuntu:#{DISTRO}
+# endif
 #endif
 
-#if DISTRO_trusty || DISTRO_xenial
+#if DISTRO_xenial
 #if ARCH_amd64 || ARCH_i386
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
 #else
@@ -26,7 +32,7 @@ RUN true \
 #endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
-#if !DISTRO_trusty && !DISTRO_xenial
+#if !DISTRO_xenial
  && echo y | unminimize \
 #endif
 #if ARCH_i386
@@ -86,10 +92,11 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-common \
+# We want to control the perf version used by the benchmarking jobs.
+# These versions have proven to work on TK1s and TX1s kernels.
 #if DISTRO_bionic
  linux-tools-4.18.0-13-generic \
-#else
-# We want to control the perf version used by the benchmarking jobs.
+#elif DISTRO_xenial
  linux-tools-4.4.0-59-generic \
 #endif
  locales \
@@ -97,27 +104,18 @@ RUN true \
  make \
 #if ARCH_amd64 || ARCH_i386
  mingw-w64 \
-# if DISTRO_trusty
- mingw32 \
-# endif
 #endif
  moreutils \
  net-tools \
  netcat \
-#if ARCH_amd64 || !DISTRO_trusty
  nfs-kernel-server \
-#endif
  ninja-build \
  ntp \
-#if DISTRO_trusty
- openjdk-7-jdk \
-#else
  openjdk-8-jdk \
-#endif
  openssh-server \
  postfix \
  psmisc \
-#if DISTRO_trusty || DISTRO_xenial || DISTRO_bionic
+#if DISTRO_xenial || DISTRO_bionic
  pxz \
  python-dev \
  python-pip \
@@ -145,11 +143,7 @@ RUN true \
  unifdef \
  valgrind \
  vim \
-#if !DISTRO_trusty
  virtualenv \
-#else
- python-virtualenv \
-#endif
  wget \
  xz-utils \
  zip \
@@ -175,7 +169,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip3 install git-review
 
-#if !DISTRO_trusty && !DISTRO_xenial
+#if !DISTRO_xenial
 # Install jipdate.  It is tricky to make these work
 # for Trusty and Xenial, so don't bother.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
