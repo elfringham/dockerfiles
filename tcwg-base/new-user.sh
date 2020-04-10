@@ -78,21 +78,25 @@ if [ x"$user" != x"" ]; then
 	shell=$(echo "$passwd_ent" | cut -d: -f 7)
     fi
 
-    aux_groups="kvm"
+    aux_groups_opt=""
     if [ x"$home_data" != x"" ]; then
+	aux_groups=()
 	for g in $(grep "$user" "$home_data/group" | cut -d: -f 1); do
 	    if [ x"$g" = x"$group" ]; then
 		continue
 	    fi
-	    aux_groups="$aux_groups,$g"
+	    aux_groups+=($g)
 	done
+	if [ x"${aux_groups[@]}" != x"" ]; then
+	    aux_groups_opt="-G $(echo "${aux_groups[@]}" | tr ' ' ',')"
+	fi
     fi
 
     action="add"
     if $update && getent passwd $user >/dev/null; then
 	action="mod"
     fi
-    user${action} $group_opt -G $aux_groups \
+    user${action} $group_opt $aux_groups_opt \
 	    -m -d /home/$user \
 	    ${uid:+-u $uid} \
 	    ${comment:+-c "$comment"} \
