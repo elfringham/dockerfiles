@@ -87,7 +87,7 @@ if [ x"$user" != x"" ]; then
 	    fi
 	    aux_groups+=($g)
 	done
-	if [ x"${aux_groups[@]}" != x"" ]; then
+	if [ ${#aux_groups[@]} != 0 ]; then
 	    aux_groups_opt="-G $(echo "${aux_groups[@]}" | tr ' ' ',')"
 	fi
     fi
