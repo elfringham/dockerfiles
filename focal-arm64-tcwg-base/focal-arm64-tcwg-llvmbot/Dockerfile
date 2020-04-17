@@ -2,14 +2,10 @@
 FROM linaro/ci-arm64-tcwg-base-ubuntu:focal
 
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
- && DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
  buildbot \
  cpio \
- g++-9 \
  htop \
  iotop \
  libedit-dev \
@@ -43,4 +39,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 86c939d7cc12ce17aa2b776927588815
+# checksum: eb9ef5f6df693160c6b7d35008e066df

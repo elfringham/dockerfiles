@@ -1,14 +1,18 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
 RUN apt-get update \
+#if DISTRO_xenial
  && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
  && DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ubuntu-toolchain-r/test \
  && apt-get update \
+#endif
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
  buildbot \
  cpio \
+#if DISTRO_xenial
  g++-9 \
+#endif
  htop \
  iotop \
  libedit-dev \

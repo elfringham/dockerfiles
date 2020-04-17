@@ -44,9 +44,12 @@ if use_clang_p $2 ; then
     release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
     cc=$release_path/clang
     cxx=$release_path/clang++
-else
+elif [ x"$(lsb_release -cs)" = x"xenial" ]; then
     cc=gcc-9
     cxx=g++-9
+else
+    cc=gcc
+    cxx=g++
 fi
 
 # With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as
