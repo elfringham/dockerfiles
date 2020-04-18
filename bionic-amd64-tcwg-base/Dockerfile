@@ -58,6 +58,8 @@ RUN true \
  libtcnative-1 \
  libtool \
  linux-tools-common \
+# We want to control the perf version used by the benchmarking jobs.
+# These versions have proven to work on TK1s and TX1s kernels.
  linux-tools-4.18.0-13-generic \
  locales \
  lzop \
@@ -98,6 +100,7 @@ RUN true \
  xz-utils \
  zip \
  zlib1g-dev \
+ shellcheck \
 # Update tzdata, because some base images have an incorrect file for UTC.
  && DEBIAN_FRONTEND=noninteractive apt-get install --reinstall tzdata \
  && rm -f /etc/ssh/ssh_host_*_key* \
@@ -116,11 +119,13 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip install git-review
+ && pip3 install git-review
 
 # Install jipdate.  It is tricky to make these work
 # for Trusty and Xenial, so don't bother.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
+ && git -C /usr/local/jipdate/ fetch origin pull/36/head:pull-36 \
+ && git -C /usr/local/jipdate/ checkout pull-36 \
  && pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
@@ -141,17 +146,15 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && rm -rf ninja
 
 # Build latest QEMU release (and install pre-requisites for the build).
-# Install qemu-system-common to configure rootfs for KVM virtualization
-# (e.g., create "kvm" user group, which we expect to exist in newuser.sh).
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  libglib2.0-dev \
  libpixman-1-dev \
  pkg-config \
- qemu-system-common \
  && mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=3.1.0 && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
+ && qemu_ver=4.2.0 \
+ && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
  && tar xf qemu-${qemu_ver}.tar.xz \
  && mkdir build && cd build \
  && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
@@ -180,4 +183,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: c44e1122c51fa8aa2f14c4ce883d4dfb
+# checksum: 6db1f64ccad16a62f618e301c2a8308d

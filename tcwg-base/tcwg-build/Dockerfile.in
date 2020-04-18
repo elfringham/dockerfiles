@@ -13,12 +13,12 @@ RUN while read line; do \
 # Install wine.  On amd64 arch we need to enable i386, otherwise wine
 # won't meet dependencies (this is the case at least for trusty and xenial).
 RUN \
-#if ARCH_amd64 && (DISTRO_trusty || DISTRO_xenial)
+#if ARCH_amd64 && DISTRO_xenial
  dpkg --add-architecture i386 && \
 #endif
  apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-#if DISTRO_trusty || DISTRO_xenial
+#if DISTRO_xenial
  wine \
 #else
  wine-stable \

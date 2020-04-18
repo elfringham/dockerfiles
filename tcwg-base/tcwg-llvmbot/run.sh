@@ -24,10 +24,12 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-if ! [ -f ~buildslave/buildslave/buildbot.tac ]; then
-    # Connect to silent master.
-    # Reconnecting to main master should be done by hand.
-    sudo -i -u buildslave buildslave create-slave --umask=022 ~buildslave/buildslave "$@"
+if [ -f ~tcwg-buildslave/buildslave/buildbot.tac ]; then
+    :
+elif which buildbot-worker >/dev/null; then
+    sudo -i -u tcwg-buildslave buildbot-worker create-worker --umask=022 ~tcwg-buildslave/worker "$@"
+else
+    sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 ~tcwg-buildslave/buildslave "$@"
 fi
 
 if use_clang_p $2 ; then
@@ -42,9 +44,12 @@ if use_clang_p $2 ; then
     release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
     cc=$release_path/clang
     cxx=$release_path/clang++
-else
+elif [ x"$(lsb_release -cs)" = x"xenial" ]; then
     cc=gcc-9
     cxx=g++-9
+else
+    cc=gcc
+    cxx=g++
 fi
 
 # With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as
@@ -72,7 +77,7 @@ case "$2" in
 	;;
 esac
 
-cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/admin
+cat <<EOF | sudo -i -u tcwg-buildslave tee ~tcwg-buildslave/buildslave/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
 EOF
 
@@ -88,7 +93,7 @@ if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
 else
     mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
 fi
-cat <<EOF | sudo -i -u buildslave tee ~buildslave/buildslave/info/host
+cat <<EOF | sudo -i -u tcwg-buildslave tee ~tcwg-buildslave/buildslave/info/host
 $hw; RAM ${mem_limit}GB
 
 OS: $(lsb_release -ds)
@@ -153,6 +158,10 @@ EOF
 	;;
 esac
 
-sudo -i -u buildslave buildslave restart ~buildslave/buildslave
+if which buildbot-worker >/dev/null; then
+    sudo -i -u tcwg-buildslave buildbot-worker restart ~tcwg-buildslave/worker
+else
+    sudo -i -u tcwg-buildslave buildslave restart ~tcwg-buildslave/buildslave
+fi
 
 exec /usr/sbin/sshd -D

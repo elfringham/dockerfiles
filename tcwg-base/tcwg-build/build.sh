@@ -2,6 +2,10 @@
 
 set -e
 
+# Can't run multiple copies of this script
+exec 9<Dockerfile
+flock -x 9
+
 trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()

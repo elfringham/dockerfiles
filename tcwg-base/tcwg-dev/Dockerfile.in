@@ -5,13 +5,7 @@ RUN apt-get update \
  apt-file \
  git-gui \
  git-svn \
-#if DISTRO_trusty
-# if !ARCH_arm64
  gnat \
-# endif
-#else
- gnat-5 \
-#endif
  less \
  mc \
  screen \
