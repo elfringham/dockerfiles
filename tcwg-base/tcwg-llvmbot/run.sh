@@ -24,12 +24,13 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-if [ -f ~tcwg-buildslave/buildslave/buildbot.tac ]; then
+worker_dir=~tcwg-buildslave/worker
+if [ -f $worker_dir/buildbot.tac ]; then
     :
 elif which buildbot-worker >/dev/null; then
-    sudo -i -u tcwg-buildslave buildbot-worker create-worker --umask=022 ~tcwg-buildslave/worker "$@"
+    sudo -i -u tcwg-buildslave buildbot-worker create-worker --umask=022 $worker_dir "$@"
 else
-    sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 ~tcwg-buildslave/buildslave "$@"
+    sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 $worker_dir "$@"
 fi
 
 if use_clang_p $2 ; then
@@ -77,7 +78,7 @@ case "$2" in
 	;;
 esac
 
-cat <<EOF | sudo -i -u tcwg-buildslave tee ~tcwg-buildslave/buildslave/info/admin
+cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
 EOF
 
@@ -93,7 +94,7 @@ if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
 else
     mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
 fi
-cat <<EOF | sudo -i -u tcwg-buildslave tee ~tcwg-buildslave/buildslave/info/host
+cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/host
 $hw; RAM ${mem_limit}GB
 
 OS: $(lsb_release -ds)
@@ -159,9 +160,9 @@ EOF
 esac
 
 if which buildbot-worker >/dev/null; then
-    sudo -i -u tcwg-buildslave buildbot-worker restart ~tcwg-buildslave/worker
+    sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
 else
-    sudo -i -u tcwg-buildslave buildslave restart ~tcwg-buildslave/buildslave
+    sudo -i -u tcwg-buildslave buildslave restart $worker_dir
 fi
 
 exec /usr/sbin/sshd -D
