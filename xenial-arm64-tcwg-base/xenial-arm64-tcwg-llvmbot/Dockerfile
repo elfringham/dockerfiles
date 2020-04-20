@@ -25,8 +25,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN new-user.sh --user tcwg-buildslave \
- && sudo -i -u tcwg-buildslave mkdir /home/tcwg-buildslave/buildslave
+RUN new-user.sh --user tcwg-buildslave
 
 # Add current clang for libcxx bots.
 RUN \
@@ -43,4 +42,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 09e26cacc8ab723e20a0cd51be4312d3
+# checksum: 1a5de6b0cbc3adb7142dba89503153de

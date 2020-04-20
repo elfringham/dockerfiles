@@ -28,7 +28,7 @@ worker_dir=~tcwg-buildslave/worker
 if [ -f $worker_dir/buildbot.tac ]; then
     :
 elif which buildbot-worker >/dev/null; then
-    sudo -i -u tcwg-buildslave buildbot-worker create-worker --umask=022 $worker_dir "$@"
+    sudo -i -u tcwg-buildslave buildbot-worker create-worker $worker_dir "$@"
 else
     sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 $worker_dir "$@"
 fi
