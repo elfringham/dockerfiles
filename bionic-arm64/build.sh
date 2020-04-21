@@ -6,7 +6,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-  rm -f *.list *.key
+  rm -f setup-sshd
 }
 
 export LANG=C
@@ -14,8 +14,7 @@ export LANG=C
 DISTRIBUTION=$(basename ${PWD} | cut -f1 -d '-')
 ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
 
-cp -a ../linaro-overlay-repo.list ../linaro-overlay-repo.key .
-sed -e "s|@DISTRIBUTION@|${DISTRIBUTION}|" -i *.list
+cp -a ../setup-sshd .
 
 image=linaro/jenkins-${ARCHITECTURE}-ubuntu:${DISTRIBUTION}
 docker build --pull --tag=$image .
