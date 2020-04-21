@@ -28,8 +28,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN new-user.sh --user tcwg-buildslave \
- && sudo -i -u tcwg-buildslave mkdir /home/tcwg-buildslave/buildslave
+RUN new-user.sh --user tcwg-buildslave
 
 # Add current clang for libcxx bots.
 RUN \
