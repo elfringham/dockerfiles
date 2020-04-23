@@ -32,8 +32,6 @@ case "$slavename" in
   linaro-armv8-01-aarch64-libcxx-noeh) ;;
   linaro-armv8-01-aarch64-lld) ;;
   linaro-armv8-01-aarch64-quick) ;;
-  linaro-armv8-01-arm-full) ;;
-  linaro-armv8-01-arm-full-selfhost) ;;
   linaro-armv8-01-arm-global-isel) ;;
   linaro-armv8-01-arm-libcxx) ;;
   linaro-armv8-01-arm-libcxx-noeh) ;;
@@ -75,12 +73,15 @@ case "$buildmaster" in
     *) hostname="$mastername-$slavename" ;;
 esac
 
-# Set relative CPU weight of containers running silent bots to 1/20th of
-# normal containers.  We want to run a full set of silent bots for
-# troubleshooting purposes, but don't want to waste a lot of CPU cycles.
-case "$mastername" in
-    "silent") cpu_shares=50 ;;
-    *) cpu_shares=1000 ;;
+# Set relative CPU weight of containers running
+#  - quick bots to 10x usual priority
+#  - full bots to 5x usual priority
+#  - silent bots to 1/20th of usual priority
+case "$mastername:$slavename" in
+    normal:*-quick) cpu_shares=10000 ;;
+    normal:*-aarch64-full|*:*-arm-selfhost-neon) cpu_shares=5000 ;;
+    normal:*) cpu_shares=1000 ;;
+    *) cpu_shares=50 ;;
 esac
 
 mounts=""
