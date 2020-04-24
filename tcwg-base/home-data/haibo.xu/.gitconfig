@@ -1,0 +1,7 @@
+[user]
+	email = haibo.xu@linaro.org
+[push]
+	default = simple
+[diff]
+	renames = true
+	algorithm = histogram
