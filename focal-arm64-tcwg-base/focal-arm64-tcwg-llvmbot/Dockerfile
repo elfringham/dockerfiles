@@ -14,7 +14,6 @@ RUN apt-get update \
  libxml2-dev \
  linux-tools-common \
 #linux-tools-NEED_TO_TEST \
- python-sphinx \
  swig \
  tmux \
  && apt-get clean \
@@ -40,4 +39,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: d51f5cf028a5030e3cfb93be92cf3fa1
+# checksum: f7e97d2f696a779ced227054bfe08427

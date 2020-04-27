@@ -25,7 +25,9 @@ RUN apt-get update \
 #elif DISTRO_focal
 #linux-tools-NEED_TO_TEST \
 #endif
+#if DISTRO_xenial
  python-sphinx \
+#endif
  swig \
  tmux \
  && apt-get clean \
