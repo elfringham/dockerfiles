@@ -195,6 +195,7 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
+#if ARCH_amd64
 # Build latest QEMU release (and install pre-requisites for the build).
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -215,6 +216,7 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
+#endif
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
