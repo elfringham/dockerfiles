@@ -12,6 +12,8 @@ RUN apt-get update \
  libjson-perl \
  libtinfo-dev \
  libxml2-dev \
+ linux-tools-common \
+#linux-tools-NEED_TO_TEST \
  python-sphinx \
  swig \
  tmux \
@@ -38,4 +40,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: db8763fbc8ee506c2356b59cfc20b355
+# checksum: d51f5cf028a5030e3cfb93be92cf3fa1

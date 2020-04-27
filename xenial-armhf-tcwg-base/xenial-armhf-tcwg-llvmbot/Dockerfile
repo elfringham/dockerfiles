@@ -16,6 +16,8 @@ RUN apt-get update \
  libjson-perl \
  libtinfo-dev \
  libxml2-dev \
+ linux-tools-common \
+ linux-tools-4.4.0-59-generic \
  python-sphinx \
  swig \
  tmux \
@@ -42,4 +44,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: d8be4e478b57fde125c79ed5e2df383f
+# checksum: ecac4626e27cda514d506eeffd3fc7df

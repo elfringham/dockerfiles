@@ -25,9 +25,6 @@ RUN true \
  chrpath \
  clang \
  cmake \
-# cpufrequtils is used by our benchmarking scripts, but we should update them to
-# use cpupower from linux-tools everywhere instead.
- cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -55,10 +52,6 @@ RUN true \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-common \
-# We want to control the perf version used by the benchmarking jobs.
-# These versions have proven to work on TK1s and TX1s kernels.
- linux-tools-4.18.0-13-generic \
  locales \
  lzop \
  make \
@@ -142,26 +135,37 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# Build latest QEMU release (and install pre-requisites for the build).
+
+# Configure linux tools for benchmarking support.
+#
+# We symlink linux tools to supportted "hw_tags": tk1_32, tx1_64, tx1_32.
+# HW_TAGS represent tested configurations of hardware+kernel+perf that
+# work well together.  We create new hw_tag for any variation in hardware,
+# kernel, or perf.  This gives us assurance that benchmarking data stored
+# under bkp-01.tcwglab:results-<HW_TAG>/ directory has no unexpected variations.
+#
+# For the initial hw_tags for TK1s and TX1s we can use nice short tk1_32,
+# tx1_64, and tx1_32 names, but if we update, say, perf version, we would
+# need to add something like tk1_32-lt_5.4 (updating linux-tools to 5.4) or
+# tx1_64-k_4.10 (updating kernel to 4.10).
+#
+# Below linux-tools versions have proven to work well with TK1s' 3.10 and
+# TX1s' 4.4 kernels.
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
- libglib2.0-dev \
- libpixman-1-dev \
- pkg-config \
- && mkdir /tmp/docker-install-qemu.$$ \
- && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=4.2.0 \
- && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
- && tar xf qemu-${qemu_ver}.tar.xz \
- && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
- && make all install -j $(nproc --all) \
+# cpufrequtils is used by our benchmarking scripts, but we should update them to
+# use cpupower from linux-tools everywhere instead.
+ cpufrequtils \
+ linux-tools-common \
+ linux-tools-4.18.0-13-generic \
  && apt-get clean \
  && rm -rf \
- /tmp/docker-install-qemu.$$ \
  /var/lib/apt/lists/* \
  /tmp/* \
- /var/tmp/*
+ /var/tmp/* \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -180,4 +184,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: e9520baff369424e905e533d90cc1610
+# checksum: ca995568e504d239f68d2744a1745a3c
