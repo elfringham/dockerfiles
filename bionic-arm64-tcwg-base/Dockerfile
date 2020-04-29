@@ -24,7 +24,6 @@ RUN true \
  ccrypt \
  chrpath \
  clang \
- cmake \
  curl \
  debhelper \
  dejagnu \
@@ -167,6 +166,16 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
 
+# Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+RUN cd /tmp \
+ && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+ && cd /tmp/CMake \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/CMake
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -184,4 +193,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: ca995568e504d239f68d2744a1745a3c
+# checksum: c0e54311e699571c4935341282e62e65

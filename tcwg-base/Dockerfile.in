@@ -60,7 +60,9 @@ RUN true \
  ccrypt \
  chrpath \
  clang \
+#if !DISTRO_xenial && !DISTRO_bionic
  cmake \
+#endif
  curl \
  debhelper \
  dejagnu \
@@ -238,6 +240,18 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
+#endif
+
+#if DISTRO_xenial || DISTRO_bionic
+# Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+RUN cd /tmp \
+ && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+ && cd /tmp/CMake \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/CMake
 #endif
 
 COPY home-data/ /home-data/

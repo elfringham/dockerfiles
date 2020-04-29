@@ -160,6 +160,7 @@ RUN apt-get update \
  /var/tmp/*
 
 
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -177,4 +178,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: d6b5fc25bf76bb1063efc9955834a351
+# checksum: 5a4822fd0d2bdf976896ffcdc0ca1f97

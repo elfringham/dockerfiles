@@ -32,7 +32,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ccrypt \
  chrpath \
  clang \
- cmake \
  curl \
  debhelper \
  dejagnu \
@@ -139,6 +138,16 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
 
 
 
+# Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+RUN cd /tmp \
+ && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+ && cd /tmp/CMake \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/CMake
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -156,4 +165,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: ee23dd699354907e2eb8dee427d13601
+# checksum: cf9e00a73f1c67616a12888d9e824c63
