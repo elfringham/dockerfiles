@@ -8,11 +8,11 @@ RUN apt-get update \
 #endif
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
- buildbot \
- cpio \
 #if DISTRO_xenial
+ buildbot \
  g++-9 \
 #endif
+ cpio \
  htop \
  iotop \
  libedit-dev \
@@ -49,6 +49,13 @@ RUN \
  && wget --progress=dot:giga http://releases.llvm.org/6.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
+#if !DISTRO_xenial
+# Install xenial's verion of buildbot
+RUN \
+ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+ python2 ./get-pip.py && \
+ pip2 install buildbot==0.8.12
+#endif
 
 VOLUME /home
 

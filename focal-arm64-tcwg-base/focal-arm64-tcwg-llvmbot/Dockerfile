@@ -4,7 +4,6 @@ FROM linaro/ci-arm64-tcwg-base-ubuntu:focal
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
- buildbot \
  cpio \
  htop \
  iotop \
@@ -31,6 +30,11 @@ RUN \
  && wget --progress=dot:giga http://releases.llvm.org/6.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
+# Install xenial's verion of buildbot
+RUN \
+ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+ python2 ./get-pip.py && \
+ pip2 install buildbot==0.8.12
 
 VOLUME /home
 
@@ -39,4 +43,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: f7e97d2f696a779ced227054bfe08427
+# checksum: 08dc5618b274ac0188d092ad7e31f4b5
