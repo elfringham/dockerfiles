@@ -30,10 +30,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ccrypt \
  chrpath \
  clang \
- cmake \
-# cpufrequtils is used by our benchmarking scripts, but we should update them to
-# use cpupower from linux-tools everywhere instead.
- cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -61,10 +57,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-common \
-# We want to control the perf version used by the benchmarking jobs.
-# These versions have proven to work on TK1s and TX1s kernels.
- linux-tools-4.4.0-59-generic \
  locales \
  lzop \
  make \
@@ -163,6 +155,17 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
+
+# Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+RUN cd /tmp \
+ && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+ && cd /tmp/CMake \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/CMake
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -180,4 +183,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: e9c172b39a4455287f224ffb1e8cc9f6
+# checksum: 4a78c561c6a68ec36e1402bba8532598

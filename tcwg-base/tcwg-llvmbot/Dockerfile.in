@@ -19,7 +19,15 @@ RUN apt-get update \
  libjson-perl \
  libtinfo-dev \
  libxml2-dev \
+ linux-tools-common \
+#if DISTRO_xenial
+ linux-tools-4.4.0-59-generic \
+#elif DISTRO_focal
+#linux-tools-NEED_TO_TEST \
+#endif
+#if DISTRO_xenial
  python-sphinx \
+#endif
  swig \
  tmux \
  && apt-get clean \

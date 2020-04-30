@@ -24,6 +24,5 @@ cp $top/tcwg-base/$name/start.sh $top/tcwg-base/$name/run.sh ./
 
 (cd ..; ./build.sh)
 "$top"/tcwg-base/validate-dockerfile.sh Dockerfile
-docker pull $image 2>/dev/null || true
 docker build --tag=$image .
 echo $image > .docker-tag

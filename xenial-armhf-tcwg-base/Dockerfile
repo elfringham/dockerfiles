@@ -28,10 +28,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  ccrypt \
  chrpath \
  clang \
- cmake \
-# cpufrequtils is used by our benchmarking scripts, but we should update them to
-# use cpupower from linux-tools everywhere instead.
- cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -59,10 +55,6 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-common \
-# We want to control the perf version used by the benchmarking jobs.
-# These versions have proven to work on TK1s and TX1s kernels.
- linux-tools-4.4.0-59-generic \
  locales \
  lzop \
  make \
@@ -139,26 +131,17 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# Build latest QEMU release (and install pre-requisites for the build).
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
- libglib2.0-dev \
- libpixman-1-dev \
- pkg-config \
- && mkdir /tmp/docker-install-qemu.$$ \
- && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=4.2.0 \
- && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
- && tar xf qemu-${qemu_ver}.tar.xz \
- && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
- && make all install -j $(nproc --all) \
- && apt-get clean \
- && rm -rf \
- /tmp/docker-install-qemu.$$ \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
+
+
+# Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+RUN cd /tmp \
+ && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+ && cd /tmp/CMake \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/CMake
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -177,4 +160,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: ed826bb9d535a7c3f7ac93f580c88c88
+# checksum: 9c9802ee301f5973f2b6e1ae0530967e

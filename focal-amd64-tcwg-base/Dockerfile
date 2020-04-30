@@ -27,9 +27,6 @@ RUN true \
  chrpath \
  clang \
  cmake \
-# cpufrequtils is used by our benchmarking scripts, but we should update them to
-# use cpupower from linux-tools everywhere instead.
- cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -57,9 +54,6 @@ RUN true \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-common \
-# We want to control the perf version used by the benchmarking jobs.
-# These versions have proven to work on TK1s and TX1s kernels.
  locales \
  lzop \
  make \
@@ -165,6 +159,8 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
+
+
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
 
@@ -182,4 +178,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 56d029ef3758a2a8fb670febe531d630
+# checksum: 5a4822fd0d2bdf976896ffcdc0ca1f97

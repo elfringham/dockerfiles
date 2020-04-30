@@ -25,9 +25,6 @@ RUN true \
  chrpath \
  clang \
  cmake \
-# cpufrequtils is used by our benchmarking scripts, but we should update them to
-# use cpupower from linux-tools everywhere instead.
- cpufrequtils \
  curl \
  debhelper \
  dejagnu \
@@ -55,9 +52,6 @@ RUN true \
  libssl-dev \
  libtcnative-1 \
  libtool \
- linux-tools-common \
-# We want to control the perf version used by the benchmarking jobs.
-# These versions have proven to work on TK1s and TX1s kernels.
  locales \
  lzop \
  make \
@@ -141,26 +135,8 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# Build latest QEMU release (and install pre-requisites for the build).
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
- libglib2.0-dev \
- libpixman-1-dev \
- pkg-config \
- && mkdir /tmp/docker-install-qemu.$$ \
- && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=4.2.0 \
- && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
- && tar xf qemu-${qemu_ver}.tar.xz \
- && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
- && make all install -j $(nproc --all) \
- && apt-get clean \
- && rm -rf \
- /tmp/docker-install-qemu.$$ \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
+
+
 
 COPY home-data/ /home-data/
 COPY new-user.sh /usr/local/bin/
@@ -179,4 +155,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 0da152e4dc99c5d9cc4180afd8ccef18
+# checksum: cd2df96f411da905aa503d50608e2082

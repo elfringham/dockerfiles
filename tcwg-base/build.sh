@@ -27,6 +27,5 @@ cp $top/tcwg-base/postfix*.in .
 
 "$top"/tcwg-base/validate-dockerfile.sh Dockerfile
 docker pull $baseimage 2>/dev/null || true
-docker pull $image 2>/dev/null || true
 docker build --tag=$image .
 echo $image > .docker-tag
