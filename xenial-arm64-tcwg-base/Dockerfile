@@ -66,6 +66,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  ntp \
  openjdk-8-jdk \
  openssh-server \
+ pkg-config \
  postfix \
  psmisc \
  pxz \
@@ -160,4 +161,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: be7bfd99780c78ca92d877ebadeaee88
+# checksum: 231a0ad4bf9796a3179b68ba4386b6b5

@@ -26,7 +26,8 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
  && chmod 1777 /tmp/.X11-unix /tmp/.ICE-unix
 
 COPY run.sh start.sh /
+COPY nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 6bc98ade2ad0d9190a47bd8ee6fc4ea2
+# checksum: 75b23c347c78f97481a511493d1494e0

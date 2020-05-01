@@ -71,6 +71,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  ntp \
  openjdk-8-jdk \
  openssh-server \
+ pkg-config \
  postfix \
  psmisc \
  pxz \
@@ -165,4 +166,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: cf9e00a73f1c67616a12888d9e824c63
+# checksum: 896597cf3f20e88ee2209fd3d5b4bdab

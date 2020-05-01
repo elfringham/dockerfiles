@@ -8,8 +8,8 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
  buildbot \
- cpio \
  g++-9 \
+ cpio \
  htop \
  iotop \
  libedit-dev \
@@ -44,4 +44,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: ecac4626e27cda514d506eeffd3fc7df
+# checksum: 3570e3f0445dd17afa5eaf20e89c4a3b
