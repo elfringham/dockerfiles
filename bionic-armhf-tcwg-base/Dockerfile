@@ -41,11 +41,13 @@ RUN true \
  less \
  libexpat1-dev \
  libffi-dev \
+ libglib2.0-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
  libmpfr-dev \
  libncurses5-dev \
+ libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
@@ -62,6 +64,7 @@ RUN true \
  ntp \
  openjdk-8-jdk \
  openssh-server \
+ pkg-config \
  postfix \
  psmisc \
  pxz \
@@ -193,4 +196,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: b3e6e8bfedbc42a0327869e967089c76
+# checksum: 752c36d5cd7d1b531dee329c5bfe9905

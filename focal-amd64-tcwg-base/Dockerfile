@@ -44,11 +44,13 @@ RUN true \
  less \
  libexpat1-dev \
  libffi-dev \
+ libglib2.0-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
  libmpfr-dev \
  libncurses5-dev \
+ libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
@@ -66,6 +68,7 @@ RUN true \
  ntp \
  openjdk-8-jdk \
  openssh-server \
+ pkg-config \
  postfix \
  psmisc \
 # pxz \
@@ -141,9 +144,6 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
 # Build latest QEMU release (and install pre-requisites for the build).
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
- libglib2.0-dev \
- libpixman-1-dev \
- pkg-config \
  && mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
  && qemu_ver=4.2.0 \
@@ -178,4 +178,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 5a4822fd0d2bdf976896ffcdc0ca1f97
+# checksum: 08b1be45f309cc0af679e8c42b44e5ee
