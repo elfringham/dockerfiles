@@ -63,7 +63,6 @@ RUN true \
  ntp \
  openjdk-8-jdk \
  openssh-server \
- pkg-config \
  postfix \
  psmisc \
 # pxz \
@@ -156,4 +155,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 3d275fdf2b7416a697c2b5254923215d
+# checksum: cd2df96f411da905aa503d50608e2082

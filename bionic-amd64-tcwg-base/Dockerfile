@@ -65,7 +65,6 @@ RUN true \
  ntp \
  openjdk-8-jdk \
  openssh-server \
- pkg-config \
  postfix \
  psmisc \
  pxz \
@@ -143,6 +142,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  libglib2.0-dev \
  libpixman-1-dev \
+ pkg-config \
  && mkdir /tmp/docker-install-qemu.$$ \
  && cd /tmp/docker-install-qemu.$$ \
  && qemu_ver=4.2.0 \
@@ -216,4 +216,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 6531aede2169f98ea4dc92d65a569d03
+# checksum: f79894340171a27a2bd10b5e5fbfe15c
