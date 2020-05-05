@@ -45,11 +45,13 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  less \
  libexpat1-dev \
  libffi-dev \
+ libglib2.0-dev \
  libgmp-dev \
  liblzma-dev \
  libmpc-dev \
  libmpfr-dev \
  libncurses5-dev \
+ libpixman-1-dev \
  libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
@@ -161,4 +163,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: addcb06260fc8b1cb510da4c874b6f3f
+# checksum: 460e99c7f4b7a8b592c84f589c58ac8c
