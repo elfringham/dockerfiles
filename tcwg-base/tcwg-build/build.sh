@@ -21,6 +21,6 @@ image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 top=$(git rev-parse --show-toplevel)
 
 (cd ..; ./build.sh)
-"$top"/tcwg-base/validate-dockerfile.sh Dockerfile
+"$top"/tcwg-base/validate-checksum.sh Dockerfile
 docker build --tag=$image .
 echo $image > .docker-tag
