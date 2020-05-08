@@ -2,6 +2,11 @@
 
 # Clean: shellcheck -e 2001 ./cpp-script.sh
 
+# NOTE: THIS SCRIPT HAS COPIES IN THE FOLLOWING REPOS:
+# - CI/DOCKERFILES.GIT AND
+# - CI/JOB/CONFIGS.GIT
+# REMEMBER TO SYNCHRONIZE ALL COPIES ON CHANGES.
+
 set -eu -o pipefail
 
 input=""
