@@ -23,6 +23,6 @@ top=$(git rev-parse --show-toplevel)
 cp $top/tcwg-base/$name/start.sh $top/tcwg-base/$name/run.sh ./
 
 (cd ..; ./build.sh)
-"$top"/tcwg-base/validate-dockerfile.sh Dockerfile
+"$top"/tcwg-base/validate-checksum.sh Dockerfile
 docker build --tag=$image .
 echo $image > .docker-tag

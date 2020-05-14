@@ -26,6 +26,6 @@ cp $top/tcwg-base/tcwg-host/docker-stats \
    $top/tcwg-base/tcwg-host/start.sh ./
 
 (cd ..; ./build.sh)
-"$top"/tcwg-base/validate-dockerfile.sh Dockerfile
+"$top"/tcwg-base/validate-checksum.sh Dockerfile
 docker build --tag=$image .
 echo $image > .docker-tag

@@ -25,7 +25,7 @@ rsync -aL $top/tcwg-base/home-data/ ./home-data/
 cp $top/tcwg-base/new-user.sh ./
 cp $top/tcwg-base/postfix*.in .
 
-"$top"/tcwg-base/validate-dockerfile.sh Dockerfile
+"$top"/tcwg-base/validate-checksum.sh Dockerfile
 docker pull $baseimage 2>/dev/null || true
 docker build --tag=$image .
 echo $image > .docker-tag

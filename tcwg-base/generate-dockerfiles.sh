@@ -18,8 +18,7 @@ generate_dockerfile ()
          echo "# Auto generated from ${dockerfile_in#$top/}. Do not edit." > "$dockerfile_out"
 	 $top/tcwg-base/cpp-script.sh -v DISTRO=$distro -v ARCH=$arch \
 				      -i $dockerfile_in >> "$dockerfile_out"
-         MD5=$(md5sum "$dockerfile_out" | awk '{ print $1; }')
-         echo "# checksum: $MD5" >> "$dockerfile_out"
+         $top/tcwg-base/validate-checksum.sh --generate true "$dockerfile_out"
      fi
     )
 }
