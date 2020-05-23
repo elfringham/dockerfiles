@@ -104,7 +104,11 @@ if [ x"$user" != x"" ]; then
 	    $user
 
     sudoers_file=/etc/sudoers.d/$(echo $user | tr "." "-")
-    echo "$user ALL = NOPASSWD: ALL" > $sudoers_file
+    # Give users ability to become root, tcwg-buildslave and tcwg-benchmark users.
+    cat <<EOF > $sudoers_file
+$user ALL = NOPASSWD: ALL
+$user ALL = (%tcwg-infra) NOPASSWD: ALL
+EOF
     chmod 0440 $sudoers_file
 
     if [ x"$home_data" != x"" ]; then
