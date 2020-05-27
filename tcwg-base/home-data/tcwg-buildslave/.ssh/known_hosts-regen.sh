@@ -16,7 +16,7 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	147.75.195.254  # linaro-thx1-01
 	147.75.55.170   # tcwg-amp-01
 	139.178.86.246  # tcwg-amp-02
-	139.178.82.90   # tcwg-amp-03
+	147.75.55.190   # tcwg-amp-03
 	139.178.85.170  # tcwg-amp-04
 	147.75.106.138  # tcwg-d05-01
 	148.251.136.42  # tcwg-ex40-01
