@@ -34,10 +34,10 @@ else
 fi
 
 if use_clang_p $2 ; then
-    # Use the oldest maintained clang release (latest - 1).
-    # There is a 6.0.1 release but there aren't any AArch64 binaries available
-    # so we use 6.0.0 for now.
-    release_num=6.0.0
+    # We would prefer to use the oldest maintained clang release (latest - 1),
+    # but the pre-built binaries for 9.0+ don't work on ubuntu 16.04 because
+    # they need glibc 2.27. For now we use the 8.0.1 release.
+    release_num=8.0.1
     case "$(uname -m)" in
 	aarch64) release_arch=aarch64-linux-gnu ;;
 	*) release_arch=armv7a-linux-gnueabihf ;;
