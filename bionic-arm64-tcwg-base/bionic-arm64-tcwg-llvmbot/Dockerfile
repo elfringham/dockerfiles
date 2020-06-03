@@ -12,7 +12,6 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
- swig \
  tmux \
  && apt-get clean \
  && rm -rf \
@@ -43,4 +42,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: cbf6b7657ffb6e2954bb7a9b85e82da5
+# checksum: ec7eda990e7ba4c26d823bef0e2ea244

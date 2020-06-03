@@ -19,7 +19,6 @@ RUN apt-get update \
  linux-tools-common \
  linux-tools-4.4.0-59-generic \
  python-sphinx \
- swig \
  tmux \
  && apt-get clean \
  && rm -rf \
@@ -45,4 +44,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: c219e3b9d634ed3b21e1a8ab717ae25f
+# checksum: 1cbca28b11046dfaddc41f14b2de97df

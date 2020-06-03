@@ -83,6 +83,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  rsync \
  subversion \
  sudo \
+ swig \
  tclsh \
  texinfo \
  texlive-fonts-recommended \
@@ -115,7 +116,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip3 install git-review
+ && pip3 install git-review \
+ && pip3 install psutil
 
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -163,4 +165,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 460e99c7f4b7a8b592c84f589c58ac8c
+# checksum: 79c078f93a4326fe6fae0b662097b61c

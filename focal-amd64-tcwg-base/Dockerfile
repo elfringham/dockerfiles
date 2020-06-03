@@ -83,6 +83,7 @@ RUN true \
  rsync \
  subversion \
  sudo \
+ swig \
  tclsh \
  texinfo \
  texlive-fonts-recommended \
@@ -115,7 +116,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip3 install git-review
+ && pip3 install git-review \
+ && pip3 install psutil
 
 # Install jipdate.  It is tricky to make these work
 # for Trusty and Xenial, so don't bother.
@@ -178,4 +180,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 08b1be45f309cc0af679e8c42b44e5ee
+# checksum: 4b4175b88b4f365da4fd0040242e214a

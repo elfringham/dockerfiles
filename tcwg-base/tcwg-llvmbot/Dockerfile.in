@@ -28,7 +28,6 @@ RUN apt-get update \
 #if DISTRO_xenial
  python-sphinx \
 #endif
- swig \
  tmux \
  && apt-get clean \
  && rm -rf \
