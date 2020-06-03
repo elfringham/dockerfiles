@@ -23,11 +23,12 @@ RUN apt-get update \
 
 RUN new-user.sh --user tcwg-buildslave
 
-# Add current clang for libcxx bots.
+# Add recent clang for libcxx bots. We use 8.0.1 because later versions require
+# a more recent glibc than the one in Ubuntu 16.04.
 RUN \
- clang_ver=clang+llvm-6.0.0-aarch64-linux-gnu \
+ clang_ver=clang+llvm-8.0.1-aarch64-linux-gnu \
  && cd /usr/local \
- && wget --progress=dot:giga http://releases.llvm.org/6.0.0/$clang_ver.tar.xz \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 # Install xenial's verion of buildbot
@@ -43,4 +44,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 08dc5618b274ac0188d092ad7e31f4b5
+# checksum: 8bf327efd9db533e22dd857be6424748
