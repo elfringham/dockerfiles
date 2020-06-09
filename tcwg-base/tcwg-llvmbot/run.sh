@@ -10,11 +10,11 @@ use_clang_p ()
     # Typically we've used clang when the default gcc has problems
     # otherwise gcc is used.
     case "$1" in
-        *-libcxx*|linaro-tk1-02) return 0 ;;
+        *-libcxx|linaro-tk1-02) return 0 ;;
         *-lld) return 0 ;;
-        *-arm-quick) return 0 ;;
+        *-armv*-quick) return 0 ;;
         *-linaro-tk1-01|linaro-tk1-03|linaro-tk1-04|linaro-tk1-05) return 0 ;;
-        *-arm-global-isel) return 0 ;;
+        *-armv*-global-isel) return 0 ;;
         *) return 1 ;;
     esac
 }
@@ -84,9 +84,8 @@ EOF
 
 n_cores=$(nproc --all)
 case "$2" in
-    linaro-armv8-*) hw="${n_cores}-core ARMv8 provided by Packet.net (Type 2A2)" ;;
-    linaro-thx1-*) hw="${n_cores}-core ThunderX1 provided by Packet.net (Type 2A)" ;;
     linaro-tk1-*) hw="NVIDIA TK1 ${n_cores}-core Cortex-A15" ;;
+    linaro-*) hw="${n_cores}-core ARMv8 provided by Packet.net" ;;
 esac
 
 if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
