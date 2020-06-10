@@ -25,20 +25,20 @@ else
     DOCKER="sudo docker"
 fi
 
+# List of supported build slaves.
+# Please keep synced with tcwg-update-llvmbot-containers.sh.
 case "$slavename" in
-  linaro-armv8-01-aarch64-full) ;;
-  linaro-armv8-01-aarch64-global-isel) ;;
-  linaro-armv8-01-aarch64-libcxx) ;;
-  linaro-armv8-01-aarch64-libcxx-noeh) ;;
-  linaro-armv8-01-aarch64-lld) ;;
-  linaro-armv8-01-aarch64-quick) ;;
-  linaro-armv8-01-arm-global-isel) ;;
-  linaro-armv8-01-arm-libcxx) ;;
-  linaro-armv8-01-arm-libcxx-noeh) ;;
-  linaro-armv8-01-arm-lld) ;;
-  linaro-armv8-01-arm-lnt) ;;
-  linaro-armv8-01-arm-quick) ;;
-  linaro-armv8-01-arm-selfhost-neon) ;;
+  linaro-aarch64-full) ;;
+  linaro-aarch64-global-isel) ;;
+  linaro-armv7-selfhost) ;;
+  linaro-armv7-global-isel) ;;
+  linaro-aarch64-libcxx) ;;
+  linaro-aarch64-lld) ;;
+  linaro-aarch64-quick) ;;
+  linaro-armv8-libcxx) ;;
+  linaro-armv8-lld) ;;
+  linaro-armv7-lnt) ;;
+  linaro-armv7-quick) ;;
   linaro-tk1-*) ;;
   *)
     echo "WARNING: Unknown slavename $slavename"
@@ -46,7 +46,7 @@ esac
 
 case "$slavename:$image" in
   *-aarch64-*:*-arm64-*) ;;
-  *-arm-*:*-armhf-*) ;;
+  *-armv*-*:*-armhf-*) ;;
   linaro-tk1-*:*-armhf-*) ;;
   *)
     echo "ERROR: $slavename should not run on $image."
@@ -79,7 +79,7 @@ esac
 #  - silent bots to 1/20th of usual priority
 case "$mastername:$slavename" in
     normal:*-quick) cpu_shares=10000 ;;
-    normal:*-aarch64-full|*:*-arm-selfhost-neon) cpu_shares=5000 ;;
+    normal:*-aarch64-full|*:*-armv7-selfhost) cpu_shares=5000 ;;
     normal:*) cpu_shares=1000 ;;
     *) cpu_shares=50 ;;
 esac
