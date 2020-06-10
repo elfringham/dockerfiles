@@ -190,6 +190,25 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
+# Install usb libs and OpenOCD on x86 hosts, used to target bare-metal boards.
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ libusb-1.0 \
+ libusb-dev \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+RUN cd /tmp \
+ && git clone --single-branch --depth 1 https://git.code.sf.net/p/openocd/code openocd \
+ && cd /tmp/openocd \
+ && ./bootstrap \
+ && ./configure --enable-stlink \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/openocd
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
 # Don't build in parallel for the sake of armhf-01, which runs out of RAM
@@ -219,4 +238,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: ee50273a1c0b8c3e95d62a4943e1ef72
+# checksum: cb6d440267509d8048a839e1388f0b67
