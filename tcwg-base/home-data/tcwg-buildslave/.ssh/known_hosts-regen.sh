@@ -18,6 +18,8 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	139.178.86.246  # tcwg-amp-02
 	147.75.55.190   # tcwg-amp-03
 	139.178.85.170  # tcwg-amp-04
+	147.75.92.162   # tcwg-amp-05
+	147.75.92.166   # tcwg-amp-06
 	147.75.106.138  # tcwg-d05-01
 	148.251.136.42  # tcwg-ex40-01
     )
