@@ -1,5 +1,5 @@
 # Auto generated from tcwg-base/tcwg-llvmbot/Dockerfile.in. Do not edit.
-FROM linaro/ci-arm64-tcwg-base-ubuntu:focal
+FROM linaro/ci-arm64-tcwg-base-ubuntu:bionic
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -12,7 +12,6 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
-#linux-tools-NEED_TO_TEST \
  swig \
  tmux \
  && apt-get clean \
@@ -44,4 +43,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 8bf327efd9db533e22dd857be6424748
+# checksum: cbf6b7657ffb6e2954bb7a9b85e82da5
