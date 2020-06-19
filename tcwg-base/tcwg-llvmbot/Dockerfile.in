@@ -1,17 +1,8 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
 RUN apt-get update \
-#if DISTRO_xenial
- && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
- && DEBIAN_FRONTEND=noninteractive add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt-get update \
-#endif
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
-#if DISTRO_xenial
- buildbot \
- g++-9 \
-#endif
  cpio \
  htop \
  iotop \
@@ -20,14 +11,6 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
-#if DISTRO_xenial
- linux-tools-4.4.0-59-generic \
-#elif DISTRO_focal
-#linux-tools-NEED_TO_TEST \
-#endif
-#if DISTRO_xenial
- python-sphinx \
-#endif
  tmux \
  && apt-get clean \
  && rm -rf \
@@ -49,13 +32,11 @@ RUN \
  && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
-#if !DISTRO_xenial
 # Install xenial's verion of buildbot
 RUN \
  curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
  python2 ./get-pip.py && \
  pip2 install buildbot==0.8.12
-#endif
 
 VOLUME /home
 
