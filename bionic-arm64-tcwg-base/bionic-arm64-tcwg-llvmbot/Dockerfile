@@ -33,7 +33,7 @@ RUN \
 RUN \
  curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
  python2 ./get-pip.py && \
- pip2 install buildbot==0.8.12
+ pip2 install buildbot-slave==0.8.12
 
 VOLUME /home
 
@@ -42,4 +42,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: ec7eda990e7ba4c26d823bef0e2ea244
+# checksum: 2d6b4caa4d3d08d657469b85c06d2c4c

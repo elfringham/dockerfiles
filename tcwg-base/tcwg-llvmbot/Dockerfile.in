@@ -36,7 +36,7 @@ RUN \
 RUN \
  curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
  python2 ./get-pip.py && \
- pip2 install buildbot==0.8.12
+ pip2 install buildbot-slave==0.8.12
 
 VOLUME /home
 
