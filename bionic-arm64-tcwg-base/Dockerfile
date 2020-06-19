@@ -172,12 +172,13 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+# Don't build in parallel for the sake of armhf-01, which runs out of RAM
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=$(nproc --all) \
- && make -j$(nproc --all) \
- && make -j$(nproc --all) install \
+ && ./bootstrap --parallel=1 \
+ && make -j1 \
+ && make -j1 install \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -198,4 +199,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: bc10c5de83b9dcf45f300d62acf94cf3
+# checksum: 8f5455107870157832e49262e8285192
