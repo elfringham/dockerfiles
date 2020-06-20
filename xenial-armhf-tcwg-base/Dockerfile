@@ -83,6 +83,7 @@ RUN (url="http://ports.ubuntu.com/ubuntu-ports/"; \
  rsync \
  subversion \
  sudo \
+ swig \
  tclsh \
  texinfo \
  texlive-fonts-recommended \
@@ -115,7 +116,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip3 install git-review
+ && pip3 install git-review \
+ && pip3 install psutil
 
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -137,12 +139,13 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
 
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+# Don't build in parallel for the sake of armhf-01, which runs out of RAM
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=$(nproc --all) \
- && make -j$(nproc --all) \
- && make -j$(nproc --all) install \
+ && ./bootstrap --parallel=1 \
+ && make -j1 \
+ && make -j1 install \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -163,4 +166,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 460e99c7f4b7a8b592c84f589c58ac8c
+# checksum: 09b1f3c4068b14002def886fc7965314

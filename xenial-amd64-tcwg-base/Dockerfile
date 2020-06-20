@@ -86,6 +86,7 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  rsync \
  subversion \
  sudo \
+ swig \
  tclsh \
  texinfo \
  texlive-fonts-recommended \
@@ -118,7 +119,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- && pip3 install git-review
+ && pip3 install git-review \
+ && pip3 install psutil
 
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -157,12 +159,13 @@ RUN apt-get update \
 
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
+# Don't build in parallel for the sake of armhf-01, which runs out of RAM
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=$(nproc --all) \
- && make -j$(nproc --all) \
- && make -j$(nproc --all) install \
+ && ./bootstrap --parallel=1 \
+ && make -j1 \
+ && make -j1 install \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -183,4 +186,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 61bf7239ec03a109a36416fe01b335d5
+# checksum: be45c930ee4d2887fcf02b1bd253ba2e

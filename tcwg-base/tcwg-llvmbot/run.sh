@@ -12,6 +12,7 @@ use_clang_p ()
     case "$1" in
         *-libcxx|linaro-tk1-02) return 0 ;;
         *-lld) return 0 ;;
+        *-lldb) return 0 ;;
         *-armv*-quick) return 0 ;;
         *-linaro-tk1-01|linaro-tk1-03|linaro-tk1-04|linaro-tk1-05) return 0 ;;
         *-armv*-global-isel) return 0 ;;

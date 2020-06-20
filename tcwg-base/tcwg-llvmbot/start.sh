@@ -34,9 +34,11 @@ case "$slavename" in
   linaro-armv7-global-isel) ;;
   linaro-aarch64-libcxx) ;;
   linaro-aarch64-lld) ;;
+  linaro-aarch64-lldb) ;;
   linaro-aarch64-quick) ;;
   linaro-armv8-libcxx) ;;
   linaro-armv8-lld) ;;
+  linaro-arm-lldb) ;;
   linaro-armv7-lnt) ;;
   linaro-armv7-quick) ;;
   linaro-tk1-*) ;;
@@ -46,7 +48,7 @@ esac
 
 case "$slavename:$image" in
   *-aarch64-*:*-arm64-*) ;;
-  *-armv*-*:*-armhf-*) ;;
+  *-arm*-*:*-armhf-*) ;;
   linaro-tk1-*:*-armhf-*) ;;
   *)
     echo "ERROR: $slavename should not run on $image."

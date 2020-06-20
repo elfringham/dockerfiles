@@ -1,1 +1,0 @@
-../../tcwg-base/tcwg-llvmbot/build.sh
