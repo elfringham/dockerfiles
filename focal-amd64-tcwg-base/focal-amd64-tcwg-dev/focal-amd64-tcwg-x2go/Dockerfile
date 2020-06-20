@@ -16,6 +16,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  duplicity \
  mate-desktop-environment \
+ ubuntu-mate-themes \
  x2goserver \
  x2goserver-xsession \
  && apt-get clean \
@@ -32,4 +33,4 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 399f2dc834ae480aece63ada34ca6ae8
+# checksum: 2dbd3b12b047466095c051ff5ad9d58e

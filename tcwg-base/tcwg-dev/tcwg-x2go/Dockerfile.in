@@ -15,6 +15,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  duplicity \
  mate-desktop-environment \
+ ubuntu-mate-themes \
  x2goserver \
  x2goserver-xsession \
  && apt-get clean \
