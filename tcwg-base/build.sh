@@ -10,7 +10,12 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-  rm -rf home-data/ new-user.sh postfix*.in
+    rm -rf \
+       home-data/ \
+       new-user.sh \
+       nvidia-power-cycle.sh \
+       nvidia-serial.sh \
+       postfix*.in
 }
 
 export LANG=C
@@ -22,8 +27,11 @@ image=linaro/ci-${arch}-${name}-ubuntu:${distro}
 baseimage=$(grep "^FROM" Dockerfile | head -n 1 | cut -d" " -f 2)
 
 rsync -aL $top/tcwg-base/home-data/ ./home-data/
-cp $top/tcwg-base/new-user.sh ./
-cp $top/tcwg-base/postfix*.in .
+cp -t ./ \
+   $top/tcwg-base/new-user.sh \
+   $top/tcwg-base/nvidia-power-cycle.sh \
+   $top/tcwg-base/nvidia-serial.sh \
+   $top/tcwg-base/postfix*.in
 
 "$top"/tcwg-base/validate-checksum.sh Dockerfile
 docker pull $baseimage 2>/dev/null || true

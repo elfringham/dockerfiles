@@ -164,7 +164,7 @@ RUN apt-get update \
 
 
 COPY home-data/ /home-data/
-COPY new-user.sh /usr/local/bin/
+COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 
 RUN \
  while read line; do \
@@ -180,4 +180,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 4b4175b88b4f365da4fd0040242e214a
+# checksum: bb2193bf10018038d0cc28d1e1eddb29
