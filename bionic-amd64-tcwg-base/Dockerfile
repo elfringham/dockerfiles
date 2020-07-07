@@ -222,7 +222,7 @@ RUN cd /tmp \
  && rm -rf /tmp/CMake
 
 COPY home-data/ /home-data/
-COPY new-user.sh /usr/local/bin/
+COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 
 RUN \
  while read line; do \
@@ -238,4 +238,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: cb6d440267509d8048a839e1388f0b67
+# checksum: a606815dfb539c2087d798c16bbb030c
