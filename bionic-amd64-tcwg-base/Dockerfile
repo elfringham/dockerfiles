@@ -211,13 +211,12 @@ RUN cd /tmp \
  && rm -rf /tmp/openocd
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
-# Don't build in parallel for the sake of armhf-01, which runs out of RAM
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=1 \
- && make -j1 \
- && make -j1 install \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -238,4 +237,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: a606815dfb539c2087d798c16bbb030c
+# checksum: f81fab4940438641fd170452be7a5198
