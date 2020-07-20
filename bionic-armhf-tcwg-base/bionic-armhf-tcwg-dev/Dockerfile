@@ -21,12 +21,8 @@ RUN apt-get update \
 
 RUN apt-file update
 
-# Create directories required for X11.
-RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
- && chmod 1777 /tmp/.X11-unix /tmp/.ICE-unix
-
 COPY run.sh start.sh /
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 796160c941b97f6158eee963c3754ead
+# checksum: 8eb11bac21aab2ea2e0a33772b1f0e37

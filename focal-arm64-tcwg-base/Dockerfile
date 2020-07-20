@@ -151,6 +151,13 @@ RUN \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
  done </home-data/group
 
+# Create directories required for X11.  We use X11 in tcwg-x2go images and,
+# sometimes, in tcwg-dev images.
+# We need to create these before "VOLUME /tmp" directive, since after
+# the directive stuff from /tmp won't make it into the image.
+RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
+ && chmod 1777 /tmp/.X11-unix /tmp/.ICE-unix
+
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
 # for /tmp.  This requires that we add --rm option to "docker run"
@@ -160,4 +167,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: f0aa1bb9c01149646845107a54a5c052
+# checksum: 1a46e0e46b59f58bed8f1d1fd268c795
