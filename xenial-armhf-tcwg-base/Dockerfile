@@ -139,13 +139,12 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
 
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
-# Don't build in parallel for the sake of armhf-01, which runs out of RAM
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=1 \
- && make -j1 \
- && make -j1 install \
+ && ./bootstrap --parallel=$(nproc --all) \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -166,4 +165,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 637245ac514b5219335ffaa2545a01cb
+# checksum: 6043bcf1b8ef9eebefac72b1a6840941

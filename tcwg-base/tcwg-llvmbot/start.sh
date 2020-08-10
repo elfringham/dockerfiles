@@ -97,6 +97,12 @@ case "$slavename" in
     linaro-tk1-*)
 	# Use at most 90% of RAM on TK1s
 	memlimit=$(($memlimit * 9 / 10))m
+	# The tk1 default 3.10 kernel places the [sigpage] segment between the
+	# [heap] and [stack] segment which causes failures on to some programs
+	# (more information on https://projects.linaro.org/browse/UM-70).  The
+	# unlimited statck mitigates a failure in stage2 clang due high stack
+	# usage.
+	caps_system="--ulimit stack=-1"
 	;;
     *)
 	# Use at most half of all available RAM.
@@ -112,6 +118,6 @@ esac
 # IPC_LOCK is required for some implementations of ssh-agent (e.g., MATE's).
 # SYS_PTRACE is required for debugger work.
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
-caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined"
+caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined $caps_system"
 
 $DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
