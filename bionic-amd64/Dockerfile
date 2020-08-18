@@ -1,42 +1,80 @@
 FROM ubuntu:bionic
 
-COPY setup-sshd /usr/sbin/setup-sshd
+#COPY *.list *.key /etc/apt/sources.list.d/
 
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
- && echo y | unminimize \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ abootimg \
+ acpica-tools \
+ android-tools-fsutils \
+ autoconf \
+ automake \
  bc \
  bison \
- ccache \
  build-essential \
+ ccache \
+ clang \
+ clang-format \
+ clang-tidy \
  curl \
+ debhelper \
+ debian-archive-keyring \
+ debian-keyring \
+ device-tree-compiler \
+ doxygen \
+ fakeroot \
  flex \
- g++-multilib \
- gcc-multilib \
+ gcc \
+ gcc-aarch64-linux-gnu \
+ gcc-arm-linux-gnueabihf \
+ gdisk \
+ genisoimage \
  git \
- gnupg \
  gperf \
- lib32ncurses5-dev \
- lib32z-dev \
- libc6-dev-i386 \
- libgl1-mesa-dev \
- libx11-dev \
+ kernel-wedge \
+ kpartx \
+ lava-tool \
+ lcov \
+ less \
+ lib32ncurses5 \
+ libstdc++6:i386 \
+ libtool \
+ libvirt-bin \
  libxml2-utils \
- openjdk-8-jdk \
+ lsb-release \
+ make \
+ openjdk-11-jdk \
  openssh-server \
- parallel \
+ python-mako \
+ python-networkx \
+ python-requests \
  python3-requests \
+ pxz \
+ qemu-user-static \
  rsync \
- unzip \
- x11proto-core-dev \
- xsltproc \
- xz-utils \
+ scons \
+ sudo \
+ time \
+ u-boot-tools \
+ uuid-dev \
+ virtinst \
+ wget \
+ xml-twig-tools \
  zip \
- zlib1g-dev && \
- apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
+ zlib1g-dev:i386 \
+ zsync \
+ && apt-get clean \
+ && rm -rf \
+ /etc/apt/sources.list.d/*.key \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/* \
+ *.deb
 
 RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
@@ -47,7 +85,5 @@ RUN useradd -m -G plugdev buildslave \
  && chmod a+x /home/buildslave/bin/* \
  && chown -R buildslave:buildslave /home/buildslave/bin
 
-ENV LC_ALL C.UTF-8
-
 EXPOSE 22
-ENTRYPOINT ["/usr/sbin/setup-sshd"]
+CMD ["/usr/sbin/sshd", "-D"]
