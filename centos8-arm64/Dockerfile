@@ -5,6 +5,7 @@ RUN dnf install -y openssh-server openssh-clients sudo && \
 
 RUN useradd -m buildslave \
  && mkdir /home/buildslave/.ssh \
+ && chown buildslave:buildslave /home/buildslave/.ssh \
  && chmod 700 /home/buildslave/.ssh \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
