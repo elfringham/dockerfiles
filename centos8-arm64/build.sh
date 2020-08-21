@@ -11,11 +11,8 @@ cleanup_exit()
 
 export LANG=C
 
-DISTRIBUTION=$(basename ${PWD} | cut -f1 -d '-')
-ARCHITECTURE=$(basename ${PWD} | cut -f2 -d '-')
-
 cp -a ../setup-sshd .
 
-image=linaro/jenkins-${ARCHITECTURE}-ubuntu:${DISTRIBUTION}
+image=linaro/jenkins-arm64-centos:8
 docker build --pull --tag=$image .
 echo $image > .docker-tag
