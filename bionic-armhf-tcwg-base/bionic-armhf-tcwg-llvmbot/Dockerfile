@@ -5,6 +5,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
  cpio \
+ g++-8 \
  htop \
  iotop \
  libedit-dev \
@@ -13,6 +14,8 @@ RUN apt-get update \
  libxml2-dev \
  linux-tools-common \
  tmux \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
+ --slave /usr/bin/g++ g++ /usr/bin/g++-8 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -42,4 +45,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 482b9718e96650c73069a485e8f99c91
+# checksum: 68ed58e93e665cba80110b4b27d85704
