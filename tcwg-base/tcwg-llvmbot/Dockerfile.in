@@ -4,6 +4,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
  cpio \
+ g++-8 \
  htop \
  iotop \
  libedit-dev \
@@ -12,6 +13,8 @@ RUN apt-get update \
  libxml2-dev \
  linux-tools-common \
  tmux \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
+ --slave /usr/bin/g++ g++ /usr/bin/g++-8 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
