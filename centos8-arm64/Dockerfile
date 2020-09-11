@@ -1,6 +1,6 @@
 FROM centos:8
 
-RUN dnf install -y openssh-server openssh-clients sudo && \
+RUN dnf install -y openssh-server openssh-clients sudo wget python3-requests && \
     dnf groupinstall -y "Development Tools"
 
 RUN useradd -m buildslave \
