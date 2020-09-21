@@ -1,1 +1,1 @@
-../tcwg-buildslave/.ssh/ssh-tcwglab-nc.sh
+../../tcwg-buildslave/.ssh/ssh-tcwglab-nc.sh
