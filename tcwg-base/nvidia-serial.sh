@@ -1,6 +1,15 @@
 #!/bin/bash
 
 case "$*" in
+  "llvm-tk1-01") port="7001" ;;
+  "llvm-tk1-02") port="7002" ;;
+  "llvm-tk1-03") port="7003" ;;
+  "llvm-tk1-04") port="7004" ;;
+  "llvm-tk1-05") port="7005" ;;
+  "llvm-tk1-06") port="7006" ;;
+  "llvm-tk1-07") port="7007" ;;
+  "llvm-tk1-08") port="7008" ;;
+  "llvm-tk1-09") port="7009" ;;
   "tcwg-tk1-01") port="7025" ;;
   "tcwg-tk1-02") port="7026" ;;
   "tcwg-tk1-03") port="7027" ;;
