@@ -8,9 +8,6 @@ usage ()
 $0 [OPTIONS] -- IMAGE [NEW_USER_PARAMS]
 
 Options:
-  --home volume/bind
-	How to mount /home; default is volume home-$user
-
   --name CONTAINER_NAME
 	Name of the container
 
@@ -23,14 +20,12 @@ EOF
     exit 1
 }
 
-home="volume"
 name="default"
 user="$USER"
 verbose=false
 
 while [ $# -gt 0 ]; do
     case $1 in
-	--home) home="$2"; shift ;;
 	--name) name="$2"; shift ;;
 	--user) user="$2"; shift ;;
 	--verbose) verbose="$2"; shift ;;
@@ -70,35 +65,13 @@ fi
 
 mounts=""
 
-docker_host=false
-if [ -f "/.dockerenv" ] && mount | grep -q "/run/docker.sock "; then
-    docker_host=true
+# Bind-mount $HOME
+mounts="$mounts -v /home/$user:/home/$user"
+# Bind-mount /home/tcwg-buildslave read-only to get access to
+# /home/tcwg-buildslave/snapshots-ref/
+if [ -d "/home/tcwg-buildslave" ]; then
+    mounts="$mounts -v /home/tcwg-buildslave:/home/tcwg-buildslave:ro"
 fi
-
-home_top="/home"
-if $docker_host; then
-    # If inside "host" container (with proxied docker and /home from host-home
-    # volume), convert paths to refer to volume's path on bare-metal.
-    docker_root=$($DOCKER info | grep "Docker Root Dir:" | cut -d: -f 2)
-    home_top=$docker_root/volumes/host-home/_data
-fi
-
-if $docker_host || [ -d "$home_top/tcwg-buildslave" ]; then
-    # Bind-mount /home/tcwg-buildslave read-only to get access to
-    # /home/tcwg-buildslave/snapshots-ref/
-    mounts="$mounts -v $home_top/tcwg-buildslave:/home/tcwg-buildslave:ro"
-fi
-
-case "$home" in
-    bind)
-	# Bind-mount $HOME
-	mounts="$mounts -v $home_top/$user:/home/$user"
-	;;
-    volume)
-	# Create/re-use docker volume and mount it as user's home
-	mounts="$mounts -v home-$user:/home"
-	;;
-esac
 # Bind-mount ssh host keys.
 for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
