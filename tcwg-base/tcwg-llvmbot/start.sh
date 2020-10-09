@@ -36,6 +36,7 @@ case "$slavename" in
   linaro-aarch64-lld) ;;
   linaro-aarch64-lldb) ;;
   linaro-aarch64-quick) ;;
+  linaro-aarch64-flang-oot) ;;
   linaro-armv8-libcxx) ;;
   linaro-armv8-lld) ;;
   linaro-arm-lldb) ;;

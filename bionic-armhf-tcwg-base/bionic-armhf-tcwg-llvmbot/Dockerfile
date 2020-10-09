@@ -13,6 +13,7 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
+ python3-buildbot-worker \
  tmux \
  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
  --slave /usr/bin/g++ g++ /usr/bin/g++-8 \
@@ -32,11 +33,6 @@ RUN \
  && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
-# Install xenial's verion of buildbot
-RUN \
- curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
- python2 ./get-pip.py && \
- pip2 install buildbot-slave==0.8.12
 
 VOLUME /home
 
@@ -45,4 +41,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 68ed58e93e665cba80110b4b27d85704
+# checksum: 4d29ce20fcf0cb49ba9093825395bb8d
