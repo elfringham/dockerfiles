@@ -25,12 +25,13 @@ RUN apt-get update \
 
 RUN new-user.sh --user tcwg-buildslave
 
-# Add recent clang for libcxx bots. We use 8.0.1 because later versions require
-# a more recent glibc than the one in Ubuntu 16.04.
+# Add a recent clang for libcxx bots, because they build and test the libraries
+# using the latest C++ standard, which might not be supported by the system
+# compiler.
 RUN \
- clang_ver=clang+llvm-8.0.1-aarch64-linux-gnu \
+ clang_ver=clang+llvm-10.0.1-aarch64-linux-gnu \
  && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-8.0.1/$clang_ver.tar.xz \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.1/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
@@ -41,4 +42,4 @@ COPY start.sh .
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: bb6df7d004310fac4a2ec8e6e5eaec6e
+# checksum: 2813acc7870f4bafe84524780b5468b4
