@@ -74,4 +74,11 @@ done
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 memlimit=$(($memlimit / 2))m
 
+for i in tcwg-buildslave tcwg-benchmark; do
+    # Move contents of bots' home directories to main machine's /home from
+    # host-home volume.
+    # Users' data will be moved manually to avoid data loss.
+    $DOCKER run --rm -v /home:/home -v host-home:/host-home --entrypoint /bin/bash $image -c "set -e; if [ -f /host-home/$i.moved ]; then exit; fi; rsync -a /host-home/$i/ /home/$i/; rm -rf /host-home/$i/; touch /host-home/$i.moved"
+done
+
 $DOCKER run -dt --name=$node --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$node"
