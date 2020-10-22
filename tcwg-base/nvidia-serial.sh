@@ -34,8 +34,8 @@ case "$*" in
 esac
 
 case "$*" in
-  "tcwg-tk1-"*) serial_host=192.168.16.255 ;;
-  "tcwg-tx1-"*) serial_host=localhost ;;
+  *"-tk1-"*) serial_host=192.168.16.255 ;;
+  *"-tx1-"*) serial_host=localhost ;;
 esac
 
 exec ssh -p22 -t dev-01.tcwglab telnet "$serial_host" "$port"
