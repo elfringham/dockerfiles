@@ -35,10 +35,10 @@ else
 fi
 
 if use_clang_p $2 ; then
-    # We would prefer to use the oldest maintained clang release (latest - 1),
-    # but the pre-built binaries for 9.0+ don't work on ubuntu 16.04 because
-    # they need glibc 2.27. For now we use the 8.0.1 release.
-    release_num=8.0.1
+    # Some bots need recent C++ versions or clang-specific features, so we use
+    # a recent clang instead of the system GCC. Currently we use the 10.0.1
+    # release.
+    release_num=10.0.1
     case "$(uname -m)" in
 	aarch64) release_arch=aarch64-linux-gnu ;;
 	*) release_arch=armv7a-linux-gnueabihf ;;
