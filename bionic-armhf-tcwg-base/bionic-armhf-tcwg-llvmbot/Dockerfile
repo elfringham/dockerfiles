@@ -3,9 +3,17 @@ FROM linaro/ci-armhf-tcwg-base-ubuntu:bionic
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ software-properties-common
+
+# Add the toolchain test build PPA which provides gcc-9 for bionic
+# (the add-apt-repository is installed by software-properties-common)
+RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
+
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
  cpio \
- g++-8 \
+ g++-9 \
  htop \
  iotop \
  libedit-dev \
@@ -15,8 +23,8 @@ RUN apt-get update \
  linux-tools-common \
  python3-buildbot-worker \
  tmux \
- && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 800 \
- --slave /usr/bin/g++ g++ /usr/bin/g++-8 \
+ && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 800 \
+ --slave /usr/bin/g++ g++ /usr/bin/g++-9 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -42,4 +50,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 97c234ef90a727b1f0a6abad1a311b39
+# checksum: 34bed5e4fc916743e76e72bd6e83a5a6

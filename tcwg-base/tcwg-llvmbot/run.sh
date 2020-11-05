@@ -46,7 +46,8 @@ if use_clang_p $2 ; then
     release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
     cc=$release_path/clang
     cxx=$release_path/clang++
-elif [ x"$(lsb_release -cs)" = x"xenial" ]; then
+elif [ x"$(lsb_release -cs)" = x"xenial" ||
+       x"$(lsb_release -cs)" = x"bionic"]; then
     cc=gcc-9
     cxx=g++-9
 else
