@@ -37,6 +37,8 @@ case "$slavename" in
   linaro-aarch64-lldb) ;;
   linaro-aarch64-quick) ;;
   linaro-aarch64-flang-oot) ;;
+  linaro-aarch64-flang-dylib) ;;
+  linaro-aarch64-flang-sharedlibs) ;;
   linaro-armv8-libcxx) ;;
   linaro-armv8-lld) ;;
   linaro-arm-lldb) ;;
@@ -45,6 +47,7 @@ case "$slavename" in
   linaro-tk1-*) ;;
   *)
     echo "WARNING: Unknown slavename $slavename"
+    ;;
 esac
 
 case "$slavename:$image" in
