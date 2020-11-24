@@ -1,7 +1,8 @@
 FROM centos:8
 
-RUN dnf install -y openssh-server openssh-clients sudo wget python3-requests && \
-    dnf groupinstall -y "Development Tools"
+RUN dnf install -y openssh-server openssh-clients sudo wget python3-requests centos-release-ansible-29 && \
+    dnf groupinstall -y "Development Tools" && \
+    dnf install -y ansible
 
 RUN useradd -m buildslave \
  && mkdir /home/buildslave/.ssh \

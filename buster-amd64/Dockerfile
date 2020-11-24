@@ -1,4 +1,4 @@
-FROM debian:buster
+FROM debian:buster-backports
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
@@ -14,6 +14,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  abootimg \
  acpica-tools \
  android-tools-fsutils \
+ ansible/buster-backports \
  autoconf \
  automake \
  bc \
