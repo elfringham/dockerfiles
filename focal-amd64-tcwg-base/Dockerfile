@@ -116,6 +116,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
+ # Add /usr/bin/python link for focal.  We need this for GDB builds.
+ && update-alternatives --install /usr/bin/python python /usr/bin/python3 3 \
  && pip3 install git-review \
  && pip3 install psutil
 
@@ -187,4 +189,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 5853d9a88d3f644124443d380a05b27b
+# checksum: fa858927737d3bd41d42ec1e06a796e9
