@@ -139,23 +139,6 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && cd .. \
  && rm -rf ninja
 
-# Build latest QEMU release (and install pre-requisites for the build).
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
- && mkdir /tmp/docker-install-qemu.$$ \
- && cd /tmp/docker-install-qemu.$$ \
- && qemu_ver=4.2.0 \
- && wget --progress=dot:giga http://download.qemu-project.org/qemu-${qemu_ver}.tar.xz \
- && tar xf qemu-${qemu_ver}.tar.xz \
- && mkdir build && cd build \
- && ../qemu-${qemu_ver}/configure --prefix=/usr/local --target-list=aarch64-softmmu,arm-softmmu,aarch64-linux-user,aarch64_be-linux-user,arm-linux-user,armeb-linux-user \
- && make all install -j $(nproc --all) \
- && apt-get clean \
- && rm -rf \
- /tmp/docker-install-qemu.$$ \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
 
 
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
@@ -192,4 +175,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: dbf9c46072c5a8dc75f035867036cb88
+# checksum: ea60b1817bf8cd7480164771df10f04e
