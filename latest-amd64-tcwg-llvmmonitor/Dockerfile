@@ -6,11 +6,14 @@ RUN apt-get update \
  git \
  libjson-perl \
  libwww-perl \
+ python3 \
+ python3-pip \
+ && pip3 install requests \
  && git clone https://git.linaro.org/toolchain/llvm/linaro-scripts.git \
  && /linaro-scripts/monitor/install.sh /linaro-scripts-monitor \
  && rm -rf /usr/share/nginx/html \
  && ln -s /linaro-scripts-monitor/html /usr/share/nginx/html \
- && echo "*/5 * * * * git -C /linaro-scripts pull >/dev/null 2>&1 && /linaro-scripts-monitor/bin/bot-status /linaro-scripts-monitor/bin/linaro.json /linaro-scripts-monitor/html/index.html && chmod +r /linaro-scripts-monitor/html/index.html" | crontab - \
+ && echo "*/5 * * * * git -C /linaro-scripts pull >/dev/null 2>&1 && /linaro-scripts-monitor/bin/bot-status.py /linaro-scripts-monitor/bin/linaro.json /linaro-scripts-monitor/html/index.html && chmod +r /linaro-scripts-monitor/html/index.html" | crontab - \
  && rm -rf \
  /var/lib/apt/lists/* \
  /tmp/* \
