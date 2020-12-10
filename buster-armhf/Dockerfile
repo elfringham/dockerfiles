@@ -38,7 +38,6 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  kpartx \
  lava-tool \
  libtool \
- linaro-image-tools \
  libssl-dev \
  lsb-release \
  lvm2 \
