@@ -51,8 +51,11 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  openssh-server \
  parted \
  pigz \
+ python3-jinja2 \
+ python3-kerberos \
  python3-pip \
  python3-requests \
+ python3-ruamel.yaml \
  qemu-user-static \
  sudo \
  time \
@@ -72,7 +75,10 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
 RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
- && mkdir -p /var/run/sshd
+ && mkdir -p /var/run/sshd \
+ && wget -q http://deb.debian.org/debian/pool/contrib/r/repo/repo_2.10-1~bpo10+1_all.deb \
+ && apt install ./repo_*.deb \
+ && rm -f *.deb
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
