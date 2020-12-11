@@ -5,7 +5,7 @@ COPY *.list *.key /etc/apt/sources.list.d/
 RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
  && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
  && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
+ ; DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
  && apt-key add /etc/apt/sources.list.d/*.key \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -73,15 +73,6 @@ RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd
-
-USER buildslave
-
-RUN pip3 install --user --force-reinstall  jinja2-cli ruamel.yaml \
- && mkdir -p /home/buildslave/bin \
- && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
- && chmod a+x /home/buildslave/bin/repo
-
-USER root
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
