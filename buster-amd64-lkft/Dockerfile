@@ -47,7 +47,6 @@ RUN dpkg --add-architecture i386 \
  libssl-dev \
  libstdc++6:i386 \
  libtool \
- linaro-image-tools \
  lsb-release \
  openjdk-11-jdk \
  openssh-server \
