@@ -19,8 +19,6 @@ RUN true \
  bc \
  bind9-host \
  bison \
- binutils-aarch64-linux-gnu \
- binutils-arm-linux-gnueabihf \
  binutils-dev \
  bsd-mailx \
  build-essential \
@@ -231,4 +229,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 85dae82655610db64b45e6fc5d30258b
+# checksum: bbb18c8245fd2bfc1d9293652ac62b26

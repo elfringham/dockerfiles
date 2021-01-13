@@ -51,10 +51,6 @@ RUN true \
  bc \
  bind9-host \
  bison \
-#if ARCH_amd64 || ARCH_i386
- binutils-aarch64-linux-gnu \
- binutils-arm-linux-gnueabihf \
-#endif
  binutils-dev \
  bsd-mailx \
  build-essential \
