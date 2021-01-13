@@ -3,6 +3,7 @@ FROM linaro/ci-arm64-tcwg-base-ubuntu:xenial
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+ arcanist \
  apt-file \
  git-gui \
  git-svn \
@@ -25,4 +26,4 @@ COPY run.sh start.sh /
 
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 724c0ca5f36e63c378f64164d530d518
+# checksum: e5eba5ab723f7587909eb8ebffaec600
