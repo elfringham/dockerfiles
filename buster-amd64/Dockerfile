@@ -32,14 +32,12 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  doxygen \
  fakeroot \
  flex \
- g++-multilib \
  gdisk \
  genisoimage \
  git \
  kernel-wedge \
  kpartx \
  lava-tool \
- libc6-dev-i386 \
  libcurl4-openssl-dev \
  libssl-dev \
  libtool \
@@ -65,6 +63,10 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  xz-utils \
  zip \
  zsync \
+ && if [ $(uname -m) = 'x86_64' ]; then \
+   DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+   g++-multilib \
+   libc6-dev-i386; fi \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/*.key \
