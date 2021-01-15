@@ -12,6 +12,9 @@ FROM ubuntu:#{DISTRO}
 # endif
 #endif
 
+# Use bash for better string escaping (on Ubuntu, /bin/sh is dash).
+SHELL ["/bin/bash", "-c"]
+
 #if DISTRO_xenial
 #if ARCH_amd64 || ARCH_i386
 RUN (url="http://archive.ubuntu.com/ubuntu/"; \
@@ -48,10 +51,6 @@ RUN true \
  bc \
  bind9-host \
  bison \
-#if ARCH_amd64 || ARCH_i386
- binutils-aarch64-linux-gnu \
- binutils-arm-linux-gnueabihf \
-#endif
  binutils-dev \
  bsd-mailx \
  build-essential \
@@ -278,6 +277,18 @@ RUN \
 # the directive stuff from /tmp won't make it into the image.
 RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
  && chmod 1777 /tmp/.X11-unix /tmp/.ICE-unix
+
+#if ARCH_armhf || ARCH_i386
+# For AArch32 images, add a warning if an interactive shell is opened in an
+# AArch64 environment.
+RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; then\n' \
+         $'  echo "============================================================================================="\n' \
+         $'  echo "WARNING: This is a 32-bit container, but your shell is running in a 64-bit environment."\n' \
+         $'  echo "You probably want to run your shell with the \'linux32\' program to get a 32-bit environment."\n' \
+         $'  echo "============================================================================================="\n' \
+         $'fi\n' \
+         >> /etc/bash.bashrc
+#endif
 
 # We use ssh multiplexing, which creates sockets in /tmp.  Overlayfs,
 # which docker is using, can't host sockets, so we use a scratch mount
