@@ -19,8 +19,9 @@ RUN wget -q https://bootstrap.pypa.io/get-pip.py -O /tmp/get-pip.py \
   && ln -s /var/jenkins_home /var/lib/jenkins \
   && mkdir -p /usr/share/groovy/lib \
   && wget -q https://search.maven.org/remotecontent?filepath=org/codehaus/groovy/groovy-xmlrpc/0.8/groovy-xmlrpc-0.8.jar -O /usr/share/groovy/lib/groovy-xmlrpc-0.8.jar \
-  && wget -q https://storage.googleapis.com/git-repo-downloads/repo -O /usr/bin/repo \
+  && wget -q https://storage.googleapis.com/git-repo-downloads/repo-1 -O /usr/bin/repo\
   && chmod +x /usr/bin/repo \
+  && sed -i -e 's,/usr/bin/env python,/usr/bin/python3,' /usr/bin/repo \
   && apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
   ansible \
