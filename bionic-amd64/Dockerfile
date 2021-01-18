@@ -52,8 +52,12 @@ RUN dpkg --add-architecture i386 \
  openssh-server \
  python-mako \
  python-networkx \
+ python-pip \
  python-requests \
+ python-wheel \
+ python3-pip \
  python3-requests \
+ python3-wheel \
  pxz \
  qemu-user-static \
  rsync \
@@ -84,6 +88,10 @@ RUN useradd -m -G plugdev buildslave \
  && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
  && chmod a+x /home/buildslave/bin/* \
  && chown -R buildslave:buildslave /home/buildslave/bin
+
+RUN pip install jenkins-job-builder==2.10.0 \
+ && git clone --depth 1 https://git.linaro.org/infrastructure/jjb-linaro-plugin.git \
+ && cd jjb-linaro-plugin && python setup.py install && cd .. && rm -rf jjb-linaro-plugin
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

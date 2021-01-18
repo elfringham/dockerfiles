@@ -19,19 +19,30 @@ RUN apt-get update \
  git \
  gnupg \
  gperf \
+ lava-tool \
  libgl1-mesa-dev \
  libx11-dev \
  libxml2-utils \
- openjdk-8-jdk \
+ openjdk-11-jdk \
  openssh-server \
  parallel \
+ python-mako \
+ python-networkx \
+ python-pip \
+ python-requests \
+ python-wheel \
+ python3-pip \
  python3-requests \
+ python3-wheel \
+ qemu-user-static \
  rsync \
  scons \
+ sudo \
  unzip \
  x11proto-core-dev \
  xsltproc \
  xz-utils \
+ wget \
  zip \
  zlib1g-dev && \
  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
@@ -45,6 +56,10 @@ RUN useradd -m -G plugdev buildslave \
  && curl https://storage.googleapis.com/git-repo-downloads/repo > /home/buildslave/bin/repo \
  && chmod a+x /home/buildslave/bin/* \
  && chown -R buildslave:buildslave /home/buildslave/bin
+
+RUN pip install jenkins-job-builder==2.10.0 \
+ && git clone --depth 1 https://git.linaro.org/infrastructure/jjb-linaro-plugin.git \
+ && cd jjb-linaro-plugin && python setup.py install && cd .. && rm -rf jjb-linaro-plugin
 
 ENV LC_ALL C.UTF-8
 
