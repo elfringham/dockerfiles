@@ -15,6 +15,7 @@ RUN apt-get update \
  binutils-gold \
  cpio \
  g++-9 \
+ gfortran \
  htop \
  iotop \
  libedit-dev \
