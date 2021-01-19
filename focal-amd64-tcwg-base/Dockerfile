@@ -52,7 +52,6 @@ RUN true \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
- libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -72,11 +71,6 @@ RUN true \
  pkg-config \
  postfix \
  psmisc \
-# pxz \
- python2-dev \
-# python2-pip \
-# python2-setuptools \
-# python2-wheel \
  python3-dev \
  python3-pip \
  python3-setuptools \
@@ -172,4 +166,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 84ca3077fc01b645445b682f3621000d
+# checksum: 5ad81f43047e84cc8a38d145114dfffb

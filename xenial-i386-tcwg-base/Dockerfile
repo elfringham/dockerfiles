@@ -57,7 +57,6 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
- libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -77,11 +76,8 @@ RUN (url="http://archive.ubuntu.com/ubuntu/"; \
  pkg-config \
  postfix \
  psmisc \
+# No pxz in Focal :-(
  pxz \
- python-dev \
- python-pip \
- python-setuptools \
- python-wheel \
  python3-dev \
  python3-pip \
  python3-setuptools \
@@ -188,4 +184,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 2994e61506edd5e5edd9c6a52c5105b4
+# checksum: 9eb613d30788d0c9fda1270142d4e6fa
