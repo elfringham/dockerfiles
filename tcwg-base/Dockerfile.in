@@ -161,10 +161,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
-#if !DISTRO_xenial && !DISTRO_bionic
- # Add /usr/bin/python link for focal.  We need this for GDB builds.
- && update-alternatives --install /usr/bin/python python /usr/bin/python3 3 \
-#endif
  && pip3 install git-review \
  && pip3 install psutil
 
