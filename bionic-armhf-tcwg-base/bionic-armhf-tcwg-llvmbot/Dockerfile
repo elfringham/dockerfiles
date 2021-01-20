@@ -14,6 +14,7 @@ RUN apt-get update \
  binutils-gold \
  cpio \
  g++-9 \
+ gfortran \
  htop \
  iotop \
  libedit-dev \
@@ -50,4 +51,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 8e4d601019cea753d7b0658d8eefb2b0
+# checksum: 387ee3e7ee59e54477782735517d90ee
