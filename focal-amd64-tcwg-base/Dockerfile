@@ -52,7 +52,6 @@ RUN true \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
- libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -72,11 +71,6 @@ RUN true \
  pkg-config \
  postfix \
  psmisc \
-# pxz \
- python2-dev \
-# python2-pip \
-# python2-setuptools \
-# python2-wheel \
  python3-dev \
  python3-pip \
  python3-setuptools \
@@ -117,8 +111,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
- # Add /usr/bin/python link for focal.  We need this for GDB builds.
- && update-alternatives --install /usr/bin/python python /usr/bin/python3 3 \
  && pip3 install git-review \
  && pip3 install psutil
 
@@ -174,4 +166,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 2fa6240cc6d186fe2da8a93d16be06ae
+# checksum: 5ad81f43047e84cc8a38d145114dfffb

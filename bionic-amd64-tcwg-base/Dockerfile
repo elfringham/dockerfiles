@@ -51,7 +51,6 @@ RUN true \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
- libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -71,11 +70,8 @@ RUN true \
  pkg-config \
  postfix \
  psmisc \
+# No pxz in Focal :-(
  pxz \
- python-dev \
- python-pip \
- python-setuptools \
- python-wheel \
  python3-dev \
  python3-pip \
  python3-setuptools \
@@ -229,4 +225,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: bbb18c8245fd2bfc1d9293652ac62b26
+# checksum: f99e9346cccb06348c12d4edbd80edda

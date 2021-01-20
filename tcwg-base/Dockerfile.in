@@ -86,7 +86,6 @@ RUN true \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
- libpython2.7-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -109,17 +108,8 @@ RUN true \
  postfix \
  psmisc \
 #if DISTRO_xenial || DISTRO_bionic
+# No pxz in Focal :-(
  pxz \
- python-dev \
- python-pip \
- python-setuptools \
- python-wheel \
-#else
-# pxz \
- python2-dev \
-# python2-pip \
-# python2-setuptools \
-# python2-wheel \
 #endif
  python3-dev \
  python3-pip \
@@ -161,10 +151,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxStartups 256" >> /etc/ssh/sshd_config \
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
-#if !DISTRO_xenial && !DISTRO_bionic
- # Add /usr/bin/python link for focal.  We need this for GDB builds.
- && update-alternatives --install /usr/bin/python python /usr/bin/python3 3 \
-#endif
  && pip3 install git-review \
  && pip3 install psutil
 
