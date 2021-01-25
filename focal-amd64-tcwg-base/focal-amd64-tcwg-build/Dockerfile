@@ -7,7 +7,7 @@ RUN while read line; do \
       fi; \
       new-user.sh --passwd "$line"; \
       user=$(echo "$line" | cut -d: -f 1); \
-      sudo -i -u $user ccache --print-config; \
+      sudo -i -u $user ccache -p; \
     done </home-data/passwd
 
 # Install wine.  On amd64 arch we need to enable i386, otherwise wine
@@ -21,4 +21,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: e9bb5a261d910d076b113a07822dbd26
+# checksum: 52caac9e549262e72f02a7c73e27710f
