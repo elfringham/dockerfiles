@@ -1,0 +1,7 @@
+# This is Git's per-user configuration file.
+[user]
+	name = Stevan Radaković
+	email = stevan.radakovic@linaro.org
+[gitreview]
+	username = stevan.radakovic
+	username = stevan.radakovic
