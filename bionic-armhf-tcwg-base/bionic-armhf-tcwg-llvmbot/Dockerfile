@@ -22,6 +22,10 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
+ python-dev \
+ python-pip \
+ python-setuptools \
+ python-wheel \
  python3-buildbot-worker \
  tmux \
  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 800 \
@@ -51,4 +55,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 387ee3e7ee59e54477782735517d90ee
+# checksum: f2749688b1929b1760f3a5b151faff5b
