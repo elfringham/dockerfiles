@@ -23,6 +23,12 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
+#if DISTRO_xenial || DISTRO_bionic
+ python-dev \
+ python-pip \
+ python-setuptools \
+ python-wheel \
+#endif
  python3-buildbot-worker \
  tmux \
  && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 800 \
