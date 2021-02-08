@@ -77,6 +77,12 @@ RUN true \
  python3-setuptools \
  python3-wheel \
  rsync \
+# jipdate Python package uses jira, which uses cryptography,
+# which needs rust to build. The apt versions of the dependencies
+# are too old to work and Bionic's pip doesn't recognise the
+# prebuilt wheels as compatible.
+ rustc \
+ cargo \
  subversion \
  sudo \
  swig \
@@ -120,6 +126,8 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
  && git -C /usr/local/jipdate/ fetch origin pull/36/head:pull-36 \
  && git -C /usr/local/jipdate/ checkout pull-36 \
+# To build cryptography
+ && pip3 install setuptools-rust \
  && pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
@@ -225,4 +233,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: f99e9346cccb06348c12d4edbd80edda
+# checksum: 23a6fef7efd60737124d86e6d8d25f2d
