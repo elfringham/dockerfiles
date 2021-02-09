@@ -1,7 +1,5 @@
 FROM ubuntu:bionic
 
-#COPY *.list *.key /etc/apt/sources.list.d/
-
 RUN dpkg --add-architecture i386 \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \

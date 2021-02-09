@@ -79,9 +79,9 @@ RUN useradd -m buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 440 /etc/sudoers.d/jenkins \
  && mkdir -p /var/run/sshd \
- && wget -q http://deb.debian.org/debian/pool/contrib/r/repo/repo_2.10-1~bpo10+1_all.deb \
- && apt install ./repo_*.deb \
- && rm -f *.deb
+ && wget -q https://storage.googleapis.com/git-repo-downloads/repo -O /usr/bin/repo \
+ && chmod +x /usr/bin/repo
+
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]

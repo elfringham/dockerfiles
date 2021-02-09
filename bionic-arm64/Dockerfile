@@ -49,7 +49,6 @@ RUN apt-get update \
  zlib1g-dev && \
  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-
 RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
  && chmod 0440 /etc/sudoers.d/jenkins \
