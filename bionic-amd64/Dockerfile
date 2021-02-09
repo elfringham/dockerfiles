@@ -50,11 +50,13 @@ RUN dpkg --add-architecture i386 \
  make \
  openjdk-11-jdk \
  openssh-server \
+ python-cryptography \
  python-mako \
  python-networkx \
  python-pip \
  python-requests \
  python-wheel \
+ python3-cryptography \
  python3-pip \
  python3-requests \
  python3-wheel \

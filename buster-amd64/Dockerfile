@@ -49,6 +49,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  openssh-server \
  parted \
  pigz \
+ python3-cryptography \
  python3-jinja2 \
  python3-kerberos \
  python3-pip \
