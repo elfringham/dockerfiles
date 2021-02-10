@@ -26,11 +26,13 @@ RUN apt-get update \
  openjdk-11-jdk \
  openssh-server \
  parallel \
+ python-cryptography \
  python-mako \
  python-networkx \
  python-pip \
  python-requests \
  python-wheel \
+ python3-cryptography \
  python3-pip \
  python3-requests \
  python3-wheel \
@@ -46,7 +48,6 @@ RUN apt-get update \
  zip \
  zlib1g-dev && \
  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
 
 RUN useradd -m -G plugdev buildslave \
  && echo 'buildslave ALL = NOPASSWD: ALL' > /etc/sudoers.d/jenkins \
