@@ -26,12 +26,14 @@ if [ x"$1" = x"start.sh" ]; then
 fi
 
 worker_dir=~tcwg-buildslave/worker
-if [ -f $worker_dir/buildbot.tac ]; then
-    :
-elif which buildbot-worker >/dev/null; then
-    sudo -i -u tcwg-buildslave buildbot-worker create-worker $worker_dir "$@"
-else
-    sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 $worker_dir "$@"
+if [ x"$1" != x"buildkite" ]; then
+  if [ -f $worker_dir/buildbot.tac ]; then
+      :
+  elif which buildbot-worker >/dev/null; then
+      sudo -i -u tcwg-buildslave buildbot-worker create-worker $worker_dir "$@"
+  else
+      sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 $worker_dir "$@"
+  fi
 fi
 
 if use_clang_p $2 ; then
@@ -80,9 +82,11 @@ case "$2" in
 	;;
 esac
 
-cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/admin
+if [ x"$1" != x"buildkite" ]; then
+  cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
 EOF
+fi
 
 n_cores=$(nproc --all)
 case "$2" in
@@ -95,7 +99,8 @@ if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
 else
     mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
 fi
-cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/host
+if [ x"$1" != x"buildkite" ]; then
+  cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/host
 $hw; RAM ${mem_limit}GB
 
 OS: $(lsb_release -ds)
@@ -104,6 +109,7 @@ Compiler: $(cc --version | head -n 1)
 Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
 EOF
+fi
 
 case "$2" in
     linaro-tk1-*)
@@ -160,10 +166,18 @@ EOF
 	;;
 esac
 
-if which buildbot-worker >/dev/null; then
-    sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
+if [ x"$1" = x"buildkite" ]; then
+  sudo -i -u tcwg-buildslave buildkite-agent start \
+    --name $2 \
+    --token $3 \
+    --tags "queue=libcxx-builders-linaro-arm,arch=$(arch)" \
+    --build-path $worker_dir
 else
-    sudo -i -u tcwg-buildslave buildslave restart $worker_dir
+  if which buildbot-worker >/dev/null; then
+      sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
+  else
+      sudo -i -u tcwg-buildslave buildslave restart $worker_dir
+  fi
 fi
 
 exec /usr/sbin/sshd -D
