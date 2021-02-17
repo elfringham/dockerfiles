@@ -9,9 +9,13 @@ RUN apt-get update \
 # (the add-apt-repository is installed by software-properties-common)
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
+RUN echo "deb https://apt.buildkite.com/buildkite-agent stable main" | tee /etc/apt/sources.list.d/buildkite-agent.list \
+ && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
+
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  binutils-gold \
+ buildkite-agent \
  cpio \
  g++-9 \
  gfortran \
@@ -36,7 +40,9 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-RUN new-user.sh --user tcwg-buildslave
+RUN new-user.sh --user tcwg-buildslave \
+ # Allow non root users to access the buildkite config files
+ && chmod -R a+rw /etc/buildkite-agent/
 
 # Add a recent clang for libcxx bots, because they build and test the libraries
 # using the latest C++ standard, which might not be supported by the system
@@ -55,4 +61,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: f2749688b1929b1760f3a5b151faff5b
+# checksum: 1fd928d70604f97ad9a85c8fc2b568cc

@@ -13,6 +13,9 @@ usage ()
     cat <<EOF
 Usage: $0 <buildmaster> <buildslave> <password>
 	E.g., $0 lab.llvm.org:9994 linaro-apm-05 PASSWORD
+
+	For buildkite, set <buildmaster> to "buildkite" and
+	<password> to your buildkite token.
 EOF
     exit 1
 }
@@ -68,6 +71,10 @@ case "$buildmaster" in
     "silent")
 	mastername="silent"
 	masterurl="lab.llvm.org:9994"
+	;;
+    "buildkite")
+	mastername="buildkite"
+	masterurl="buildkite"
 	;;
     *)
 	mastername="custom"
