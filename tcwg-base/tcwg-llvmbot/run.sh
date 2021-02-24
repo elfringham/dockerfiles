@@ -10,7 +10,7 @@ use_clang_p ()
     # Typically we've used clang when the default gcc has problems
     # otherwise gcc is used.
     case "$1" in
-        *-libcxx|linaro-tk1-02) return 0 ;;
+        *-libcxx*|linaro-tk1-02) return 0 ;;
         *-lld) return 0 ;;
         *-lldb) return 0 ;;
         *-armv*-quick) return 0 ;;
