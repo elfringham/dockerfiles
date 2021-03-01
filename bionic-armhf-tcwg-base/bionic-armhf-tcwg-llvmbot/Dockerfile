@@ -9,6 +9,10 @@ RUN apt-get update \
 # (the add-apt-repository is installed by software-properties-common)
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
 
+# Add archive signatures for LLVM apt repository.
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - \
+ && apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+
 RUN echo "deb https://apt.buildkite.com/buildkite-agent stable main" | tee /etc/apt/sources.list.d/buildkite-agent.list \
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
 
@@ -18,6 +22,10 @@ RUN apt-get update \
  buildkite-agent \
  cpio \
  g++-9 \
+ gcc-10 \
+ g++-10 \
+ clang-10 \
+ libc++-10-dev \
  gfortran \
  htop \
  iotop \
@@ -61,4 +69,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 1fd928d70604f97ad9a85c8fc2b568cc
+# checksum: 4ae3b82564a2e9687e2c95b279dfbd2d
