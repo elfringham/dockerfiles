@@ -1,6 +1,6 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-#if DISTRO_xenial || DISTRO_bionic
+#if DISTRO_bionic
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  software-properties-common
@@ -39,7 +39,7 @@ RUN apt-get update \
  libtinfo-dev \
  libxml2-dev \
  linux-tools-common \
-#if DISTRO_xenial || DISTRO_bionic
+#if DISTRO_bionic
  python-dev \
  python-pip \
  python-setuptools \
