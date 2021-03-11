@@ -28,6 +28,7 @@ RUN apt-get update \
  clang \
  curl \
  debhelper \
+ default-jre \
  dejagnu \
  dh-autoreconf \
  dh-translations \
@@ -63,7 +64,6 @@ RUN apt-get update \
  nfs-kernel-server \
  ninja-build \
  ntp \
- openjdk-8-jdk \
  openssh-server \
  pkg-config \
  postfix \
@@ -220,4 +220,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 17ca59d6fe57de0c6c0f1cbe3314e8b5
+# checksum: d47ee7a353f246d1a5af520a685ba1a6

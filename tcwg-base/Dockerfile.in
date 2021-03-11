@@ -34,6 +34,7 @@ RUN apt-get update \
 #endif
  curl \
  debhelper \
+ default-jre \
  dejagnu \
  dh-autoreconf \
  dh-translations \
@@ -72,7 +73,6 @@ RUN apt-get update \
  nfs-kernel-server \
  ninja-build \
  ntp \
- openjdk-8-jdk \
  openssh-server \
  pkg-config \
  postfix \
