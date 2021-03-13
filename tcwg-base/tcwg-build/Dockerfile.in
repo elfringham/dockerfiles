@@ -9,20 +9,12 @@ RUN while read line; do \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
 
-#if ARCH_amd64 || ARCH_i386
-# Install wine.  On amd64 arch we need to enable i386, otherwise wine
-# won't meet dependencies (this is the case at least for trusty and xenial).
+#if ARCH_amd64
+# Install wine.
 RUN \
-#if ARCH_amd64 && DISTRO_xenial
- dpkg --add-architecture i386 && \
-#endif
  apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-#if DISTRO_xenial
- wine \
-#else
  wine-stable \
-#endif
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \

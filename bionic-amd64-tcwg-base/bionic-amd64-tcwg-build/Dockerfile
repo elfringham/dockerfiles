@@ -10,8 +10,7 @@ RUN while read line; do \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
 
-# Install wine.  On amd64 arch we need to enable i386, otherwise wine
-# won't meet dependencies (this is the case at least for trusty and xenial).
+# Install wine.
 RUN \
  apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -21,4 +20,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: f81ed434a39bbf949049751e37e2eeab
+# checksum: d619aab72cc6b042263b986b9371ce29

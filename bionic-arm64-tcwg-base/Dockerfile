@@ -4,10 +4,9 @@ FROM ubuntu:bionic
 # Use bash for better string escaping (on Ubuntu, /bin/sh is dash).
 SHELL ["/bin/bash", "-c"]
 
-# Unminimize Ubuntu Bionic to install contrib files of git (after package
+# Unminimize Ubuntu to install contrib files of git (after package
 # update, otherwise unminimize's "apt upgrade" might fail).
-RUN true \
- && apt-get update \
+RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && echo y | unminimize \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -29,6 +28,7 @@ RUN true \
  clang \
  curl \
  debhelper \
+ default-jre \
  dejagnu \
  dh-autoreconf \
  dh-translations \
@@ -64,7 +64,6 @@ RUN true \
  nfs-kernel-server \
  ninja-build \
  ntp \
- openjdk-8-jdk \
  openssh-server \
  pkg-config \
  postfix \
@@ -120,8 +119,7 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && pip3 install git-review \
  && pip3 install psutil
 
-# Install jipdate.  It is tricky to make these work
-# for Trusty and Xenial, so don't bother.
+# Install jipdate.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
  && git -C /usr/local/jipdate/ fetch origin pull/36/head:pull-36 \
  && git -C /usr/local/jipdate/ checkout pull-36 \
@@ -213,4 +211,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 276e4902f24d911372f2fddebb5b1da6
+# checksum: dacf9be6852291604f133c6875fb3a72
