@@ -36,6 +36,7 @@ case "$node" in
 esac
 
 sudo -i -u $user curl -o agent.jar https://ci.linaro.org/jnlpJars/agent.jar
+exec sudo -i -u $user mkdir -p /home/$user/jenkins-workdir-$node
 exec sudo -i -u $user java -jar agent.jar \
      -jnlpUrl https://ci.linaro.org/computer/$node/slave-agent.jnlp \
-     -secret @jenkins/$node.secret -workDir "/home/$user" -noReconnect
+     -secret @jenkins/$node.secret -workDir "/home/$user/jenkins-workdir-$node" -noReconnect
