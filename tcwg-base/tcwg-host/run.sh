@@ -35,8 +35,12 @@ case "$node" in
     *) user=tcwg-buildslave ;;
 esac
 
-sudo -i -u $user curl -o agent.jar https://ci.linaro.org/jnlpJars/agent.jar
-sudo -i -u $user mkdir -p /home/$user/jenkins-workdir-$node
-exec sudo -i -u $user java -jar agent.jar \
+sudo -i -u $user rm -rf /home/$user/jenkins-workdir-$node
+sudo -i -u $user mkdir /home/$user/jenkins-workdir-$node
+sudo -i -u $user curl -o /home/$user/jenkins-workdir-$node/agent.jar \
+     https://ci.linaro.org/jnlpJars/agent.jar
+
+exec sudo -i -u $user java -jar /home/$user/jenkins-workdir-$node/agent.jar \
      -jnlpUrl https://ci.linaro.org/computer/$node/slave-agent.jnlp \
-     -secret @jenkins/$node.secret -workDir "/home/$user/jenkins-workdir-$node" -noReconnect
+     -noReconnect -secret @jenkins/$node.secret \
+     -workDir /home/$user/jenkins-workdir-$node
