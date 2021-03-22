@@ -200,9 +200,9 @@ RUN cd /tmp \
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=$(nproc --all) \
- && make -j$(nproc --all) \
- && make -j$(nproc --all) install \
+ && ./bootstrap --parallel=$(nproc --all) >/dev/null \
+ && make -j$(nproc --all) >/dev/null \
+ && make -j$(nproc --all) install >/dev/null \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -231,4 +231,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: c7e9c78e5185a47f76fb0e948e648f2a
+# checksum: 05349b05741bb908390c1fc7faa06ce0

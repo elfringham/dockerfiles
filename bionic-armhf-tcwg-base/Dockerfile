@@ -180,9 +180,9 @@ RUN apt-get update \
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
  && cd /tmp/CMake \
- && ./bootstrap --parallel=$(nproc --all) \
- && make -j$(nproc --all) \
- && make -j$(nproc --all) install \
+ && ./bootstrap --parallel=$(nproc --all) >/dev/null \
+ && make -j$(nproc --all) >/dev/null \
+ && make -j$(nproc --all) install >/dev/null \
  && cd /tmp \
  && rm -rf /tmp/CMake
 
@@ -220,4 +220,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: d47ee7a353f246d1a5af520a685ba1a6
+# checksum: 2c93bcf7d30213cfe71b7b5cccc80806
