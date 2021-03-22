@@ -121,8 +121,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 
 # Install jipdate.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
- && git -C /usr/local/jipdate/ fetch origin pull/36/head:pull-36 \
- && git -C /usr/local/jipdate/ checkout pull-36 \
 # To build cryptography
  && pip3 install setuptools-rust \
  && pip3 install -U -r /usr/local/jipdate/requirements.txt \
@@ -211,4 +209,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 2337626a52bd4bfbd57feb2f102303ef
+# checksum: e84f765c84022d559bc48c444e4ee907
