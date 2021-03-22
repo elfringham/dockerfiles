@@ -37,12 +37,25 @@ RUN apt-get update \
  emacs \
  fakeroot \
  flex \
+ fp-compiler \
  gawk \
+ gdc \
  gdb \
  gdbserver \
+ gfortran \
  git \
+ # Modula 2 compiler only available on Focal.
+ gm2 \
+ gnat \
+ gobjc \
+ gobjc++ \
+ golang \
  groff \
+ # Focal onwards has guile-3.0.
+ guile-3.0 \
+ guile-3.0-dev \
  less \
+ libcc1-0 \
  libexpat1-dev \
  libffi-dev \
  libglib2.0-dev \
@@ -52,6 +65,7 @@ RUN apt-get update \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
+ libpython3-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -162,4 +176,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: bb5d843d98e83f25175aa59cd6e7db7c
+# checksum: 3ddffeabf021e7b36e303ff0f9a2b096

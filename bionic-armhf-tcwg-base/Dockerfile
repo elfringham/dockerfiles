@@ -36,12 +36,23 @@ RUN apt-get update \
  emacs \
  fakeroot \
  flex \
+ fp-compiler \
  gawk \
+ gdc \
  gdb \
  gdbserver \
+ gfortran \
  git \
+ gnat \
+ gobjc \
+ gobjc++ \
+ golang \
  groff \
+ # Bionic does not have guile-3.0.
+ guile-2.2 \
+ guile-2.2-dev \
  less \
+ libcc1-0 \
  libexpat1-dev \
  libffi-dev \
  libglib2.0-dev \
@@ -51,6 +62,7 @@ RUN apt-get update \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
+ libpython3-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -218,4 +230,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: d017b85494d7e32e8e18f6e08a4f2600
+# checksum: a710bb14ec9b479c345db2c9c8d217d7
