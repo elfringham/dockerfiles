@@ -1,2 +1,82 @@
-#!/bin/sh
-exec sudo /usr/bin/docker "$@"
+#!/bin/bash
+
+set -euf -o pipefail
+
+# This wrapper for docker client adds support for "maybepull" command
+# to workaround dockerhub's limits on pull requests.  "Maybepull" command
+# will look at timestamps of when images were last pulled, and will
+# pull the image only when it has been over 24h from the last pull.
+# Note that behavior of the usual "pull" command is not changed.
+#
+# We also track image last-used date to not needlessly cleanup images
+# in jenkins-scripts/tcwg-cleanup-stale-containers.sh .
+
+stamp_dir=/home/shared/docker
+
+if ! [ -d "$stamp_dir" ]; then
+    sudo mkdir -p "$stamp_dir" || mkdir -p "$stamp_dir"
+    sudo chmod 0777 "$stamp_dir" || chmod 0777 "$stamp_dir"
+fi
+
+cmd="$1"
+shift 1
+
+image=""
+case "$cmd" in
+    "maybepull"|"pull"|"run")
+	# Skip parameters starting with "-" and next parameter will be image.
+	for opt in "$@"; do
+	    case "$opt" in
+		"-"*) ;;
+		*)
+		    image="$opt"
+		    break
+		    ;;
+	    esac
+	done
+	;;
+esac
+
+if [ x"$image" != x"" ]; then
+    # We use two stamp files per image:
+    # - $image_stamp.pull -- time of last image pull
+    # - $image_stamp.use  -- time of last image use
+    image_stamp="$stamp_dir/$(echo "$image" | tr "/:" "_")"
+fi
+
+# We attempt to run all our builds using current versions of docker images.
+# Unfortunately, now that dockerhub limits pull requests, we need to be more
+# considerate to when we pull the image or attempt to use a local copy.
+# Also note that "docker run" below will automatically pull the image if there
+# is no local copy.
+if [ x"$image" != x"" ] && [ x"$cmd" = x"maybepull" ]; then
+    # For starters, let's try to pull images once a day.  This guarantees
+    # that any change to master docker images will be deployed within a day.
+    pull_if_older_than=$(($(date +%s) - 1*24*60*60))
+    # Use negative comparison to handle non-existent stamp files.
+    if ! [ "$(stat -c %Z "$image_stamp.pull" 2>/dev/null)" \
+	       -gt $pull_if_older_than ] 2>/dev/null; then
+	cmd="pull"
+    else
+	exit 0
+    fi
+fi
+
+sudo /usr/bin/docker "$cmd" "$@"
+
+case "$image:$cmd" in
+    :*) ;;
+    *:"pull")
+	# Remove the stamp to avoid permission issues (we have rwx permissions
+	# for all on the directory, so we can always remove a file, but only
+	# owner can modify files.
+	rm -f "$image_stamp.pull"
+	touch "$image_stamp.pull"
+	;;
+    *:"run")
+	# Update the time of image use, so that we don't remove the image in
+	# tcwg-cleanup-stale-containers.
+	rm -f "$image_stamp.use"
+	touch "$image_stamp.use"
+	;;
+esac
