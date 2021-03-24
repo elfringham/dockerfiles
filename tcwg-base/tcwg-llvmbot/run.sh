@@ -74,7 +74,7 @@ EOF
 chmod +x /usr/local/bin/c++
 
 case "$2" in
-    *-lld)
+    *-lld | *-debug)
 	# LLD buildbot needs to find ld.lld for stage1 build. GCC does not
         # support -fuse-ld=lld.
 	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
