@@ -26,6 +26,7 @@ RUN apt-get update \
  g++-10 \
  clang-10 \
  libc++-10-dev \
+ lld \
  gfortran \
  htop \
  iotop \
@@ -69,4 +70,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 4ae3b82564a2e9687e2c95b279dfbd2d
+# checksum: d19c4f43b7011a1bb48d7630d45f2395

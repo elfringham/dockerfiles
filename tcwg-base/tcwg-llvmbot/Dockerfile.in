@@ -30,6 +30,7 @@ RUN apt-get update \
  g++-10 \
  clang-10 \
  libc++-10-dev \
+ lld \
 #endif
  gfortran \
  htop \
