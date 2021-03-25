@@ -13,6 +13,8 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	review.linaro.org
 	dev-private-review.linaro.org
 	139.178.86.199  # tcwg-jade-01
+	139.178.84.209  # tcwg-jade-02
+	139.178.84.207  # tcwg-jade-03
 	147.75.199.202  # linaro-armv8-01
 	147.75.55.170   # tcwg-amp-01
 	139.178.86.246  # tcwg-amp-02
