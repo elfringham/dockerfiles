@@ -23,12 +23,25 @@ shift 1
 
 image=""
 case "$cmd" in
-    "maybepull"|"pull"|"run")
+    "maybepull"|"pull")
 	# Skip parameters starting with "-" and next parameter will be image.
 	for opt in "$@"; do
 	    case "$opt" in
 		"-"*) ;;
 		*)
+		    image="$opt"
+		    break
+		    ;;
+	    esac
+	done
+	;;
+    "run")
+	# "docker run" has more complex option handling than we want to deal
+	# with, so find parameter that looks like a TCWG image.
+	# This only affects stamp files, so is harmless if we get it wrong.
+	for opt in "$@"; do
+	    case "$opt" in
+		"linaro/ci-"*"-tcwg-"*"-ubuntu"*)
 		    image="$opt"
 		    break
 		    ;;
@@ -70,8 +83,10 @@ case "$image:$cmd" in
 	# Remove the stamp to avoid permission issues (we have rwx permissions
 	# for all on the directory, so we can always remove a file, but only
 	# owner can modify files.
-	rm -f "$image_stamp.pull"
-	touch "$image_stamp.pull"
+	# Also touch .use stamp to compensate for inaccurate detection of
+	# images from "docker run" above.
+	rm -f "$image_stamp.pull" "$image_stamp.use"
+	touch "$image_stamp.pull" "$image_stamp.use"
 	;;
     *:"run")
 	# Update the time of image use, so that we don't remove the image in
