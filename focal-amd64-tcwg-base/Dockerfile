@@ -37,12 +37,25 @@ RUN apt-get update \
  emacs \
  fakeroot \
  flex \
+ fp-compiler \
  gawk \
+ gdc \
  gdb \
  gdbserver \
+ gfortran \
  git \
+ # Modula 2 compiler only available on Focal.
+ gm2 \
+ gnat \
+ gobjc \
+ gobjc++ \
+ golang \
  groff \
+ # Focal onwards has guile-3.0.
+ guile-3.0 \
+ guile-3.0-dev \
  less \
+ libcc1-0 \
  libexpat1-dev \
  libffi-dev \
  libglib2.0-dev \
@@ -52,6 +65,7 @@ RUN apt-get update \
  libmpfr-dev \
  libncurses5-dev \
  libpixman-1-dev \
+ libpython3-dev \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
@@ -135,6 +149,43 @@ RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
  && rm -rf ninja
 
 
+# Configure linux tools for benchmarking support.
+#
+# We symlink linux tools to supportted "hw_tags": tk1_32, tx1_64, tx1_32.
+# HW_TAGS represent tested configurations of hardware+kernel+perf that
+# work well together.  We create new hw_tag for any variation in hardware,
+# kernel, or perf.  This gives us assurance that benchmarking data stored
+# under bkp-01.tcwglab:results-<HW_TAG>/ directory has no unexpected variations.
+#
+# For the initial hw_tags for TK1s and TX1s we can use nice short tk1_32,
+# tx1_64, and tx1_32 names, but if we update, say, perf version, we would
+# need to add something like tk1_32-lt_5.4 (updating linux-tools to 5.4) or
+# tx1_64-k_4.10 (updating kernel to 4.10).
+#
+# Bionic's linux-tools-4.18 version has proven to work well with TK1s' 3.10 and
+# TX1s' 4.4 kernels.  We need to install it in all distro versionss so that we
+# use same perf version to generate and process results.
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+# cpufrequtils is used by our benchmarking scripts, but we should update them to
+# use cpupower from linux-tools everywhere instead.
+ cpufrequtils \
+ linux-tools-common \
+ && cat /etc/apt/sources.list | sed -e "s/focal/bionic/g" \
+      > /etc/apt/sources.list.d/bionic.list \
+ && apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ linux-tools-4.18.0-13-generic \
+ && apt-get clean \
+ && rm -rf \
+ /etc/apt/sources.list.d/bionic.list \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/* \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
+
 
 
 COPY home-data/ /home-data/
@@ -162,4 +213,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: bb5d843d98e83f25175aa59cd6e7db7c
+# checksum: b30ff66c8512ca46c5c3b38902902e09
