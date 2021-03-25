@@ -87,10 +87,13 @@ RUN apt-get update \
  python3-setuptools \
  python3-wheel \
  rsync \
-# jipdate Python package uses jira, which uses cryptography,
+# For Bionic -- jipdate Python package uses jira, which uses cryptography,
 # which needs rust to build. The apt versions of the dependencies
 # are too old to work and Bionic's pip doesn't recognise the
 # prebuilt wheels as compatible.
+# For armhf -- cryptography's build process detects architecture
+# as armv8l, so armv7l wheels are not used and we need to build
+# armv8l ones.
  rustc \
  cargo \
  subversion \
@@ -228,4 +231,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 65befbec47814ce0ba3ec5dbe4868157
+# checksum: 7666ec38f7d23489e2e2bc54834d47ca

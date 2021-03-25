@@ -87,10 +87,13 @@ RUN apt-get update \
  python3-setuptools \
  python3-wheel \
  rsync \
-# jipdate Python package uses jira, which uses cryptography,
+# For Bionic -- jipdate Python package uses jira, which uses cryptography,
 # which needs rust to build. The apt versions of the dependencies
 # are too old to work and Bionic's pip doesn't recognise the
 # prebuilt wheels as compatible.
+# For armhf -- cryptography's build process detects architecture
+# as armv8l, so armv7l wheels are not used and we need to build
+# armv8l ones.
  rustc \
  cargo \
  subversion \
@@ -135,7 +138,9 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
 # To build cryptography
  && pip3 install setuptools-rust \
- && pip3 install -U -r /usr/local/jipdate/requirements.txt \
+# Run pip3 under linux32 for armhf so that requirements are built
+# for armv8l, not for aarch64, which would fail.
+ && linux32 pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
 COPY postfix-main.cf.in /etc/postfix/main.cf
@@ -237,4 +242,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 3b5af75147b4d9adb5f66151ba3715f2
+# checksum: a44faa718f0b321075363771764b36f1
