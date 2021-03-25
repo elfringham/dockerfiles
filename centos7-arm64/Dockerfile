@@ -1,6 +1,6 @@
 FROM centos:7
 
-RUN yum install -y openssh-server openssh-clients sudo wget python3-requests && \
+RUN yum install -y openssh-server openssh-clients java-11-openjdk-devel sudo wget python3-requests && \
     yum groupinstall -y "Development Tools" && \
     yum install -y ansible python36 && \
     yum clean all
