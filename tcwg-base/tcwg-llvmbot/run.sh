@@ -51,6 +51,9 @@ if use_clang_p $2 ; then
 elif [[ $2 == *"latest-clang"* ]] ; then
     ln -f -s /usr/bin/clang-10 /usr/bin/clang
     ln -f -s /usr/bin/clang++-10 /usr/bin/clang
+elif [[ $2 == *"latest-gcc"* ]] ; then
+    cc=gcc-10
+    cxx=g++-10
 elif [ x"$(lsb_release -cs)" = x"bionic" ]; then
     cc=gcc-9
     cxx=g++-9
