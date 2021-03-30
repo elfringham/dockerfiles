@@ -74,11 +74,16 @@ EOF
 chmod +x /usr/local/bin/c++
 
 case "$2" in
-    *-lld | *-debug)
+    *-lld)
 	# LLD buildbot needs to find ld.lld for stage1 build. GCC does not
         # support -fuse-ld=lld.
 	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
 	;;
+    *-debug)
+        release_num=10.0.1
+        release_arch=aarch64-linux-gnu
+        release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
+        ln -f -s $release_path/lld /usr/bin/lld
     *)
 	rm -f /usr/local/bin/ld.lld
 	;;
