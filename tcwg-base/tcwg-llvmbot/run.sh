@@ -93,6 +93,7 @@ case "$2" in
         release_arch=aarch64-linux-gnu
         release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
         ln -f -s $release_path/lld /usr/bin/lld
+        ;;
     *)
 	rm -f /usr/local/bin/ld.lld
 	;;
