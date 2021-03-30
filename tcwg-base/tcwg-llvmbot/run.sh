@@ -49,8 +49,14 @@ if use_clang_p $2 ; then
     cc=$release_path/clang
     cxx=$release_path/clang++
 elif [[ $2 == *"latest-clang"* ]] ; then
-    ln -f -s /usr/bin/clang-10 /usr/bin/clang
-    ln -f -s /usr/bin/clang++-10 /usr/bin/clang
+    release_num=11.1.0
+    case "$(uname -m)" in
+	aarch64) release_arch=aarch64-linux-gnu ;;
+	*) release_arch=armv7a-linux-gnueabihf ;;
+    esac
+    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
+    cc=$release_path/clang
+    cxx=$release_path/clang++
 elif [[ $2 == *"latest-gcc"* ]] ; then
     cc=gcc-10
     cxx=g++-10

@@ -28,8 +28,6 @@ RUN apt-get update \
 #if DISTRO_bionic
  gcc-10 \
  g++-10 \
- clang-10 \
- libc++-10-dev \
 #endif
  gfortran \
  htop \
@@ -70,6 +68,18 @@ RUN \
 #endif
  && cd /usr/local \
  && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.1/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
+ && rm $clang_ver.tar.xz
+
+# Add the latest clang (11.1.0) for flang bot.
+RUN \
+#if ARCH_arm64
+ clang_ver=clang+llvm-11.1.0-aarch64-linux-gnu \
+#else /* ARCH_armhf */
+ clang_ver=clang+llvm-11.1.0-armv7a-linux-gnueabihf \
+#endif
+ && cd /usr/local \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-11.1.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 

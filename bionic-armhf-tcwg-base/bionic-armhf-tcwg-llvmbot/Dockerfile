@@ -24,8 +24,6 @@ RUN apt-get update \
  g++-9 \
  gcc-10 \
  g++-10 \
- clang-10 \
- libc++-10-dev \
  gfortran \
  htop \
  iotop \
@@ -62,6 +60,14 @@ RUN \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
+# Add the latest clang (11.1.0) for flang bot.
+RUN \
+ clang_ver=clang+llvm-11.1.0-armv7a-linux-gnueabihf \
+ && cd /usr/local \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-11.1.0/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
+ && rm $clang_ver.tar.xz
+
 VOLUME /home
 
 COPY run.sh .
@@ -69,4 +75,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 4ae3b82564a2e9687e2c95b279dfbd2d
+# checksum: 988cff5d0d60b235f9db27567e40a917
