@@ -99,9 +99,7 @@ esac
 case "$mastername:$slavename" in
     normal:*-quick) cpu_shares=10000 ;;
     normal:*-aarch64-full|*:*-armv7-selfhost) cpu_shares=5000 ;;
-    normal:*) cpu_shares=1000 ;;
-    silent:flang-*) cpu_shares=500 ;;
-    *) cpu_shares=50 ;;
+    *) cpu_shares=1000 ;;
 esac
 
 mounts=""
