@@ -92,7 +92,7 @@ case "$2" in
         release_num=10.0.1
         release_arch=aarch64-linux-gnu
         release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
-        ln -f -s $release_path/lld /usr/bin/lld
+        ln -f -s $release_path/lld /usr/local/bin/ld.lld
         ;;
     *)
 	rm -f /usr/local/bin/ld.lld
