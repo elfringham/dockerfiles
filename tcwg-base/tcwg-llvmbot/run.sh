@@ -10,6 +10,7 @@ use_clang_p ()
     # Typically we've used clang when the default gcc has problems
     # otherwise gcc is used.
     case "$1" in
+        *-latest-clang) return 0 ;;
         *-libcxx*|linaro-tk1-02) return 0 ;;
         *-lld) return 0 ;;
         *-lldb) return 0 ;;
@@ -40,23 +41,23 @@ if use_clang_p $2 ; then
     # Some bots need recent C++ versions or clang-specific features, so we use
     # a recent clang instead of the system GCC. Currently we use the 10.0.1
     # release.
-    release_num=10.0.1
+    if [[ $2 == *"latest-clang"* ]] ; then
+	release_num=11.1.0
+    else
+	release_num=10.0.1
+    fi
     case "$(uname -m)" in
 	aarch64) release_arch=aarch64-linux-gnu ;;
 	*) release_arch=armv7a-linux-gnueabihf ;;
     esac
-    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
-    cc=$release_path/clang
-    cxx=$release_path/clang++
-elif [[ $2 == *"latest-clang"* ]] ; then
-    release_num=11.1.0
-    case "$(uname -m)" in
-	aarch64) release_arch=aarch64-linux-gnu ;;
-	*) release_arch=armv7a-linux-gnueabihf ;;
-    esac
-    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
-    cc=$release_path/clang
-    cxx=$release_path/clang++
+    release_path=/usr/local/clang+llvm-${release_num}-${release_arch}
+    cc=$release_path/bin/clang
+    cxx=$release_path/bin/clang++
+
+    # Starting with clang-11 we need clang's libs in ld.so's search path;
+    # otherwise we get failure to find libc++.so.
+    echo "$release_path/lib" > /etc/ld.so.conf.d/clang.conf
+    ldconfig
 elif [[ $2 == *"latest-gcc"* ]] ; then
     cc=gcc-10
     cxx=g++-10
@@ -91,8 +92,8 @@ case "$2" in
     *-debug)
         release_num=10.0.1
         release_arch=aarch64-linux-gnu
-        release_path=/usr/local/clang+llvm-${release_num}-${release_arch}/bin
-        ln -f -s $release_path/lld /usr/local/bin/ld.lld
+        release_path=/usr/local/clang+llvm-${release_num}-${release_arch}
+        ln -f -s $release_path/bin/lld /usr/local/bin/ld.lld
         ;;
     *)
 	rm -f /usr/local/bin/ld.lld
