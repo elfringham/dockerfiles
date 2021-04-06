@@ -1,6 +1,7 @@
-FROM ubuntu:bionic
+FROM ubuntu:focal
 
-RUN apt-get update \
+RUN dpkg --add-architecture i386 \
+ && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
@@ -8,7 +9,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  abootimg \
  acpica-tools \
- android-tools-fsutils \
+ android-sdk-libsparse-utils \
  autoconf \
  automake \
  bc \
@@ -35,11 +36,11 @@ RUN apt-get update \
  gperf \
  kernel-wedge \
  kpartx \
- lava-tool \
  lcov \
  less \
  libtool \
- libvirt-bin \
+ libncurses6:i386 \
+ libstdc++6:i386 \
  libxml2-utils \
  lsb-release \
  make \
@@ -60,6 +61,7 @@ RUN apt-get update \
  wget \
  xml-twig-tools \
  zip \
+ zlib1g-dev:i386 \
  zsync \
  && apt-get clean \
  && rm -rf \
