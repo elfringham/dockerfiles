@@ -21,6 +21,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  bison \
  build-essential \
  ccache \
+ chrpath \
  cpio \
  curl \
  debhelper \
@@ -32,6 +33,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  doxygen \
  fakeroot \
  flex \
+ gawk \
  gdisk \
  genisoimage \
  git \
