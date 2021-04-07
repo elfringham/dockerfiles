@@ -141,24 +141,16 @@ EOF
     *)
 	# Throttle ninja on system load, system memory and container memory
 	# limits.
-	case "$1" in
-	    lab.llvm.org:9994)
-		# Run silent bots with single-threaded ninja when average load
-		# is beyond twice the number of cores.
-		avg_load_opt="-l $((2*$n_cores))"
-		;;
-	    *)
-		avg_load_opt=""
-		;;
-	esac
-	# Make ninja run single-threaded if system or container memory
-	# utilization is beyond 50% (-m 50 -M 50).
+	#
+	# Make ninja run single-threaded if
+	# - average load is beyond twice the number of cores,
+	# - system or container memory utilization is beyond 50% (-m 50 -M 50).
 	# Make ninja stall for up to 5 seconds (-D 5000) before starting
 	# a new job when usage decreases under threshold (to avoid rapid
 	# increase of resource usage from N_CORES-1 new processes).
 	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
-exec /usr/local/bin/ninja.bin -j$n_cores $avg_load_opt -m 50 -M 50 -D 5000 "\$@"
+exec /usr/local/bin/ninja.bin -j$n_cores -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
 EOF
 	;;
 esac

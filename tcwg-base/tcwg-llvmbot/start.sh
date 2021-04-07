@@ -95,10 +95,9 @@ esac
 # Set relative CPU weight of containers running
 #  - quick bots to 10x usual priority
 #  - full bots to 5x usual priority
-#  - silent bots to 1/20th of usual priority
-case "$mastername:$slavename" in
-    normal:*-quick) cpu_shares=10000 ;;
-    normal:*-aarch64-full|*:*-armv7-selfhost) cpu_shares=5000 ;;
+case "$slavename" in
+    *-quick) cpu_shares=10000 ;;
+    *-aarch64-full|*-armv7-selfhost) cpu_shares=5000 ;;
     *) cpu_shares=1000 ;;
 esac
 
