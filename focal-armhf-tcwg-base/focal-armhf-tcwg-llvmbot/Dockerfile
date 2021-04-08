@@ -18,6 +18,14 @@ RUN apt-get update \
  libedit-dev \
  libjson-perl \
  libtinfo-dev \
+# We build clang+llvm releases on Ubuntu Bionic, which has libtinfo.so.5,
+# and we link against it.
+# Ubuntu Focal by default installs libtinfo6 (aka libtinfo.so.6), and
+# our clang+llvm releases don't work on Ubuntu Focal unless we install
+# legacy libtinfo5 (aka libtinfo.so.5).
+# We should no longer need libtinfo5 when we switch building releases to
+# Ubuntu Focal or later.
+ libtinfo5 \
  libxml2-dev \
  linux-tools-common \
  python3-buildbot-worker \
@@ -59,4 +67,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: f81d150b82c011aeac0d811cc3fbdf0e
+# checksum: a01e99ef9342ea1acbbf2f2308beca08
