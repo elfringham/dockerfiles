@@ -19,6 +19,7 @@ RUN dpkg --add-architecture i386 \
  clang \
  clang-format \
  clang-tidy \
+ cmake \
  curl \
  debhelper \
  debian-archive-keyring \
@@ -44,13 +45,17 @@ RUN dpkg --add-architecture i386 \
  libxml2-utils \
  lsb-release \
  make \
+ ninja-build \
  openjdk-11-jdk \
  openssh-server \
  python3-cryptography \
  python3-pip \
  python3-requests \
+ python3-serial \
+ python3-setuptools \
  python3-wheel \
  qemu-user-static \
+ rename \
  rsync \
  scons \
  sudo \
