@@ -41,7 +41,7 @@ if use_clang_p $2 ; then
     # Some bots need recent C++ versions or clang-specific features, so we use
     # a recent clang instead of the system GCC. Currently we use the 10.0.1
     # release.
-    if [[ $2 == *"latest-clang"* ]] ; then
+    if [[ $2 == *"latest-clang"* ]] || [[ $2 == *"-libcxx"* ]] ; then
 	release_num=11.1.0
     else
 	release_num=10.0.1
