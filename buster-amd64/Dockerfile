@@ -2,6 +2,10 @@ FROM debian:buster-backports
 
 COPY *.list *.key /etc/apt/sources.list.d/
 
+ARG SPHINX_DOCS_DEPS="python3-sphinx texlive texlive-latex-extra libalgorithm-diff-perl \
+		      texlive-humanities texlive-generic-recommended texlive-generic-extra \
+		      latexmk"
+
 RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
  && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
  && apt-get update \
@@ -66,6 +70,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  xz-utils \
  zip \
  zsync \
+ ${SPHINX_DOCS_DEPS} \
  && if [ $(uname -m) = 'x86_64' ]; then \
    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
    g++-multilib \
