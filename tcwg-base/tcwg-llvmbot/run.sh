@@ -177,10 +177,18 @@ EOF
 esac
 
 if [ x"$1" = x"buildkite" ]; then
+  # Add load testing bots. Trigger these by modifying the Buildkite
+  # config in a Phabricator review.
+  if [[ $2 == *"-test" ]]; then
+    queue="libcxx-builders-linaro-arm-test"
+  else
+    queue="libcxx-builders-linaro-arm"
+  fi
+
   sudo -i -u tcwg-buildslave buildkite-agent start \
     --name $2 \
     --token $3 \
-    --tags "queue=libcxx-builders-linaro-arm,arch=$(arch)" \
+    --tags "queue=$queue,arch=$(arch)" \
     --build-path $worker_dir
 else
   if which buildbot-worker >/dev/null; then
