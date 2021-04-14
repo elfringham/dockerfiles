@@ -133,28 +133,17 @@ case "$2" in
     linaro-tk1-*)
 	# TK1s have CPU hot-plug, so ninja might detect smaller number of cores
 	# available for parallelism.  Explicitly set "default" parallelism.
+	# Note that this overwrites ninja wrapper created in
+	# tcwg-base/Dockerfile.in.  That wrapper limits system load,
+	# which we don't particularly need on TK1s (since we are running
+	# a single bot containers per board).
 	cat > /usr/local/bin/ninja <<EOF
 #!/bin/sh
 exec /usr/bin/ninja -j$n_cores "\$@"
 EOF
-	;;
-    *)
-	# Throttle ninja on system load, system memory and container memory
-	# limits.
-	#
-	# Make ninja run single-threaded if
-	# - average load is beyond twice the number of cores,
-	# - system or container memory utilization is beyond 50% (-m 50 -M 50).
-	# Make ninja stall for up to 5 seconds (-D 5000) before starting
-	# a new job when usage decreases under threshold (to avoid rapid
-	# increase of resource usage from N_CORES-1 new processes).
-	cat > /usr/local/bin/ninja <<EOF
-#!/bin/sh
-exec /usr/local/bin/ninja.bin -j$n_cores -l $((2*$n_cores)) -m 50 -M 50 -D 5000 "\$@"
-EOF
+	chmod +x /usr/local/bin/ninja
 	;;
 esac
-chmod +x /usr/local/bin/ninja
 
 # Handle LNT performance bot.
 case "$2" in
