@@ -135,4 +135,23 @@ esac
 # seccomp:unconfined is required to disable ASLR for sanitizer tests.
 caps="--cap-add=IPC_LOCK --cap-add=SYS_PTRACE --security-opt seccomp:unconfined $caps_system"
 
+if [ x"$(uname -m)" = x"x86_64" ]; then
+    # Copy QEMU binary to $HOME, which is bind-mounted from host.  This way
+    # we'll have QEMU bind-mount equally accessible from the main host and
+    # from host/jenkins containers, from which we are starting tcwg-llvmbot
+    # containers.
+    # The host needs to have binfmt-misc magic configured for this to work.
+    # With the magic configured, all we need is to provide qemu-aarch64-static
+    # binary in PATH inside the container, and it'll be automatically picked up
+    # for execution of aarch64 binaries.
+    qemu_bin=$(mktemp -p $HOME)
+    cp "$(which qemu-aarch64-static)" "$qemu_bin"
+    chmod +x "$qemu_bin"
+    mounts="$mounts -v $qemu_bin:/bin/qemu-aarch64-static"
+fi
+
 $DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+
+if [ x"$(uname -m)" = x"x86_64" ]; then
+    rm -f "$qemu_bin"
+fi

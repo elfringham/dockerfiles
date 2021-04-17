@@ -1,5 +1,21 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
+#if ARCH_amd64 && !DISTRO_bionic
+# Install static user-mode QEMU for running SVE LLVM buildbots via QEMU
+# on x86_64 machines.  We bind-mount qemu-aarch64-static binary inside
+# the aarch64 tcwg-llvmbot container, and all specify it as container
+# entrypoint.  This allows us to run aarch64 container with SVE support.
+# We do this only for Focal, since Bionic's QEMU version has no SVE support.
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ qemu-user-static \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+#endif
+
 COPY docker-stats docker-wrapper /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 
