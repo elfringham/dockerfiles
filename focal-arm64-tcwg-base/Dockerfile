@@ -177,17 +177,17 @@ RUN apt-get update \
 
 
 # Create wrappers to limit make and ninja to single-process parallelism
-# when machine load reaches twice the number of cores.
+# when machine load reaches the number of cores.
 # This is important on machines with high core count, where we get
 # "fork: Resource temporarily unavailable" error when load reaches
 # 4x/5x the core count.
 RUN echo \
    $'#!/bin/sh\n' \
-   $'exec /usr/bin/make -l$((2 * $(nproc --all))) "$@"' \
+   $'exec /usr/bin/make -l$(nproc --all) "$@"' \
    > /usr/local/bin/make \
  && echo \
    $'#!/bin/sh\n' \
-   $'exec /usr/bin/ninja -l$((2 * $(nproc --all))) "$@"' \
+   $'exec /usr/bin/ninja -l$(nproc --all) "$@"' \
    > /usr/local/bin/ninja \
  && chmod +x /usr/local/bin/make /usr/local/bin/ninja
 
@@ -216,4 +216,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: e3271501f15570edca9e91a18dbe6d06
+# checksum: eedcab922810e7c7acec14c70d57660d
