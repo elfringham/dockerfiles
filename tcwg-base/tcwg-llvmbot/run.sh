@@ -133,7 +133,7 @@ case "$2" in
     linaro-tk1-*)
 	# TK1s have CPU hot-plug, so ninja might detect smaller number of cores
 	# available for parallelism.  Explicitly set "default" parallelism.
-	sed -i -e "s# -l#-j$n_cores -l#" /usr/local/bin/ninja
+	sed -i -e "s# -l# -j$n_cores -l#" /usr/local/bin/ninja
 	;;
 esac
 
