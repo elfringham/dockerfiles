@@ -133,15 +133,7 @@ case "$2" in
     linaro-tk1-*)
 	# TK1s have CPU hot-plug, so ninja might detect smaller number of cores
 	# available for parallelism.  Explicitly set "default" parallelism.
-	# Note that this overwrites ninja wrapper created in
-	# tcwg-base/Dockerfile.in.  That wrapper limits system load,
-	# which we don't particularly need on TK1s (since we are running
-	# a single bot containers per board).
-	cat > /usr/local/bin/ninja <<EOF
-#!/bin/sh
-exec /usr/bin/ninja -j$n_cores "\$@"
-EOF
-	chmod +x /usr/local/bin/ninja
+	sed -i -e "s# -l# -j$n_cores -l#" /usr/local/bin/ninja
 	;;
 esac
 
