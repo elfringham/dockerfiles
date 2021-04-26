@@ -126,7 +126,27 @@ case "$slavename" in
 esac
 
 case "$slavename" in
-    *-lld) pids_limit="15000" ;;
+    *-lld|linaro-aarch64-full)
+	# LLD bots have been requiring high PIDs limit for as long as they
+	# have been setup.
+	#
+	# Buildbot client in AArch64 full bot has started to sporadically
+	# crash after migration of bots from D05 to Mt. Jade machine with error
+	# "cgroup: fork rejected by pids controller in /docker/FOOBAR"
+	# This is, apparently, due to
+	# LeakSanitizer-AddressSanitizer-aarch64::many_threads_detach.cpp
+	# test, which creates 10000 threads.
+	# This affects AArch64 bots that enable compiler-rt:
+	# - linaro-aarch64-lld
+	# - linaro-aarch64-full
+	#
+	# I can't readily explain why we haven't seen this problem on D05
+	# machine.  One possibility is that kernel scheduled threads
+	# differently on 64-core D05 and 160-core Mt. Jade machines.
+	# And that D05 was lucky to never see more than, say, 3000-4000
+	# concurrent threads, but Mt. Jade manages to see, say, 4000-5000
+	# threads.
+	pids_limit="15000" ;;
     *) pids_limit="5000" ;;
 esac
 
