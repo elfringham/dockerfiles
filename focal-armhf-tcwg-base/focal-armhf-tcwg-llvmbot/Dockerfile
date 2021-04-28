@@ -38,28 +38,17 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-# Add ninja with support for memory-threshold job limitation.
-# It's installed with ".bin" extension and containers then
-# make wrappers around it in /usr/local/bin/ninja as needed.
-#
-# Throttle ninja on system load, system memory and container memory
-# limits.
-#
-# Make ninja run single-threaded if
-# - average load is more than the number of cores,
-# - system or container memory utilization is beyond 50% (-m 50 -M 50).
-# Make ninja stall for up to 5 seconds (-D 5000) before starting
-# a new job when usage decreases under threshold (to avoid rapid
-# increase of resource usage from N_CORES-1 new processes).
-RUN git clone -b master https://github.com/maxim-kuvyrkov/ninja.git \
+# Add ninja with support for matching concurrency to available CPU allowance.
+# It's installed with ".bin" extension and we then make a wrapper around it.
+RUN git clone -b limit-on-cpu https://github.com/maxim-kuvyrkov/ninja.git \
  && cd ninja \
- && ./configure.py --bootstrap && ./ninja all && ./ninja_test \
+ && python3 ./configure.py --bootstrap && ./ninja all && ./ninja_test \
  && mv ninja /usr/local/bin/ninja.bin \
  && cd .. \
  && rm -rf ninja \
  && echo \
    $'#!/bin/sh\n' \
-   $'exec /usr/local/bin/ninja.bin -l$(nproc --all) -D 5000 "$@"' \
+   $'exec /usr/local/bin/ninja.bin -l-10 "$@"' \
    > /usr/local/bin/ninja \
  && chmod +x /usr/local/bin/ninja
 
@@ -92,4 +81,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: e9d28139eb65751682c2afe6819c772a
+# checksum: e3e3943bc822d22b0e549306fe5c2b0a
