@@ -46,6 +46,7 @@ monitoring:1.87.0
 multiple-scms:0.6
 naginator:1.18.1
 nodelabelparameter:1.8.0
+openstack-cloud:2.57
 pam-auth:1.6
 postbuildscript:2.11.0
 pipeline-utility-steps:2.7.1
