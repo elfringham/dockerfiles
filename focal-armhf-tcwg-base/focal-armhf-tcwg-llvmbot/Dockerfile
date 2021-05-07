@@ -66,11 +66,11 @@ RUN \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
-# Add the latest clang (11.1.0) for flang bot.
+# Add the latest clang (12.0.0) for bots that need it
 RUN \
- clang_ver=clang+llvm-11.1.0-armv7a-linux-gnueabihf \
+ clang_ver=clang+llvm-12.0.0-armv7a-linux-gnueabihf \
  && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-11.1.0/$clang_ver.tar.xz \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
@@ -81,4 +81,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: e3e3943bc822d22b0e549306fe5c2b0a
+# checksum: dd3cc1c8fefacc77ead2172d9b57d6d7
