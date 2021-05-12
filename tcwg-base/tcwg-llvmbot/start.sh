@@ -42,7 +42,6 @@ case "$slavename" in
   linaro-aarch64-flang-oot) ;;
   linaro-aarch64-flang-dylib) ;;
   linaro-aarch64-flang-sharedlibs) ;;
-  linaro-aarch64-flang-oot-new-driver) ;;
   linaro-aarch64-flang-debug) ;;
   linaro-aarch64-flang-latest-clang) ;;
   linaro-aarch64-flang-release) ;;
