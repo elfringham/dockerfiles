@@ -111,10 +111,28 @@ EOF
 fi
 
 n_cores=$(nproc --all)
-case "$2" in
-    linaro-tk1-*) hw="NVIDIA TK1 ${n_cores}-core Cortex-A15" ;;
-    linaro-*) hw="${n_cores}-core ARMv8 provided by Packet.net" ;;
+case "$n_cores" in
+    4)
+	hw="NVIDIA TK1 ${n_cores}x Cortex-A15"
+	schedstat_hz=1000
+	;;
+    48)
+	hw="Fujitsu FX700 ${n_cores}x A64FX"
+	schedstat_hz=1000
+	;;
+    160)
+	hw="Ampere Mt. Jade ${n_cores}x Neoverse-N1 provided by Equinix"
+	schedstat_hz=250
+	;;
+    *)
+	hw="${n_cores}x ARMv8"
+	schedstat_hz=250
+	;;
 esac
+
+# See https://github.com/maxim-kuvyrkov/ninja/commit/8fa112c0104d4cfd0bad0eb62e4cec03f7b51e14
+# about this ugliness.
+echo "$schedstat_hz" > /usr/local/bin/ninja_schedstat_hz
 
 if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
     mem_limit=$((($(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) + 512*1024*1024) / (1024*1024*1024)))
@@ -137,7 +155,7 @@ case "$2" in
     linaro-tk1-*)
 	# TK1s have CPU hot-plug, so ninja might detect smaller number of cores
 	# available for parallelism.  Explicitly set "default" parallelism.
-	sed -i -e "s# -l-10# -j$n_cores#" /usr/local/bin/ninja
+	sed -i -e "s# -l# -j$n_cores -l#" /usr/local/bin/ninja
 	;;
 esac
 
