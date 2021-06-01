@@ -2,25 +2,6 @@
 
 set -e
 
-use_clang_p ()
-{
-    # The LLD buildbot needs clang for -fuse-ld=lld in stage 2
-    # The libcxx bot needs a recent clang to compile tests that
-    # require new C++ standard support.
-    # Typically we've used clang when the default gcc has problems
-    # otherwise gcc is used.
-    case "$1" in
-        *-latest-clang) return 0 ;;
-        *-libcxx*|linaro-tk1-02) return 0 ;;
-        *-lld) return 0 ;;
-        *-lldb) return 0 ;;
-        *-armv*-quick) return 0 ;;
-        *-linaro-tk1-01|linaro-tk1-03|linaro-tk1-04|linaro-tk1-05) return 0 ;;
-        *-armv*-global-isel) return 0 ;;
-        *) return 1 ;;
-    esac
-}
-
 if [ x"$1" = x"start.sh" ]; then
     cat /start.sh
     exit 0
@@ -37,19 +18,11 @@ if [ x"$1" != x"buildkite" ]; then
   fi
 fi
 
-if use_clang_p $2 ; then
-    # Some bots need recent C++ versions or clang-specific features, so we use
-    # a recent clang instead of the system GCC. Currently we use the 10.0.1
-    # release.
-    # For some bots we use the latest clang release instead:
-    # * Flang has a latest clang bot.
-    # * libcxx requires newer clang features to enable all of its features.
-    # * aarch64-lld builds compiler-rt which uses the "memtag" assembly feature name.
-    if [[ $2 == *"latest-clang"* ]] || [[ $2 == *"-libcxx"* ]] || [[ $2 == *"aarch64-lld" ]] ; then
-	release_num=12.0.0
-    else
-	release_num=10.0.1
-    fi
+if [[ $2 == *"latest-gcc"* ]] ; then
+    cc=gcc-11
+    cxx=g++-11
+else
+    release_num=12.0.0
     case "$(uname -m)" in
 	aarch64) release_arch=aarch64-linux-gnu ;;
 	*) release_arch=armv7a-linux-gnueabihf ;;
@@ -62,15 +35,6 @@ if use_clang_p $2 ; then
     # otherwise we get failure to find libc++.so.
     echo "$release_path/lib" > /etc/ld.so.conf.d/clang.conf
     ldconfig
-elif [[ $2 == *"latest-gcc"* ]] ; then
-    cc=gcc-10
-    cxx=g++-10
-elif [ x"$(lsb_release -cs)" = x"bionic" ]; then
-    cc=gcc-9
-    cxx=g++-9
-else
-    cc=gcc
-    cxx=g++
 fi
 
 # With default PATH /usr/local/bin/cc and /usr/local/bin/c++ are detected as

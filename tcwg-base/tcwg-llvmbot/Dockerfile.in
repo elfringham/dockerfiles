@@ -1,19 +1,16 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-#if DISTRO_bionic
+#if DISTRO_bionic || DISTRO_focal
+# Add the toolchain test build PPA which provides gcc-11
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
- software-properties-common
-
-# Add the toolchain test build PPA which provides gcc-9 for bionic
-# (the add-apt-repository is installed by software-properties-common)
-RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
-#endif
-
-#if DISTRO_bionic
-# Add archive signatures for LLVM apt repository.
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|apt-key add - \
- && apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main"
+ software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 #endif
 
 RUN echo "deb https://apt.buildkite.com/buildkite-agent stable main" | tee /etc/apt/sources.list.d/buildkite-agent.list \
@@ -24,10 +21,10 @@ RUN apt-get update \
  binutils-gold \
  buildkite-agent \
  cpio \
- g++-9 \
 #if DISTRO_bionic
- gcc-10 \
- g++-10 \
+# Install GCC-11 for *-latest-gcc bots.
+ gcc-11 \
+ g++-11 \
 #endif
  gfortran \
  htop \
@@ -53,8 +50,6 @@ RUN apt-get update \
 #endif
  python3-buildbot-worker \
  tmux \
- && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 800 \
- --slave /usr/bin/g++ g++ /usr/bin/g++-9 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -79,21 +74,7 @@ RUN new-user.sh --user tcwg-buildslave \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
 
-# Add a recent clang for libcxx bots, because they build and test the libraries
-# using the latest C++ standard, which might not be supported by the system
-# compiler.
-RUN \
-#if ARCH_arm64
- clang_ver=clang+llvm-10.0.1-aarch64-linux-gnu \
-#else /* ARCH_armhf */
- clang_ver=clang+llvm-10.0.1-armv7a-linux-gnueabihf \
-#endif
- && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-10.0.1/$clang_ver.tar.xz \
- && tar xf $clang_ver.tar.xz \
- && rm $clang_ver.tar.xz
-
-# Add the latest clang (12.0.0) for bots that need it
+# Add the latest clang (12.0.0)
 RUN \
 #if ARCH_arm64
  clang_ver=clang+llvm-12.0.0-aarch64-linux-gnu \
