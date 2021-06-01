@@ -114,25 +114,29 @@ n_cores=$(nproc --all)
 case "$n_cores" in
     4)
 	hw="NVIDIA TK1 ${n_cores}x Cortex-A15"
-	schedstat_hz=1000
 	;;
     48)
 	hw="Fujitsu FX700 ${n_cores}x A64FX"
-	schedstat_hz=1000
 	;;
     160)
 	hw="Ampere Mt. Jade ${n_cores}x Neoverse-N1 provided by Equinix"
-	schedstat_hz=250
 	;;
     *)
 	hw="${n_cores}x ARMv8"
-	schedstat_hz=250
 	;;
 esac
 
 # See https://github.com/maxim-kuvyrkov/ninja/commit/8fa112c0104d4cfd0bad0eb62e4cec03f7b51e14
+# and https://github.com/maxim-kuvyrkov/ninja/commit/c3eb25f42c3ba5a0c57c482ecdd8051167fcbb61
 # about this ugliness.
-echo "$schedstat_hz" > /usr/local/bin/ninja_schedstat_hz
+if [ -f /proc/config.gz ]; then
+    # CONFIG_HZ is set to 1000 on TK1s, which, luckily, provide /proc/config.gz.
+    zcat /proc/config.gz | grep "^CONFIG_HZ=" | sed -e "s/^CONFIG_HZ=//"
+else
+    # CONFIG_HZ is set to 250 on all other current systems that we use for
+    # LLVM buildbots (this seems to be the current Ubuntu default).
+    echo "250"
+fi > /etc/ninja_schedstat_hz
 
 if [ -f /sys/fs/cgroup/memory/memory.limit_in_bytes ]; then
     mem_limit=$((($(cat /sys/fs/cgroup/memory/memory.limit_in_bytes) + 512*1024*1024) / (1024*1024*1024)))
