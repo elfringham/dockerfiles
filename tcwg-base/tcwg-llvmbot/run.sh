@@ -51,6 +51,47 @@ exec ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
 
+# This is a workaround to enable system compiler (LLVM 12) grok SVE options
+# without crashing.  This allows us to pass SVE options to stage1 compiler
+# while building stage2 compiler, thus testing SVE support with a bootstrap.
+# Hopefully, the crashes from "-mllvm -aarch64-sve-vector-bits-min=512" will
+# be fixed in LLVM 13 and we will remove this workaround then.
+if [[ "$2" == "linaro-aarch64-sve-"*"-2stage" ]] ; then
+    cat > /usr/local/bin/cc <<EOF
+#!/bin/bash
+
+params=()
+
+while [ \$# -gt 0 ]; do
+  if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
+    shift 2
+    continue
+  fi
+  params+=("\$1")
+  shift
+done
+
+exec ccache $cc "\${params[@]}"
+EOF
+
+    cat > /usr/local/bin/c++ <<EOF
+#!/bin/bash
+
+params=()
+
+while [ \$# -gt 0 ]; do
+  if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
+    shift 2
+    continue
+  fi
+  params+=("\$1")
+  shift
+done
+
+exec ccache $cxx "\${params[@]}"
+EOF
+fi
+
 if [ x"$1" != x"buildkite" ]; then
   cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
