@@ -159,6 +159,14 @@ case "$2" in
 	# available for parallelism.  Explicitly set "default" parallelism.
 	sed -i -e "s# -l# -j$n_cores -l#" /usr/local/bin/ninja
 	;;
+    *)
+	# Limit parallelism so that each process has at least 1GB of RAM available.
+	# Otherwise systems tends to go into deep swap.  This is, mostly, for FX700
+	# systems, which have 48 cores, but only 32GB of RAM.
+	if [ "$mem_limit" -lt "$n_cores" ]; then
+	    sed -i -e "s# -l# -j$mem_limit -l#" /usr/local/bin/ninja
+	fi
+	;;
 esac
 
 # Handle LNT performance bot.
