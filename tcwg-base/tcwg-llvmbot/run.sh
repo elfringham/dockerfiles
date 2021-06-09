@@ -22,7 +22,7 @@ ccache_basedir=""
 case "$2" in
     linaro-tk1-*) ;;
     linaro-*)
-	builddir=(echo "$2" | sed -e "s/linaro-/clang-cmake-/")
+	builddir=$(echo "$2" | sed -e "s/linaro-//")
 	ccache_basedir="CCACHE_BASEDIR=$worker_dir/$builddir"
 	;;
 esac
