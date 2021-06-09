@@ -7,7 +7,7 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-worker_dir=~tcwg-buildslave/worker
+worker_dir=/home/tcwg-buildslave/worker
 if [ x"$1" != x"buildkite" ]; then
   if [ -f $worker_dir/buildbot.tac ]; then
       :
@@ -17,6 +17,16 @@ if [ x"$1" != x"buildkite" ]; then
       sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 $worker_dir "$@"
   fi
 fi
+
+ccache_basedir=""
+case "$2" in
+    linaro-tk1-*) ;;
+    linaro-*)
+	builddir=(echo "$2" | sed -e "s/linaro-/clang-cmake-/")
+	ccache_basedir="CCACHE_BASEDIR=$worker_dir/$builddir"
+	;;
+esac
+ccache="$ccache_basedir exec ccache"
 
 if [[ $2 == *"latest-gcc"* ]] ; then
     cc=gcc-11
@@ -42,12 +52,12 @@ fi
 # we always start with a clean cache in a new container.
 cat > /usr/local/bin/cc <<EOF
 #!/bin/sh
-exec ccache $cc "\$@"
+$ccache $cc "\$@"
 EOF
 chmod +x /usr/local/bin/cc
 cat > /usr/local/bin/c++ <<EOF
 #!/bin/sh
-exec ccache $cxx "\$@"
+$ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
 
@@ -71,7 +81,7 @@ while [ \$# -gt 0 ]; do
   shift
 done
 
-exec ccache $cc "\${params[@]}"
+$ccache $cc "\${params[@]}"
 EOF
 
     cat > /usr/local/bin/c++ <<EOF
@@ -88,7 +98,7 @@ while [ \$# -gt 0 ]; do
   shift
 done
 
-exec ccache $cxx "\${params[@]}"
+$ccache $cxx "\${params[@]}"
 EOF
 fi
 
