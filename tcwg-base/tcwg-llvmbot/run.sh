@@ -66,7 +66,7 @@ chmod +x /usr/local/bin/c++
 # while building stage2 compiler, thus testing SVE support with a bootstrap.
 # Hopefully, the crashes from "-mllvm -aarch64-sve-vector-bits-min=512" will
 # be fixed in LLVM 13 and we will remove this workaround then.
-if [[ "$2" == "linaro-aarch64-sve-"*"-2stage" ]] ; then
+if [[ "$2" == *"-aarch64-sve-"*"-2stage" ]] ; then
     cat > /usr/local/bin/cc <<EOF
 #!/bin/bash
 
