@@ -51,22 +51,46 @@ exec ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
 
-case "$2" in
-    *-lld)
-	# LLD buildbot needs to find ld.lld for stage1 build. GCC does not
-        # support -fuse-ld=lld.
-	ln -f -s /usr/bin/ld.bfd /usr/local/bin/ld.lld
-	;;
-    *-debug)
-        release_num=10.0.1
-        release_arch=aarch64-linux-gnu
-        release_path=/usr/local/clang+llvm-${release_num}-${release_arch}
-        ln -f -s $release_path/bin/lld /usr/local/bin/ld.lld
-        ;;
-    *)
-	rm -f /usr/local/bin/ld.lld
-	;;
-esac
+# This is a workaround to enable system compiler (LLVM 12) grok SVE options
+# without crashing.  This allows us to pass SVE options to stage1 compiler
+# while building stage2 compiler, thus testing SVE support with a bootstrap.
+# Hopefully, the crashes from "-mllvm -aarch64-sve-vector-bits-min=512" will
+# be fixed in LLVM 13 and we will remove this workaround then.
+if [[ "$2" == "linaro-aarch64-sve-"*"-2stage" ]] ; then
+    cat > /usr/local/bin/cc <<EOF
+#!/bin/bash
+
+params=()
+
+while [ \$# -gt 0 ]; do
+  if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
+    shift 2
+    continue
+  fi
+  params+=("\$1")
+  shift
+done
+
+exec ccache $cc "\${params[@]}"
+EOF
+
+    cat > /usr/local/bin/c++ <<EOF
+#!/bin/bash
+
+params=()
+
+while [ \$# -gt 0 ]; do
+  if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
+    shift 2
+    continue
+  fi
+  params+=("\$1")
+  shift
+done
+
+exec ccache $cxx "\${params[@]}"
+EOF
+fi
 
 if [ x"$1" != x"buildkite" ]; then
   cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/admin

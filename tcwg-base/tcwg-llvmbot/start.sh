@@ -106,6 +106,9 @@ for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done
 
+# Add per-bot ccache mount.
+mounts="$mounts -v ccache-$slavename-${image#*:}:/home/tcwg-buildslave/.ccache"
+
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 case "$slavename" in
     linaro-tk1-*)
