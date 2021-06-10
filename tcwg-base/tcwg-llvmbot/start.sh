@@ -106,8 +106,13 @@ for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done
 
-# Add per-bot ccache mount.
-mounts="$mounts -v ccache-$slavename-${image#*:}:/home/tcwg-buildslave/.ccache"
+# Add ccache mount.  We differentiate ccache mounts on image arch and OS.
+# Using same cache for different architectures would needlessly pollute cache
+# (i.e., armhf and aarch64 images use different system compilers).
+# Using same cache for different OS versions can cause problems due to
+# different ccache versions.
+ccache_id=$(echo "$image" | sed -e "s#linaro/ci-\(.*\)-tcwg-llvmbot-ubuntu:\(.*\)\$#\1-\2#")
+mounts="$mounts -v ccache-$ccache_id:/home/tcwg-buildslave/.ccache"
 
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 case "$slavename" in
