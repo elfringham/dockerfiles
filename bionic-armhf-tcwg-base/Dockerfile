@@ -151,7 +151,8 @@ RUN chown root:root /etc/postfix/sasl_password \
 
 # Configure linux tools for benchmarking support.
 #
-# We symlink linux tools to supportted "hw_tags": tk1_32, tx1_64, tx1_32.
+# We symlink linux tools to supportted "hw_tags":
+#   sq_32, sq_64, tk1_32, tx1_32, tx1_64.
 # HW_TAGS represent tested configurations of hardware+kernel+perf that
 # work well together.  We create new hw_tag for any variation in hardware,
 # kernel, or perf.  This gives us assurance that benchmarking data stored
@@ -182,6 +183,8 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/sq_32 \
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/sq_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
@@ -246,4 +249,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 7a10b3a6f6229fb9f9a0e7206fe7811a
+# checksum: 256c31a8c3629c38ca31e6fe13cb3c13
