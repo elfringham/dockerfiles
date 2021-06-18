@@ -176,17 +176,18 @@ RUN apt-get update \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
+ linux-tools-5.4.0-74-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/sq_32 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/sq_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
 
 # Install usb libs and OpenOCD on x86 hosts, used to target bare-metal boards.
 RUN apt-get update \
@@ -258,4 +259,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 0b31c6085a10891983abcf7b297b654d
+# checksum: c2e7a6783c300dc7825484e1b066728b

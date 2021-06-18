@@ -165,17 +165,18 @@ RUN apt-get update \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
+ linux-tools-5.4.0-74-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/sq_32 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/sq_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
 
 
 
@@ -219,4 +220,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 399289535b979b598c1949568868d84a
+# checksum: 54947914790fa3ffb855bd30c86a2120
