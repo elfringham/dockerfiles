@@ -150,7 +150,8 @@ RUN chown root:root /etc/postfix/sasl_password \
 
 # Configure linux tools for benchmarking support.
 #
-# We symlink linux tools to supportted "hw_tags": tk1_32, tx1_64, tx1_32.
+# We symlink linux tools to supportted "hw_tags":
+#   sq_32, sq_64, tk1_32, tx1_32, tx1_64.
 # HW_TAGS represent tested configurations of hardware+kernel+perf that
 # work well together.  We create new hw_tag for any variation in hardware,
 # kernel, or perf.  This gives us assurance that benchmarking data stored
@@ -175,6 +176,7 @@ RUN apt-get update \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
+ linux-tools-5.4.0-74-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
@@ -183,7 +185,9 @@ RUN apt-get update \
  /var/tmp/* \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64
+ && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
 
 
 
@@ -236,4 +240,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: c3c18a2a61bc9a106c0d0679c3e17602
+# checksum: 0a78793fd9f959efe61251bc6f2277a0
