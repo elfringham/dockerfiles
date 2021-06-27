@@ -31,28 +31,31 @@ fi
 # List of supported build slaves.
 # Please keep synced with tcwg-update-llvmbot-containers.sh.
 case "$slavename" in
-  linaro-aarch64-full) ;;
-  linaro-aarch64-global-isel) ;;
-  linaro-armv7-selfhost) ;;
-  linaro-armv7-global-isel) ;;
-  linaro-aarch64-libcxx) ;;
-  linaro-aarch64-lld) ;;
-  linaro-aarch64-lldb) ;;
-  linaro-aarch64-quick) ;;
-  linaro-aarch64-flang-oot) ;;
-  linaro-aarch64-flang-dylib) ;;
-  linaro-aarch64-flang-sharedlibs) ;;
-  linaro-aarch64-flang-debug) ;;
-  linaro-aarch64-flang-latest-clang) ;;
-  linaro-aarch64-flang-release) ;;
-  linaro-aarch64-flang-rel-assert) ;;
-  linaro-aarch64-flang-latest-gcc) ;;
-  linaro-armv8-libcxx) ;;
-  linaro-armv8-lld) ;;
-  linaro-arm-lldb) ;;
-  linaro-armv7-lnt) ;;
-  linaro-armv7-quick) ;;
-  linaro-tk1-*) ;;
+    linaro-lldb-arm-ubuntu) ;;
+    linaro-lldb-aarch64-ubuntu) ;;
+    linaro-aarch64-libcxx-*) ;;
+    linaro-armv8-libcxx-*) ;;
+    linaro-clang-aarch64-sve-vls) ;;
+    linaro-clang-aarch64-sve-vls-2stage) ;;
+    linaro-clang-armv7-lnt) ;;
+    linaro-clang-armv7-2stage) ;;
+    linaro-clang-armv7-quick) ;;
+    linaro-clang-armv7-global-isel) ;;
+    linaro-clang-armv7-vfpv3-2stage) ;;
+    linaro-clang-armv8-lld-2stage) ;;
+    linaro-clang-aarch64-quick) ;;
+    linaro-clang-aarch64-lld-2stage) ;;
+    linaro-clang-aarch64-global-isel) ;;
+    linaro-clang-aarch64-full-2stage) ;;
+    linaro-flang-aarch64-dylib) ;;
+    linaro-flang-aarch64-sharedlibs) ;;
+    linaro-flang-aarch64-out-of-tree) ;;
+    linaro-flang-aarch64-debug) ;;
+    linaro-flang-aarch64-latest-clang) ;;
+    linaro-flang-aarch64-release) ;;
+    linaro-flang-aarch64-rel-assert) ;;
+    linaro-flang-aarch64-latest-gcc) ;;
+    linaro-tk1-*) ;;
   *)
     echo "WARNING: Unknown slavename $slavename"
     ;;
@@ -96,7 +99,7 @@ esac
 #  - full bots to 5x usual priority
 case "$slavename" in
     *-quick) cpu_shares=10000 ;;
-    *-aarch64-full|*-armv7-selfhost) cpu_shares=5000 ;;
+    *-aarch64-full-2stage|*-armv7-2stage) cpu_shares=5000 ;;
     *) cpu_shares=1000 ;;
 esac
 
@@ -133,7 +136,7 @@ case "$slavename" in
 esac
 
 case "$slavename" in
-    *-lld|linaro-aarch64-full)
+    *-lld-2stage|*-aarch64-full-2stage)
 	# LLD bots have been requiring high PIDs limit for as long as they
 	# have been setup.
 	#
