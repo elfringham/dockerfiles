@@ -63,7 +63,7 @@ throttle-concurrents:2.3
 timestamper:1.13
 translation:1.16
 urltrigger:0.49
-warnings-ng:9.2.1
+warnings-ng:9.3.0
 workflow-aggregator:2.6
 ws-cleanup:0.39
 xvfb:1.1.3
