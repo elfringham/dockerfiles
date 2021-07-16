@@ -10,7 +10,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-    rm -rf docker-stats docker-wrapper run.sh start.sh
+    rm -rf docker-stats docker-wrapper run.sh start.sh tcwg-build.sh
 }
 
 export LANG=C
@@ -23,7 +23,8 @@ top=$(git rev-parse --show-toplevel)
 cp $top/tcwg-base/tcwg-host/docker-stats \
    $top/tcwg-base/tcwg-host/docker-wrapper \
    $top/tcwg-base/tcwg-host/run.sh \
-   $top/tcwg-base/tcwg-host/start.sh ./
+   $top/tcwg-base/tcwg-host/start.sh \
+   $top/tcwg-base/tcwg-host/tcwg-build.sh ./
 
 (cd ..; ./build.sh)
 "$top"/tcwg-base/validate-checksum.sh Dockerfile
