@@ -2,7 +2,7 @@
 FROM linaro/ci-armhf-tcwg-base-ubuntu:focal
 
 
-COPY docker-stats docker-wrapper /usr/local/bin/
+COPY docker-stats docker-wrapper tcwg-build.sh /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 
 COPY run.sh start.sh /
@@ -13,4 +13,4 @@ RUN chmod +x /sbin/tini
 
 ENTRYPOINT ["/sbin/tini", "--", "linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 4fe6126ea35ffa5521de3e7dffb59526
+# checksum: de9e966231977f46c15d294143828e0f

@@ -15,7 +15,7 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 
-COPY docker-stats docker-wrapper /usr/local/bin/
+COPY docker-stats docker-wrapper tcwg-build.sh /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 
 COPY run.sh start.sh /
@@ -26,4 +26,4 @@ RUN chmod +x /sbin/tini
 
 ENTRYPOINT ["/sbin/tini", "--", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 84f7143c4f13e7363680649c114466ba
+# checksum: 3b0e92a1806f9bd7f5240bd7ce5ba567

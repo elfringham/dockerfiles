@@ -19,4 +19,6 @@ if [ "${#cnt[@]}" != 1 ]; then
     exit 1
 fi
 
-exec docker exec -it "${cnt[@]}" su - tcwg-buildslave
+cmd=(docker exec -it "${cnt[@]}" su - tcwg-buildslave)
+echo "${cmd[@]}"
+exec "${cmd[@]}"
