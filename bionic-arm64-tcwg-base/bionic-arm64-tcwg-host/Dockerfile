@@ -2,7 +2,7 @@
 FROM linaro/ci-arm64-tcwg-base-ubuntu:bionic
 
 
-COPY docker-stats docker-wrapper /usr/local/bin/
+COPY docker-stats docker-wrapper tcwg-build.sh /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 
 COPY run.sh start.sh /
@@ -13,4 +13,4 @@ RUN chmod +x /sbin/tini
 
 ENTRYPOINT ["/sbin/tini", "--", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 5a2fa38a3e1e1082a28c47c984605b4d
+# checksum: bf78c064cad9177d54f34eacc76f784b
