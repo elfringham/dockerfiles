@@ -87,6 +87,7 @@ RUN apt-get update \
  python3-dev \
  python3-pip \
  python3-setuptools \
+ python3-venv \
  python3-wheel \
  rsync \
  subversion \
@@ -223,4 +224,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: d5b4a8e4a340c524b65db0f69eddae49
+# checksum: 2ba7826c63962615349f097bd9d62c80

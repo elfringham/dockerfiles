@@ -85,6 +85,7 @@ RUN apt-get update \
  python3-dev \
  python3-pip \
  python3-setuptools \
+ python3-venv \
  python3-wheel \
  rsync \
 # For Bionic -- jipdate Python package uses jira, which uses cryptography,
@@ -241,4 +242,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 369e89ac7df653d89d872467f7e62d7b
+# checksum: 60d46b97711c42af1b64777c6584fe58
