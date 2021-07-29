@@ -108,7 +108,6 @@ RUN apt-get update \
  unifdef \
  valgrind \
  vim \
- virtualenv \
  wget \
  xz-utils \
  zip \
@@ -262,4 +261,4 @@ VOLUME /tmp
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 17426443bc6f37ac55a65fae10795900
+# checksum: 133f03fe5521bd4c920146b11141477b
