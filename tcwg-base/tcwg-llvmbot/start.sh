@@ -121,7 +121,7 @@ esac
 # 8 cores again. This means that nproc inside the container
 # returns 8. (usually you see the whole machine)
 # This helps lit not try to run too many tests at once.
-# Note: other containers can use these cores if they are idle
+# Note: Other containers can use these cores if they are idle
 # so this is not reserving them, it's just limiting where
 # these container's processes can go.
 case "$slavename" in
