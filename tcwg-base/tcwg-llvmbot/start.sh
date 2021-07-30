@@ -125,12 +125,12 @@ esac
 # so this is not reserving them, it's just limiting where
 # these container's processes can go.
 case "$slavename" in
-  *armv8-libcxx-01)   cpuset_cpus="--cpuset-cpus=\"0-7\""   ;;
-  *armv8-libcxx-02)   cpuset_cpus="--cpuset-cpus=\"8-15\""  ;;
-  *armv8-libcxx-03)   cpuset_cpus="--cpuset-cpus=\"16-23\"" ;;
-  *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=\"24-31\"" ;;
-  *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=\"32-39\"" ;;
-  *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=\"40-47\"" ;;
+  *armv8-libcxx-01)   cpuset_cpus="--cpuset-cpus=0-7"   ;;
+  *armv8-libcxx-02)   cpuset_cpus="--cpuset-cpus=8-15"  ;;
+  *armv8-libcxx-03)   cpuset_cpus="--cpuset-cpus=16-23" ;;
+  *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=24-31" ;;
+  *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=32-39" ;;
+  *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=40-47" ;;
   *) cpuset_cpus="" ;;
 esac
 
