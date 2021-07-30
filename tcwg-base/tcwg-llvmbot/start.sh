@@ -107,16 +107,31 @@ case "$slavename" in
 esac
 
 # lldb and buildkite bots have a fixed number of CPUs.
-# This is done by giving them a very high priority and
-# a cpu number limit. (which unlike fixed core numbers,
-# is done by allocating time on any CPU)
-# So they will always be able to push other containers
-# off of cores they need.
+# One part of this setup is a very high priority so they
+# can always grab the resources they need.
+# For lldb, we set a general CPU number. Meaning it can
 # There's no good way to default to all CPUs here so
 # just set the whole option string if needed.
 case "$slavename" in
-  *-lldb-*|*-libcxx-*) num_cpus="--cpus 8" ;;
+  *-lldb-*) num_cpus="--cpus 8" ;;
   *) num_cpus="" ;;
+esac
+
+# For libcxx we give them a fixed set of CPU numbers,
+# 8 cores again. This means that nproc inside the container
+# returns 8. (usually you see the whole machine)
+# This helps lit not try to run too many tests at once.
+# Note: other containers can use these cores if they are idle
+# so this is not reserving them, it's just limiting where
+# these container's processes can go.
+case "$slavename" in
+  *armv8-libcxx-01) cpuset_cpus="--cpuset-cpus=(0-7)" ;;
+  *armv8-libcxx-02) cpuset_cpus="--cpuset-cpus=(8-15)" ;;
+  *armv8-libcxx-03) cpuset_cpus="--cpuset-cpus=(16-23)" ;;
+  *armv8-libcxx-04) cpuset_cpus="--cpuset-cpus=(24-31)" ;;
+  *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=(32-39)" ;;
+  *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=(40-47)" ;;
+  *) cpuset_cpus="" ;;
 esac
 
 mounts=""
@@ -195,7 +210,7 @@ if [ x"$(uname -m)" = x"x86_64" ]; then
     mounts="$mounts -v $qemu_bin:/bin/qemu-aarch64-static"
 fi
 
-$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $num_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $num_cpus $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
 
 if [ x"$(uname -m)" = x"x86_64" ]; then
     rm -f "$qemu_bin"
