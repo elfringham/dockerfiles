@@ -97,10 +97,10 @@ esac
 # Set relative CPU weight of containers running
 #  - quick bots to 10x usual priority
 #  - full bots to 5x usual priority
-#  - lldb and builkite bots to 100x usual priority
+#  - lldb and libcxx bots to 100x usual priority
 #    so they always get their allocated cpu time
 case "$slavename" in
-    *-lldb-*|buildkite*) cpu_shares=100000 ;;
+    *-lldb-*|*-libcxx-*) cpu_shares=100000 ;;
     *-quick) cpu_shares=10000 ;;
     *-aarch64-full-2stage|*-armv7-2stage) cpu_shares=5000 ;;
     *) cpu_shares=1000 ;;
@@ -115,7 +115,7 @@ esac
 # There's no good way to default to all CPUs here so
 # just set the whole option string if needed.
 case "$slavename" in
-  *-lldb-*|buildkite*) num_cpus="--cpus 8" ;;
+  *-lldb-*|*-libcxx-*) num_cpus="--cpus 8" ;;
   *) num_cpus="" ;;
 esac
 
