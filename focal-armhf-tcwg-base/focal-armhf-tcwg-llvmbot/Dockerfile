@@ -38,6 +38,11 @@ RUN apt-get update \
  linux-tools-common \
  python3-buildbot-worker \
  tmux \
+# Although the base image has python3-venv installed, this does not give
+# you 'virtualenv'. Instead you must do 'python3 -m venv'. However the test
+# suite calls virtualenv with --python=python3, so we're ok to use the Python2
+# version here.
+ virtualenv \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -80,4 +85,4 @@ COPY start.sh .
 
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: ab834e5bb7b395c30e1f43fa31c20034
+# checksum: f4d8d77406e64628e77e38329fee6b44
