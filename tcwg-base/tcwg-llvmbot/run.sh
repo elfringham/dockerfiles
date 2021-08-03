@@ -77,6 +77,10 @@ while [ \$# -gt 0 ]; do
     shift 1
     continue
   fi
+  if [ x"\$1 \$2" = x"-mllvm -scalable-vectorization=preferred" ]; then
+    shift 2
+    continue
+  fi
   if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
     shift 2
     continue
@@ -100,6 +104,10 @@ params=()
 while [ \$# -gt 0 ]; do
   if [ x"\$1" = x"-msve-vector-bits=512" ]; then
     shift 1
+    continue
+  fi
+  if [ x"\$1 \$2" = x"-mllvm -scalable-vectorization=preferred" ]; then
+    shift 2
     continue
   fi
   if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
