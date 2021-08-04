@@ -73,6 +73,18 @@ if [[ "$2" == *"-aarch64-sve-"*"-2stage" ]] ; then
 params=()
 
 while [ \$# -gt 0 ]; do
+  if [ x"\$1" = x"-msve-vector-bits=512" ]; then
+    shift 1
+    continue
+  fi
+  if [ x"\$1 \$2" = x"-mllvm -scalable-vectorization=preferred" ]; then
+    shift 2
+    continue
+  fi
+  if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
+    shift 2
+    continue
+  fi
   if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
     shift 2
     continue
@@ -90,6 +102,18 @@ EOF
 params=()
 
 while [ \$# -gt 0 ]; do
+  if [ x"\$1" = x"-msve-vector-bits=512" ]; then
+    shift 1
+    continue
+  fi
+  if [ x"\$1 \$2" = x"-mllvm -scalable-vectorization=preferred" ]; then
+    shift 2
+    continue
+  fi
+  if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
+    shift 2
+    continue
+  fi
   if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
     shift 2
     continue
