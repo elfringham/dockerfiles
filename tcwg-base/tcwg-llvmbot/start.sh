@@ -97,24 +97,15 @@ esac
 # Set relative CPU weight of containers running
 #  - quick bots to 10x usual priority
 #  - full bots to 5x usual priority
-#  - lldb and libcxx bots to 100x usual priority
+#  - lldb bots to 100x usual priority
+#  - libcxx bots to 200x usual priority
 #    so they always get their allocated cpu time
 case "$slavename" in
-    *-lldb-*|*-libcxx-*) cpu_shares=100000 ;;
+    *-libcxx-*) cpu_shares=200000 ;;
+    *-lldb-*) cpu_shares=100000 ;;
     *-quick) cpu_shares=10000 ;;
     *-aarch64-full-2stage|*-armv7-2stage) cpu_shares=5000 ;;
     *) cpu_shares=1000 ;;
-esac
-
-# lldb and buildkite bots have a fixed number of CPUs.
-# One part of this setup is a very high priority so they
-# can always grab the resources they need.
-# For lldb, we set a general CPU number. Meaning it can
-# There's no good way to default to all CPUs here so
-# just set the whole option string if needed.
-case "$slavename" in
-  *-lldb-*) num_cpus="--cpus 8" ;;
-  *) num_cpus="" ;;
 esac
 
 # For libcxx we give them a fixed set of CPU numbers,
@@ -210,7 +201,7 @@ if [ x"$(uname -m)" = x"x86_64" ]; then
     mounts="$mounts -v $qemu_bin:/bin/qemu-aarch64-static"
 fi
 
-$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $num_cpus $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
 
 if [ x"$(uname -m)" = x"x86_64" ]; then
     rm -f "$qemu_bin"
