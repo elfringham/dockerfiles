@@ -43,4 +43,4 @@ for var in ${vars[@]+"${vars[@]}"}; do
 done
 
 unifdef -k -t -x2 "${cpp_opts[@]}" "$input" \
-    | sed -e "s/^//" "${sed_opts[@]+"${sed_opts[@]}"}"
+    | sed -e "/^\$/ d" "${sed_opts[@]+"${sed_opts[@]}"}"
