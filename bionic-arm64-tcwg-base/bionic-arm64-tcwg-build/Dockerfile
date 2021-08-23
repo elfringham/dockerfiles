@@ -8,4 +8,14 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
-# checksum: 2f5335c80aef0667a42e8a550467e14c
+# Install clang-10.
+RUN \
+ apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ clang-10 \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+# checksum: 114eb22bca7835d5a0bd66e068ebb510
