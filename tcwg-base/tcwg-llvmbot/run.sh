@@ -11,10 +11,8 @@ worker_dir=/home/tcwg-buildslave/worker
 if [ x"$1" != x"buildkite" ]; then
   if [ -f $worker_dir/buildbot.tac ]; then
       :
-  elif which buildbot-worker >/dev/null; then
-      sudo -i -u tcwg-buildslave buildbot-worker create-worker $worker_dir "$@"
   else
-      sudo -i -u tcwg-buildslave buildslave create-slave --umask=022 $worker_dir "$@"
+      sudo -i -u tcwg-buildslave buildbot-worker create-worker $worker_dir "$@"
   fi
 fi
 
@@ -85,10 +83,6 @@ while [ \$# -gt 0 ]; do
     shift 2
     continue
   fi
-  if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
-    shift 2
-    continue
-  fi
   params+=("\$1")
   shift
 done
@@ -111,10 +105,6 @@ while [ \$# -gt 0 ]; do
     continue
   fi
   if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
-    shift 2
-    continue
-  fi
-  if [ x"\$1 \$2" = x"-mllvm -aarch64-sve-vector-bits-min=512" ]; then
     shift 2
     continue
   fi
@@ -228,11 +218,7 @@ if [ x"$1" = x"buildkite" ]; then
     --tags "queue=$queue,arch=$(arch)" \
     --build-path $worker_dir
 else
-  if which buildbot-worker >/dev/null; then
-      sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
-  else
-      sudo -i -u tcwg-buildslave buildslave restart $worker_dir
-  fi
+    sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
 fi
 
 exec /usr/sbin/sshd -D
