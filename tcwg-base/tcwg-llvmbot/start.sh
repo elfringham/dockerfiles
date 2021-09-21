@@ -36,7 +36,9 @@ case "$slavename" in
     linaro-aarch64-libcxx-*) ;;
     linaro-armv8-libcxx-*) ;;
     linaro-clang-aarch64-sve-vls) ;;
+    linaro-clang-aarch64-sve-vla) ;;
     linaro-clang-aarch64-sve-vls-2stage) ;;
+    linaro-clang-aarch64-sve-vla-2stage) ;;
     linaro-clang-armv7-lnt) ;;
     linaro-clang-armv7-2stage) ;;
     linaro-clang-armv7-quick) ;;
@@ -150,6 +152,10 @@ case "$slavename" in
 	# unlimited statck mitigates a failure in stage2 clang due high stack
 	# usage.
 	caps_system="--ulimit stack=-1"
+	;;
+    linaro-clang-aarch64-sve-*)
+	# Each SVE bot gets 1/4 of the total RAM.
+	memlimit=$(($memlimit / 4))m
 	;;
     *)
 	# Use at most half of all available RAM.
