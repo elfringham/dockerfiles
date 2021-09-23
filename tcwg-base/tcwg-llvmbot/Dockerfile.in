@@ -21,7 +21,7 @@ RUN apt-get update \
  binutils-gold \
  buildkite-agent \
  cpio \
-#if DISTRO_bionic
+#if DISTRO_bionic || DISTRO_focal
 # Install GCC-11 for *-latest-gcc bots.
  gcc-11 \
  g++-11 \

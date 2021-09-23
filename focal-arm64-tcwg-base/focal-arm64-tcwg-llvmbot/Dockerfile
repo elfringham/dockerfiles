@@ -17,6 +17,9 @@ RUN apt-get update \
  binutils-gold \
  buildkite-agent \
  cpio \
+# Install GCC-11 for *-latest-gcc bots.
+ gcc-11 \
+ g++-11 \
  gfortran \
  htop \
  iotop \
@@ -76,4 +79,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 9e6b8525bee5c2dfd5890dd469ba235b
+# checksum: 36ed935d06985d131c2a3cfbef08cab0
