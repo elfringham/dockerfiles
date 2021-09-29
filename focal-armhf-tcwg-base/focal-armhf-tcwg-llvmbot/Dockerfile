@@ -38,6 +38,8 @@ RUN apt-get update \
  linux-tools-common \
  python3-buildbot-worker \
  tmux \
+# uuidgen is used by the flang driver script. Not installed by default on focal.
+ uuid-runtime \
 # Although the base image has python3-venv installed, this does not give
 # you 'virtualenv'. Instead you must do 'python3 -m venv'. However the test
 # suite calls virtualenv with --python=python3, so we're ok to use the Python2
@@ -79,4 +81,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 66afef5c2c461a97d3bc2aa5eec7156e
+# checksum: 67096f2d6ed517818dde4b045892db5c
