@@ -192,23 +192,6 @@ RUN cd /tmp \
  && make -j$(nproc --all) install >/dev/null \
  && cd /tmp \
  && rm -rf /tmp/CMake
-# Create wrappers to limit ninja to single-process parallelism
-# when machine load reaches the number of cores.
-# This is important on machines with high core count, where we get
-# "fork: Resource temporarily unavailable" error when load reaches
-# 4x/5x the core count.
-#
-# We tried to limit "make" in similar fashion, but we hit an unexpected
-# corner-case: GCC testsuite parallelizes itself in a perculiar way,
-# and it relies on make starting /all/ testsuite sub-parts for parallelization.
-# Unfortunately "make -lN" checks system load only when it reaps tasks,
-# and, because GCC testsuite sub-part doesn't exit until it runs the whole
-# testsuite, we effectively run GCC testsuite single-threaded.
-RUN echo \
-   $'#!/bin/sh\n' \
-   $'exec /usr/bin/ninja -l$(nproc --all) "$@"' \
-   > /usr/local/bin/ninja \
- && chmod +x /usr/local/bin/ninja
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -229,4 +212,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: c2c46573ca5c3c9472aae11c6198ea61
+# checksum: d447180b91bacbd6ef7ed443123aa55d

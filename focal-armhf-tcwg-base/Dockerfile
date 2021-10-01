@@ -184,23 +184,6 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
-# Create wrappers to limit ninja to single-process parallelism
-# when machine load reaches the number of cores.
-# This is important on machines with high core count, where we get
-# "fork: Resource temporarily unavailable" error when load reaches
-# 4x/5x the core count.
-#
-# We tried to limit "make" in similar fashion, but we hit an unexpected
-# corner-case: GCC testsuite parallelizes itself in a perculiar way,
-# and it relies on make starting /all/ testsuite sub-parts for parallelization.
-# Unfortunately "make -lN" checks system load only when it reaps tasks,
-# and, because GCC testsuite sub-part doesn't exit until it runs the whole
-# testsuite, we effectively run GCC testsuite single-threaded.
-RUN echo \
-   $'#!/bin/sh\n' \
-   $'exec /usr/bin/ninja -l$(nproc --all) "$@"' \
-   > /usr/local/bin/ninja \
- && chmod +x /usr/local/bin/ninja
 # Workaround missing symbols for ld.so in Focal's glibc.  GDB relies on
 # debug symbols to use correct mode -- arm or thumb2 -- for breakpoints.
 # Without this we get GCC's guality tests stuck in some of the configurations.
@@ -236,4 +219,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: d537c355ffb9f753744fcc03c5be9f01
+# checksum: fce3b035497370cadd2d83352083ada3
