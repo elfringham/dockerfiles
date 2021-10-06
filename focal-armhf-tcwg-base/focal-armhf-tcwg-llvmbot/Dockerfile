@@ -23,6 +23,8 @@ RUN apt-get update \
  gfortran \
  htop \
  iotop \
+# Adds en_*.UTF-8 locales used for testing libcxx
+ language-pack-en \
  libedit-dev \
  libjson-perl \
  libtinfo-dev \
@@ -81,4 +83,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 67096f2d6ed517818dde4b045892db5c
+# checksum: 2044b20c574c41c96b8b04dbb6d09f2a

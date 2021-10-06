@@ -29,6 +29,8 @@ RUN apt-get update \
  gfortran \
  htop \
  iotop \
+# Adds en_*.UTF-8 locales used for testing libcxx
+ language-pack-en \
  libedit-dev \
  libjson-perl \
  libtinfo-dev \
