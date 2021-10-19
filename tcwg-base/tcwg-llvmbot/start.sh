@@ -156,6 +156,9 @@ case "$slavename" in
 	# Container-private networks are broken on TK1s (presumably, due to
 	# incompatiblity betweek old 3.10 kernel and new-ish docker).
 	network="--network host"
+	# Using host network also requires us to use the actual host name.
+	# Otherwise "sudo" in /run.sh complains about unknown host.
+	hostname=$(hostname)
 	;;
     linaro-clang-aarch64-sve-*)
 	# Each SVE bot gets 1/4 of the total RAM.
