@@ -142,6 +142,7 @@ ccache_id=$(echo "$image" | sed -e "s#linaro/ci-\(.*\)-tcwg-llvmbot-ubuntu:\(.*\
 mounts="$mounts -v ccache-$ccache_id:/home/tcwg-buildslave/.ccache"
 
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
+network=""
 case "$slavename" in
     linaro-tk1-*)
 	# Use at most 90% of RAM on TK1s
@@ -152,6 +153,9 @@ case "$slavename" in
 	# unlimited statck mitigates a failure in stage2 clang due high stack
 	# usage.
 	caps_system="--ulimit stack=-1"
+	# Container-private networks are broken on TK1s (presumably, due to
+	# incompatiblity betweek old 3.10 kernel and new-ish docker).
+	network="--network host"
 	;;
     linaro-clang-aarch64-sve-*)
 	# Each SVE bot gets 1/4 of the total RAM.
@@ -207,7 +211,7 @@ if [ x"$(uname -m)" = x"x86_64" ]; then
     mounts="$mounts -v $qemu_bin:/bin/qemu-aarch64-static"
 fi
 
-$DOCKER run --name=$mastername-$slavename --hostname=$hostname --restart=unless-stopped -dt -p 22 --cpu-shares=$cpu_shares $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+$DOCKER run --name=$mastername-$slavename --hostname=$hostname $network --restart=unless-stopped -dt --cpu-shares=$cpu_shares $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
 
 if [ x"$(uname -m)" = x"x86_64" ]; then
     rm -f "$qemu_bin"

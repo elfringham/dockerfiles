@@ -213,13 +213,11 @@ if [ x"$1" = x"buildkite" ]; then
     queue="libcxx-builders-linaro-arm"
   fi
 
-  sudo -i -u tcwg-buildslave buildkite-agent start \
+  exec sudo -i -u tcwg-buildslave buildkite-agent start \
     --name $2 \
     --token $3 \
     --tags "queue=$queue,arch=$(arch)" \
     --build-path $worker_dir
 else
-    sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
+    exec sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
 fi
-
-exec /usr/sbin/sshd -D
