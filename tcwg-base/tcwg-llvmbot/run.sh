@@ -219,5 +219,5 @@ if [ x"$1" = x"buildkite" ]; then
     --tags "queue=$queue,arch=$(arch)" \
     --build-path $worker_dir
 else
-    exec sudo -i -u tcwg-buildslave buildbot-worker restart $worker_dir
+    exec sudo -i -u tcwg-buildslave buildbot-worker restart --nodaemon $worker_dir
 fi
