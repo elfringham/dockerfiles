@@ -153,8 +153,17 @@ case "$slavename" in
 	# unlimited statck mitigates a failure in stage2 clang due high stack
 	# usage.
 	caps_system="--ulimit stack=-1"
-	# Container-private networks are broken on TK1s (presumably, due to
-	# incompatiblity betweek old 3.10 kernel and new-ish docker).
+	# Somewhere between docker-ce 19.03.5 and 19.03.6 docker bridge network
+	# got broken on, at least, armhf with 3.10 kernel (aka TK1s).
+	# At the same time to run ubuntu:focal we need docker-ce 19.03.9-ish
+	# due to seccomp not supporting some of the syscalls.
+	# We have two options:
+	# 1. Use old docker and workaround ubuntu:focal's seccomp problem by
+	# disabling it via --privileged option.
+	# 2. Use new docker and workaround broken bridge network by using
+	# --network host.
+	# In the case of LLVM bots we don't need bridge network, so we choose
+	# option (2).
 	network="--network host"
 	# Using host network also requires us to use the actual host name.
 	# Otherwise "sudo" in /run.sh complains about unknown host.
