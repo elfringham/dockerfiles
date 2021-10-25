@@ -223,7 +223,8 @@ if [ x"$(uname -m)" = x"x86_64" ]; then
     mounts="$mounts -v $qemu_bin:/bin/qemu-aarch64-static"
 fi
 
-$DOCKER run --name=$mastername-$slavename --hostname=$hostname $network --restart=unless-stopped -dt --cpu-shares=$cpu_shares $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit $caps "$image" "$masterurl" "$slavename" "$password"
+# Use --init so that PID 1 is docker-init which will reap zombie processes for us.
+$DOCKER run --name=$mastername-$slavename --hostname=$hostname $network --restart=unless-stopped -dt --cpu-shares=$cpu_shares $cpuset_cpus $mounts --memory=$memlimit --pids-limit=$pids_limit --init $caps "$image" "$masterurl" "$slavename" "$password"
 
 if [ x"$(uname -m)" = x"x86_64" ]; then
     rm -f "$qemu_bin"
