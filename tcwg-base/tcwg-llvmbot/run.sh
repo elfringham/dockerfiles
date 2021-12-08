@@ -7,12 +7,12 @@ if [ x"$1" = x"start.sh" ]; then
     exit 0
 fi
 
-worker_dir=/home/tcwg-buildslave/worker
+worker_dir=/home/tcwg-buildbot/worker
 if [ x"$1" != x"buildkite" ]; then
   if [ -f $worker_dir/buildbot.tac ]; then
       :
   else
-      sudo -i -u tcwg-buildslave buildbot-worker create-worker $worker_dir "$@"
+      sudo -i -u tcwg-buildbot buildbot-worker create-worker $worker_dir "$@"
   fi
 fi
 
@@ -117,7 +117,7 @@ EOF
 fi
 
 if [ x"$1" != x"buildkite" ]; then
-  cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/admin
+  cat <<EOF | sudo -i -u tcwg-buildbot tee $worker_dir/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
 EOF
 fi
@@ -156,7 +156,7 @@ else
     mem_limit=$((($(cat /proc/meminfo | grep MemTotal | sed -e "s/[^0-9]\+\([0-9]\+\)[^0-9]\+/\1/") + 512*1024) / (1024*1024)))
 fi
 if [ x"$1" != x"buildkite" ]; then
-  cat <<EOF | sudo -i -u tcwg-buildslave tee $worker_dir/info/host
+  cat <<EOF | sudo -i -u tcwg-buildbot tee $worker_dir/info/host
 $hw; RAM ${mem_limit}GB
 
 OS: $(lsb_release -ds)
@@ -213,11 +213,11 @@ if [ x"$1" = x"buildkite" ]; then
     queue="libcxx-builders-linaro-arm"
   fi
 
-  exec sudo -i -u tcwg-buildslave buildkite-agent start \
+  exec sudo -i -u tcwg-buildbot buildkite-agent start \
     --name $2 \
     --token $3 \
     --tags "queue=$queue,arch=$(arch)" \
     --build-path $worker_dir
 else
-    exec sudo -i -u tcwg-buildslave buildbot-worker restart --nodaemon $worker_dir
+    exec sudo -i -u tcwg-buildbot buildbot-worker restart --nodaemon $worker_dir
 fi

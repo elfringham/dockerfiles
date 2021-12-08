@@ -75,10 +75,10 @@ RUN git clone -b limit-on-cpu https://github.com/maxim-kuvyrkov/ninja.git \
    $'exec /usr/local/bin/ninja.bin -l-10 "$@"' \
    > /usr/local/bin/ninja \
  && chmod +x /usr/local/bin/ninja
-RUN new-user.sh --user tcwg-buildslave \
+RUN new-user.sh --user tcwg-buildbot \
  # Initialize .ccache dir, so that we mount ccache docker volumes with
  # correct permissions.
- && sudo -i -u tcwg-buildslave ccache -p \
+ && sudo -i -u tcwg-buildbot ccache -p \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
 # Add the latest clang (12.0.0)
@@ -93,4 +93,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 4925b07621f9e91cb2b555fbd2ec307f
+# checksum: 48552d64db9e63b3943d6eb49cdba017
