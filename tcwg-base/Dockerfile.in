@@ -108,6 +108,7 @@ RUN apt-get update \
  python3-setuptools \
  python3-venv \
  python3-wheel \
+ python3-pandas \
  rsync \
 #if DISTRO_bionic || ARCH_armhf
 # For Bionic -- jipdate Python package uses jira, which uses cryptography,

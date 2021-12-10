@@ -85,6 +85,7 @@ RUN apt-get update \
  python3-setuptools \
  python3-venv \
  python3-wheel \
+ python3-pandas \
  rsync \
 # For Bionic -- jipdate Python package uses jira, which uses cryptography,
 # which needs rust to build. The apt versions of the dependencies
@@ -223,4 +224,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 19c52f6211fd1e3740f34007cd35c8c6
+# checksum: 6829a0fa3d075b1fa7f818994886b496

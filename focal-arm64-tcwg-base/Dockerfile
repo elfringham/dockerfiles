@@ -86,6 +86,7 @@ RUN apt-get update \
  python3-setuptools \
  python3-venv \
  python3-wheel \
+ python3-pandas \
  rsync \
  subversion \
  sudo \
@@ -193,4 +194,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: a38a7dfdda8ebab3252c1dd8a3062dc1
+# checksum: 475c0492090e2dbca4dad0f6d529fa5f
