@@ -61,6 +61,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  python3-pip \
  python3-requests \
  python3-ruamel.yaml \
+ python3-setuptools \
  qemu-user-static \
  sudo \
  time \
@@ -75,6 +76,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
    g++-multilib \
    libc6-dev-i386; fi \
+ && pip3 install --no-cache-dir kas==2.6.2 \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/*.key \
