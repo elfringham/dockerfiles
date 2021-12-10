@@ -208,7 +208,7 @@ if [ x"$1" = x"buildkite" ]; then
   # config in a Phabricator review.
   if [[ $2 == *"-test" ]]; then
     queue="libcxx-builders-linaro-arm-test"
-  # Production buildkite bots
+  # Production buildkite bots.
   else
     queue="libcxx-builders-linaro-arm"
   fi
