@@ -1,4 +1,4 @@
 tcwg-infra:x:9000:tcwg-buildslave,tcwg-benchmark,tcwg-buildbot
 tcwg-users:x:10000:maxim.kuvyrkov,alex.bennee,christophe.lyon,richard.henderson,prathamesh.kulkarni,omair.javaid,diana.picus,yvan.roux,adhemerval.zanella,oliver.stannard,luis.machado,david.spickett,haibo.xu,assad.hashmi,stevan.radakovic
 tcwg-llvm:x:9001:tcwg-buildslave,tcwg-buildbot,maxim.kuvyrkov,omair.javaid,diana.picus,yvan.roux,prathamesh.kulkarni,adhemerval.zanella,oliver.stannard,luis.machado,david.spickett,assad.hashmi,stevan.radakovic
-tcwg-guests:x:9002:niyas.sait,matthew.gretton-dann,everton.constantino
+tcwg-guests:x:9002:niyas.sait,matthew.gretton-dann,everton.constantino,ruchika.gupta
