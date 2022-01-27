@@ -79,7 +79,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
    g++-multilib \
    libc6-dev-i386; fi \
  && pip3 install --no-cache-dir kas==2.6.2 \
- && pip3 install --no-cache-dir pyrsistent==0.18.1 \
+ && pip3 install --no-cache-dir pyrsistent==0.18.0 \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/*.key \
