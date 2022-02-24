@@ -81,11 +81,11 @@ RUN new-user.sh --user tcwg-buildbot \
  && sudo -i -u tcwg-buildbot ccache -p \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
-# Add the latest clang (12.0.0)
+# Add the latest clang (13.0.1)
 RUN \
- clang_ver=clang+llvm-12.0.0-armv7a-linux-gnueabihf \
+ clang_ver=clang+llvm-13.0.1-armv7a-linux-gnueabihf \
  && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.0/$clang_ver.tar.xz \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 VOLUME /home
@@ -93,4 +93,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: fb5d8d25d47f893654126593c4129c6f
+# checksum: 963e6c3feac93725a28926c602b68c01

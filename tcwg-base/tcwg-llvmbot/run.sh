@@ -30,7 +30,7 @@ if [[ $2 == *"latest-gcc"* ]] ; then
     cc=gcc-11
     cxx=g++-11
 else
-    release_num=12.0.0
+    release_num=13.0.1
     case "$(uname -m)" in
 	aarch64) release_arch=aarch64-linux-gnu ;;
 	*) release_arch=armv7a-linux-gnueabihf ;;
@@ -59,6 +59,7 @@ $ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
 
+# TODO: Can we remove this for clang-13?
 # This is a workaround to enable system compiler (LLVM 12) grok SVE options
 # without crashing.  This allows us to pass SVE options to stage1 compiler
 # while building stage2 compiler, thus testing SVE support with a bootstrap.
