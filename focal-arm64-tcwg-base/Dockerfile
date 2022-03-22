@@ -67,6 +67,9 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
+# Our bionic built llvm releases expect to find this but
+# focal installs libtinfo6 instead.
+ libtinfo5 \
  libtool \
  locales \
  lzop \
@@ -194,4 +197,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 475c0492090e2dbca4dad0f6d529fa5f
+# checksum: ec79bd82a9c466b05f25cda526d8c8a2

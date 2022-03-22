@@ -67,6 +67,9 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
+# Our bionic built llvm releases expect to find this but
+# focal installs libtinfo6 instead.
+ libtinfo5 \
  libtool \
  locales \
  lzop \
@@ -220,4 +223,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: c0c0dfeffb2efc39fc5d650e8f6c777c
+# checksum: e69eacf6aa21cdca0a3347d2bc8cdbd6

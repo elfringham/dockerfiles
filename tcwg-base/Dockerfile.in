@@ -82,6 +82,11 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
+#if DISTRO_focal
+# Our bionic built llvm releases expect to find this but
+# focal installs libtinfo6 instead.
+ libtinfo5 \
+#endif
  libtool \
  locales \
  lzop \
