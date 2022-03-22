@@ -22,7 +22,9 @@ while read line; do
 	if [ x"$res" != x"0" ]; then
 	    echo "WARNING: User configuration failed: $line"
 	fi
-    fi
+else
+  echo "INFO: Not adding user $user because they are not in the group $group."
+fi
 done </home-data/passwd
 
 case "$node" in
