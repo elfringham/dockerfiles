@@ -59,64 +59,6 @@ $ccache $cxx "\$@"
 EOF
 chmod +x /usr/local/bin/c++
 
-# TODO: Can we remove this for clang-13?
-# This is a workaround to enable system compiler (LLVM 12) grok SVE options
-# without crashing.  This allows us to pass SVE options to stage1 compiler
-# while building stage2 compiler, thus testing SVE support with a bootstrap.
-# Hopefully, the crashes from "-mllvm -aarch64-sve-vector-bits-min=512" will
-# be fixed in LLVM 13 and we will remove this workaround then.
-if [[ "$2" == *"-aarch64-sve-"*"-2stage" ]] ; then
-    cat > /usr/local/bin/cc <<EOF
-#!/bin/bash
-
-params=()
-
-while [ \$# -gt 0 ]; do
-  if [ x"\$1" = x"-msve-vector-bits=512" ]; then
-    shift 1
-    continue
-  fi
-  if [ x"\$1 \$2" = x"-mllvm -scalable-vectorization=preferred" ]; then
-    shift 2
-    continue
-  fi
-  if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
-    shift 2
-    continue
-  fi
-  params+=("\$1")
-  shift
-done
-
-$ccache $cc "\${params[@]}"
-EOF
-
-    cat > /usr/local/bin/c++ <<EOF
-#!/bin/bash
-
-params=()
-
-while [ \$# -gt 0 ]; do
-  if [ x"\$1" = x"-msve-vector-bits=512" ]; then
-    shift 1
-    continue
-  fi
-  if [ x"\$1 \$2" = x"-mllvm -scalable-vectorization=preferred" ]; then
-    shift 2
-    continue
-  fi
-  if [ x"\$1 \$2" = x"-mllvm -treat-scalable-fixed-error-as-warning=false" ]; then
-    shift 2
-    continue
-  fi
-  params+=("\$1")
-  shift
-done
-
-$ccache $cxx "\${params[@]}"
-EOF
-fi
-
 if [ x"$1" != x"buildkite" ]; then
   cat <<EOF | sudo -i -u tcwg-buildbot tee $worker_dir/info/admin
 Linaro Toolchain Working Group <linaro-toolchain@lists.linaro.org>
