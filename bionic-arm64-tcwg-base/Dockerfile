@@ -171,12 +171,15 @@ RUN apt-get update \
  linux-tools-4.18.0-13-generic \
  linux-tools-5.4.0-74-generic \
  linux-tools-5.4.0-80-generic \
+ linux-tools-5.4.0-99-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
@@ -213,4 +216,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: c0c74dc71fcc6688d97fe4b569b5fe4f
+# checksum: d576a13ed289544d9769b1f40f63cea0

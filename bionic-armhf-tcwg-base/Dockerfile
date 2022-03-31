@@ -173,12 +173,15 @@ RUN apt-get update \
  linux-tools-4.18.0-13-generic \
  linux-tools-5.4.0-74-generic \
  linux-tools-5.4.0-80-generic \
+ linux-tools-5.4.0-99-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
@@ -224,4 +227,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 6829a0fa3d075b1fa7f818994886b496
+# checksum: 356b4bbdd861ea92e4dad2078c5edfc0
