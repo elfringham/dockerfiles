@@ -33,6 +33,13 @@ cp -t ./ \
    $top/tcwg-base/nvidia-serial.sh \
    $top/tcwg-base/postfix*.in
 
+# Check if passwd has end-of-line. If no eol at the end of passwd, all "while read line"
+# will silently skip last line
+if [ "$(tail -c1 ./home-data/passwd | wc -l)" -eq 0 ] ; then
+   echo "ERROR: no eol to /home-data/passwd"
+   exit 1
+fi
+
 "$top"/tcwg-base/validate-checksum.sh Dockerfile
 docker pull $baseimage 2>/dev/null || true
 docker build --tag=$image .
