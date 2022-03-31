@@ -10,7 +10,7 @@ trap cleanup_exit INT TERM EXIT
 
 cleanup_exit()
 {
-    rm -rf docker-stats docker-wrapper run.sh start.sh tcwg-build.sh
+    rm -rf docker-stats docker-wrapper run.sh start.sh tcwg-build.sh run_on_bare_machine
 }
 
 export LANG=C
@@ -24,7 +24,8 @@ cp $top/tcwg-base/tcwg-host/docker-stats \
    $top/tcwg-base/tcwg-host/docker-wrapper \
    $top/tcwg-base/tcwg-host/run.sh \
    $top/tcwg-base/tcwg-host/start.sh \
-   $top/tcwg-base/tcwg-host/tcwg-build.sh ./
+   $top/tcwg-base/tcwg-host/tcwg-build.sh \
+   $top/tcwg-base/tcwg-host/run_on_bare_machine ./
 
 (cd ..; ./build.sh)
 "$top"/tcwg-base/validate-checksum.sh Dockerfile
