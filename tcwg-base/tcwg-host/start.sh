@@ -26,10 +26,12 @@ EOF
 group="all"
 node="host"
 verbose=false
+additional_options=""
 
 while [ $# -gt 0 ]; do
     case $1 in
 	--verbose) verbose="$2"; shift ;;
+	--additional_options) additional_options="$2"; shift ;;
 	--) shift; break ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
     esac
@@ -92,5 +94,5 @@ case "$(uname -m):$($DOCKER --version | cut -d" " -f3)" in
 esac
 
 $DOCKER run -dt --name=$node --network host --restart=unless-stopped $mounts \
-	--memory=$memlimit --pids-limit=5000 $workaround \
+	--memory=$memlimit --pids-limit=5000 $workaround $additional_options \
 	$image "$group" "$node"
