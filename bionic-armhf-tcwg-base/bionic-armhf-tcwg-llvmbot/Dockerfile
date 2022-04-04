@@ -26,6 +26,7 @@ RUN apt-get update \
 # Add locales used for testing libcxx
  language-pack-en \
  language-pack-fr \
+ language-pack-ja \
  language-pack-ru \
  language-pack-zh-hans \
  libedit-dev \
@@ -93,4 +94,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 963e6c3feac93725a28926c602b68c01
+# checksum: 7516c69a39606d267f2103469f650c31
