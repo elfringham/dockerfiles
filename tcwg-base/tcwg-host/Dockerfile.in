@@ -21,7 +21,7 @@ COPY docker-wrapper /usr/local/bin/docker
 
 COPY run.sh start.sh /
 
-#if ARCH_arm64 && DISTRO_focal
+#if DISTRO_focal
 COPY run_on_bare_machine /usr/local/bin/
 RUN ln -s /home/tcwg-benchmark/bmk-scripts/prepare-board.sh /usr/local/bin/benchmark.sh \
  && rm -f /usr/sbin/sysctl && ln -s /usr/local/bin/run_on_bare_machine /usr/sbin/sysctl \
