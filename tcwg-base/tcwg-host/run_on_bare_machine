@@ -1,4 +1,4 @@
 #!/bin/bash
 keyfile="/root/.ssh/docker_host"
-ssh -i $keyfile -p22 root@localhost "$0" "$@"
+ssh -i $keyfile -p22 root@localhost "$(basename $0)" "$@"
 
