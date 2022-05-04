@@ -18,4 +18,14 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: 114eb22bca7835d5a0bd66e068ebb510
+# Install llvm package.
+RUN \
+ apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ llvm-10 \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+# checksum: bbb537f13099c14189c5426e45555d00

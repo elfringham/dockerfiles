@@ -8,4 +8,14 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
-# checksum: d3b4515a33faa0186b11ef334740a422
+# Install llvm package.
+RUN \
+ apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ llvm \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+# checksum: 67e890201ddc879ceaceb25f183da067

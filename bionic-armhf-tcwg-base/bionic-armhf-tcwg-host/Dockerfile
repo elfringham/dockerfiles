@@ -3,9 +3,15 @@ FROM linaro/ci-armhf-tcwg-base-ubuntu:bionic
 COPY docker-stats docker-wrapper tcwg-build.sh /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 COPY run.sh start.sh /
+COPY run_on_bare_machine /usr/local/bin/
+RUN ln -s /home/tcwg-benchmark/bmk-scripts/prepare-board.sh /usr/local/bin/benchmark.sh \
+ && rm -f /usr/sbin/sysctl && ln -s /usr/local/bin/run_on_bare_machine /usr/sbin/sysctl \
+ && rm -f /usr/bin/systemctl && ln -s /usr/local/bin/run_on_bare_machine /usr/bin/systemctl \
+ && rm -f /usr/bin/timedatectl && ln -s /usr/local/bin/run_on_bare_machine /usr/bin/timedatectl \
+ && rm -f /usr/sbin/reboot && ln -s /usr/local/bin/run_on_bare_machine /usr/sbin/reboot
 ENV TINI_VERSION v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-armhf /sbin/tini
 RUN chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--", "linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: ce3d680a4d59522dd5cd342a2929443c
+# checksum: 677f0b154d04d2598917901c5fc774d0

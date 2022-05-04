@@ -26,10 +26,12 @@ EOF
 group="all"
 node="host"
 verbose=false
+additional_options=""
 
 while [ $# -gt 0 ]; do
     case $1 in
 	--verbose) verbose="$2"; shift ;;
+	--additional_options) additional_options="$2"; shift ;;
 	--) shift; break ;;
 	*) echo "ERROR: Wrong option: $1"; usage ;;
     esac
@@ -74,4 +76,23 @@ done
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 memlimit=$(($memlimit / 2))m
 
-$DOCKER run -dt --name=$node --network host --restart=unless-stopped $mounts --memory=$memlimit --pids-limit=5000 $image "$group" "$node"
+case "$(uname -m):$($DOCKER --version | cut -d" " -f3)" in
+    armv7l:18*)
+	# Somewhere between docker-ce 19.03.5 and 19.03.6 docker bridge network
+	# got broken on, at least, armhf with 3.10 kernel (aka TK1s).
+	# At the same time to run ubuntu:focal we need docker-ce 19.03.9-ish
+	# due to seccomp not supporting some of the syscalls.
+	# We have two options:
+	# 1. Use old docker and workaround ubuntu:focal's seccomp problem by
+	# disabling it via --privileged option.
+	# 2. Use new docker and workaround broken bridge network by using
+	# --network host.
+	# In the case of tcwg-tk1-* boards, which are used for jenkins CI, we
+	# need the bridge network, so we choose (1).
+	workaround="--privileged"
+	;;
+esac
+
+$DOCKER run -dt --name=$node --network host --restart=unless-stopped $mounts \
+	--memory=$memlimit --pids-limit=5000 $workaround $additional_options \
+	$image "$group" "$node"

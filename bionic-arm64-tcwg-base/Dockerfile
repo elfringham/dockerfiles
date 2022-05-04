@@ -85,6 +85,7 @@ RUN apt-get update \
  python3-setuptools \
  python3-venv \
  python3-wheel \
+ python3-pandas \
  rsync \
 # For Bionic -- jipdate Python package uses jira, which uses cryptography,
 # which needs rust to build. The apt versions of the dependencies
@@ -170,12 +171,15 @@ RUN apt-get update \
  linux-tools-4.18.0-13-generic \
  linux-tools-5.4.0-74-generic \
  linux-tools-5.4.0-80-generic \
+ linux-tools-5.4.0-99-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
@@ -192,23 +196,6 @@ RUN cd /tmp \
  && make -j$(nproc --all) install >/dev/null \
  && cd /tmp \
  && rm -rf /tmp/CMake
-# Create wrappers to limit ninja to single-process parallelism
-# when machine load reaches the number of cores.
-# This is important on machines with high core count, where we get
-# "fork: Resource temporarily unavailable" error when load reaches
-# 4x/5x the core count.
-#
-# We tried to limit "make" in similar fashion, but we hit an unexpected
-# corner-case: GCC testsuite parallelizes itself in a perculiar way,
-# and it relies on make starting /all/ testsuite sub-parts for parallelization.
-# Unfortunately "make -lN" checks system load only when it reaps tasks,
-# and, because GCC testsuite sub-part doesn't exit until it runs the whole
-# testsuite, we effectively run GCC testsuite single-threaded.
-RUN echo \
-   $'#!/bin/sh\n' \
-   $'exec /usr/bin/ninja -l$(nproc --all) "$@"' \
-   > /usr/local/bin/ninja \
- && chmod +x /usr/local/bin/ninja
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -229,4 +216,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: c2c46573ca5c3c9472aae11c6198ea61
+# checksum: d576a13ed289544d9769b1f40f63cea0

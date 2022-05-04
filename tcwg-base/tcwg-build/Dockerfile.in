@@ -34,3 +34,18 @@ RUN \
  /tmp/* \
  /var/tmp/*
 #endif
+
+# Install llvm package.
+RUN \
+ apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+#if DISTRO_bionic
+ llvm-10 \
+#else
+ llvm \
+#endif
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
