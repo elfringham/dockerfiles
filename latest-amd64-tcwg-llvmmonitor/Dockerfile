@@ -8,7 +8,7 @@ RUN apt-get update \
  libwww-perl \
  python3 \
  python3-pip \
- && pip3 install requests pybuildkite \
+ && pip3 install requests pybuildkite python-dateutil \
  && git clone https://git.linaro.org/toolchain/llvm/linaro-scripts.git \
  && /linaro-scripts/monitor/install.sh /linaro-scripts-monitor \
  && rm -rf /usr/share/nginx/html \
