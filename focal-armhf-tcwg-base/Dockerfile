@@ -170,6 +170,8 @@ RUN apt-get update \
  linux-tools-common \
  && cat /etc/apt/sources.list | sed -e "s/focal/bionic/g" \
       > /etc/apt/sources.list.d/bionic.list \
+# Import Bionic key
+ && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32 \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
@@ -226,4 +228,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 534a7a53517bc0a776a2b38d99dd64f7
+# checksum: 098954cd7e13ceec1d57aec187ed6328

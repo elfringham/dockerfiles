@@ -166,8 +166,6 @@ RUN apt-get update \
 # use cpupower from linux-tools everywhere instead.
  cpufrequtils \
  linux-tools-common \
- && cat /etc/apt/sources.list | sed -e "s/bionic/bionic/g" \
-      > /etc/apt/sources.list.d/bionic.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
@@ -227,4 +225,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 356b4bbdd861ea92e4dad2078c5edfc0
+# checksum: 818e5749768752a5621de7c2dc27cc37

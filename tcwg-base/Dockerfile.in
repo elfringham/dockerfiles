@@ -49,7 +49,7 @@ RUN apt-get update \
  gdbserver \
  gfortran \
  git \
-#if DISTRO_focal
+#if !DISTRO_bionic
  # Modula 2 compiler only available on Focal.
  gm2 \
 #endif
@@ -82,7 +82,7 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
-#if DISTRO_focal
+#if !DISTRO_bionic
 # Our bionic built llvm releases expect to find this but
 # focal installs libtinfo6 instead.
  libtinfo5 \
@@ -207,8 +207,12 @@ RUN apt-get update \
 # use cpupower from linux-tools everywhere instead.
  cpufrequtils \
  linux-tools-common \
+#if !DISTRO_bionic
  && cat /etc/apt/sources.list | sed -e "s/#{DISTRO}/bionic/g" \
       > /etc/apt/sources.list.d/bionic.list \
+# Import Bionic key
+ && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32 \
+#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \

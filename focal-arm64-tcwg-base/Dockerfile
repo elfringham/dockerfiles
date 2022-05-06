@@ -159,6 +159,8 @@ RUN apt-get update \
  linux-tools-common \
  && cat /etc/apt/sources.list | sed -e "s/focal/bionic/g" \
       > /etc/apt/sources.list.d/bionic.list \
+# Import Bionic key
+ && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32 \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
@@ -200,4 +202,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 554ee020d051877d834a5610239e3ba3
+# checksum: 848dd81febe0cbc8b98ac2028e3b681a

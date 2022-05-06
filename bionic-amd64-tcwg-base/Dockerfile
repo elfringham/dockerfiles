@@ -165,8 +165,6 @@ RUN apt-get update \
 # use cpupower from linux-tools everywhere instead.
  cpufrequtils \
  linux-tools-common \
- && cat /etc/apt/sources.list | sed -e "s/bionic/bionic/g" \
-      > /etc/apt/sources.list.d/bionic.list \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
@@ -236,4 +234,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 68187fe37ab8542825605e47f23f02b5
+# checksum: 9b4bc2bbbf067c28d5e4000baf3f8a55
