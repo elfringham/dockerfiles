@@ -12,7 +12,7 @@ RUN ln -s /home/tcwg-benchmark/bmk-scripts/prepare-board.sh /usr/local/bin/bench
 # These are compatibility links for prepare-board.sh to find cpupower in the same
 # place when running "start_board" on bare machine and inside host container.
 # These are for TK1s and TX1s.
-RUN \
+RUN true \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/3.10.40 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/4.4.38-tegra
 ENV TINI_VERSION v0.18.0
@@ -20,4 +20,4 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-amd64
 RUN chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 68056516df7d0cbf95ef3f35e03e647f
+# checksum: bd0b7d1b645c7936174231ee3e21b177
