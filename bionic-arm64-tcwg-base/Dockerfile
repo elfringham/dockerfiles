@@ -186,10 +186,7 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/3.10.40 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/4.4.38-tegra
-# Last two are useful for tx1 and tk1 board initialization from host container
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
 # Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
 RUN cd /tmp \
  && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
@@ -219,4 +216,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 07a328e1a6f52fca511039a739b935c0
+# checksum: d576a13ed289544d9769b1f40f63cea0

@@ -187,10 +187,7 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/3.10.40 \
- && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/4.4.38-tegra
-# Last two are useful for tx1 and tk1 board initialization from host container
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
 # Install usb libs and OpenOCD on x86 hosts, used to target bare-metal boards.
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -239,4 +236,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: ce41fef88e36fe787fc81d967393cb93
+# checksum: 68187fe37ab8542825605e47f23f02b5
