@@ -77,6 +77,11 @@ for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done
 
+# Allow KVM use within the container.
+if [ -c /dev/kvm ]; then
+    mounts="$mounts --device=/dev/kvm"
+fi
+
 # Use at most half of all available RAM.
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
 memlimit=$(($memlimit / 2))m
