@@ -193,12 +193,6 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
-# Workaround missing symbols for ld.so in Focal's glibc.  GDB relies on
-# debug symbols to use correct mode -- arm or thumb2 -- for breakpoints.
-# Without this we get GCC's guality tests stuck in some of the configurations.
-# See https://bugs.launchpad.net/ubuntu/+source/gdb/+bug/1927192 for background.
-RUN cd /usr/lib/debug/usr/lib/arm-linux-gnueabihf \
- && ln -s ../../../lib/arm-linux-gnueabihf/ld-2.31.so .
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -228,4 +222,4 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: 098954cd7e13ceec1d57aec187ed6328
+# checksum: 5e1fbbc5418307c97729c84ec612979d

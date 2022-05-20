@@ -271,15 +271,6 @@ RUN cd /tmp \
  && rm -rf /tmp/CMake
 #endif
 
-#if DISTRO_focal && ARCH_armhf
-# Workaround missing symbols for ld.so in Focal's glibc.  GDB relies on
-# debug symbols to use correct mode -- arm or thumb2 -- for breakpoints.
-# Without this we get GCC's guality tests stuck in some of the configurations.
-# See https://bugs.launchpad.net/ubuntu/+source/gdb/+bug/1927192 for background.
-RUN cd /usr/lib/debug/usr/lib/arm-linux-gnueabihf \
- && ln -s ../../../lib/arm-linux-gnueabihf/ld-2.31.so .
-#endif
-
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 
