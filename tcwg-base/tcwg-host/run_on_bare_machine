@@ -1,4 +1,3 @@
 #!/bin/bash
-keyfile="/root/.ssh/docker_host"
-ssh -oStrictHostKeyChecking=no -i $keyfile -p22 root@localhost "$(basename $0)" "$@"
 
+exec ssh -oStrictHostKeyChecking=no -p22 root@localhost "$(basename $0)" "$@"
