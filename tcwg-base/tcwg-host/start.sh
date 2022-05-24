@@ -64,7 +64,12 @@ else
 fi
 
 mounts=""
+# Bind-mount user HOMEs.
 mounts="$mounts -v /home:/home"
+# Bind-mount root's home so that run.sh can grant $root_users access
+# to bare machine.
+mounts="$mounts -v /root:/root"
+# Bind-mount docker socket and binary to give access to docker.
 mounts="$mounts -v /var/run/docker.sock:/var/run/docker.sock"
 mounts="$mounts -v /usr/bin/docker:/usr/bin/docker"
 # Bind-mount ssh host keys.

@@ -188,7 +188,7 @@ COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
- done </home-data/group
+ done < <(grep -v ":x:x:" /home-data/group)
 # Create directories required for X11.  We use X11 in tcwg-x2go images and,
 # sometimes, in tcwg-dev images.
 # We need to create these before "VOLUME /tmp" directive, since after
@@ -203,4 +203,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: b150c44a03f1f2083519ceea2697b070
+# checksum: 06d85ae27a4222bcb9ed39fdadb9ec7c
