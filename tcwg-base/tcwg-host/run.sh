@@ -55,7 +55,8 @@ case "$node" in
 	fi
 	key=$(mktemp)
 	rm -f $key $key.pub
-	if [ x"$(docker inspect --format='{{.HostConfig.Privileged}}' host)" = x"true" ]; then
+	if [ x"$(docker inspect --format='{{.HostConfig.Privileged}}' host)" = x"true" ] &&
+	   [ "$(grep -c '@KEY@' /usr/local/bin/run_on_bare_machine)" == "1" ] ; then
 	    # Use key type ed22519 since some of our benchmarking boards have old distros
 	    # and don't accept default key type.
 	    ssh-keygen -f $key -t ed25519 -N "" -q
