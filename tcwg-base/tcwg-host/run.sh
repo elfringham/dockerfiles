@@ -53,9 +53,19 @@ case "$node" in
 	    fi
 	    mv /root/.ssh/authorized_keys /root/.ssh/authorized_keys.orig
 	fi
+	key=$(mktemp)
+	rm -f $key $key.pub
+	if [ x"$(docker inspect --format='{{.HostConfig.Privileged}}' host)" = x"true" ]; then
+	    ssh-keygen -f $key -N "" -q
+	    sed -i -e "s#@KEY@#$key#" /usr/local/bin/run_on_bare_machine
+	fi
 	(
 	    echo "# Original root keys:"
 	    cat /root/.ssh/authorized_keys.orig
+	    if [ -f $key.pub ]; then
+	        echo "# Temporary key for granting privileged host container access to the bare machine"
+		cat $key.pub
+	    fi
 	    for user in $root_users; do
 		echo
 		echo "# $user keys:"
