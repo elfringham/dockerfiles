@@ -3,12 +3,13 @@ FROM linaro/ci-amd64-tcwg-base-ubuntu:bionic
 COPY docker-stats docker-wrapper tcwg-build.sh /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 COPY run.sh start.sh /
+# Allow privileged containers to access services on the bare machine.
+# See run_on_bare_machine and run.sh for details.
 COPY run_on_bare_machine /usr/local/bin/
-RUN ln -s /home/tcwg-benchmark/bmk-scripts/prepare-board.sh /usr/local/bin/benchmark.sh \
- && rm -f /usr/sbin/sysctl && ln -s /usr/local/bin/run_on_bare_machine /usr/sbin/sysctl \
- && rm -f /usr/bin/systemctl && ln -s /usr/local/bin/run_on_bare_machine /usr/bin/systemctl \
- && rm -f /usr/bin/timedatectl && ln -s /usr/local/bin/run_on_bare_machine /usr/bin/timedatectl \
- && rm -f /usr/sbin/reboot && ln -s /usr/local/bin/run_on_bare_machine /usr/sbin/reboot
+RUN ln -sf /usr/local/bin/run_on_bare_machine /usr/sbin/sysctl \
+ && ln -sf /usr/local/bin/run_on_bare_machine /usr/bin/systemctl \
+ && ln -sf /usr/local/bin/run_on_bare_machine /usr/bin/timedatectl \
+ && ln -sf /usr/local/bin/run_on_bare_machine /usr/sbin/reboot
 # These are compatibility links for prepare-board.sh to find cpupower in the same
 # place when running "start_board" on bare machine and inside host container.
 # These are for TK1s and TX1s.
@@ -20,4 +21,4 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-amd64
 RUN chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--", "/run.sh"]
 CMD ["start.sh"]
-# checksum: bd0b7d1b645c7936174231ee3e21b177
+# checksum: 7607f181b8ecb7a06352e72b8111d514
