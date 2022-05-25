@@ -62,6 +62,7 @@ case "$node" in
 	    sed -i -e "s#@KEY@#$key#" /usr/local/bin/run_on_bare_machine
 	fi
 	(
+	    echo
 	    echo "# Original root keys:"
 	    cat /root/.ssh/authorized_keys.orig
 	    if [ -f $key.pub ]; then
