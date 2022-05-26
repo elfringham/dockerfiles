@@ -1,6 +1,8 @@
 [user]
 	name = Maxim Kuvyrkov
 	email = maxim.kuvyrkov@linaro.org
+[core]
+	editor = emacs
 [alias]
 	co = checkout
 	br = branch
