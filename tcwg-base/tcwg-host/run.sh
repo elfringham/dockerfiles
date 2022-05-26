@@ -60,7 +60,7 @@ case "$node" in
 	    # Use key type ed22519 since some of our benchmarking boards have old distros
 	    # and don't accept default key type.
 	    ssh-keygen -f $key -t ed25519 -N "" -q
-	    sed -i -e "s#@KEY@#$key#" /usr/local/bin/run_on_bare_machine
+	    sed -i -e "s#^key=.*#key=$key#" /usr/local/bin/run_on_bare_machine
 	fi
 	(
 	    echo
