@@ -79,7 +79,8 @@ case "$node" in
 	) > /root/.ssh/authorized_keys
 	# tcwg-start-container.sh needs /root/docker-wrapper to test
 	# and recover docker service on benchmarking boards.
-	cp /usr/local/bin/docker-wrapper /root/
+	# Copy docker-stats for troubleshooting purposes.
+	cp -t /root/ /usr/local/bin/docker-wrapper /usr/local/bin/docker-stats
 
 	# Configure and start ssh server
 	sed -i -e "/.*Port.*/d" /etc/ssh/sshd_config
