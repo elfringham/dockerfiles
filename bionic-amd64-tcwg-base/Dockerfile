@@ -197,8 +197,11 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 RUN cd /tmp \
- && git clone --single-branch --depth 1 https://git.code.sf.net/p/openocd/code openocd \
+ && git clone --single-branch https://git.code.sf.net/p/openocd/code openocd \
  && cd /tmp/openocd \
+# Next commit (ce5027ab019ac7f96d05ec5f8f533144b3bcafdf) breaks semihosting.
+# See https://review.openocd.org/c/openocd/+/6888 .
+ && git checkout e5f515f990cc345fd3089a5520f39d5a128329bd \
  && ./bootstrap \
  && ./configure --enable-stlink \
  && make -j$(nproc --all) \
@@ -234,4 +237,4 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 86873a8531b0f2d6de065e61ffdd7974
+# checksum: 5e0e0274c96c8663069df67ff0bcb553
