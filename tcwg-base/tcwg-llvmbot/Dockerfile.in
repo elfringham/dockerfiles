@@ -94,7 +94,7 @@ RUN git clone -b limit-on-cpu https://github.com/maxim-kuvyrkov/ninja.git \
 RUN new-user.sh --user tcwg-buildbot \
  # Initialize .ccache dir, so that we mount ccache docker volumes with
  # correct permissions.
- && sudo -i -u tcwg-buildbot ccache -p \
+ && sudo -i -u tcwg-buildbot mkdir -p /home/tcwg-buildbot/.ccache \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
 
