@@ -37,23 +37,23 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	148.251.136.42  # tcwg-ex40-01
 	95.216.72.225   # tcwg-ex42-01
     )
-    ssh-keyscan -t rsa,dsa,ecdsa $(resolve_ips "${hosts[@]}")
+    ssh-keyscan -t rsa,dsa,ecdsa,ed25519 $(resolve_ips "${hosts[@]}")
 
     hosts=(
 	review.linaro.org
 	dev-private-review.linaro.org
     )
-    ssh-keyscan -p29418 -t rsa,dsa,ecdsa $(resolve_ips "${hosts[@]}")
+    ssh-keyscan -p29418 -t rsa,dsa,ecdsa,ed25519 $(resolve_ips "${hosts[@]}")
 
     hosts=(
 	ci.linaro.org
     )
-    ssh-keyscan -p2020 -t rsa,dsa,ecdsa $(resolve_ips "${hosts[@]}")
+    ssh-keyscan -p2020 -t rsa,dsa,ecdsa,ed25519 $(resolve_ips "${hosts[@]}")
 
     hosts=(
 	ci.linaro.org
     )
-    ssh-keyscan -p2222 -t rsa,dsa,ecdsa $(resolve_ips "${hosts[@]}")
+    ssh-keyscan -p2222 -t rsa,dsa,ecdsa,ed25519 $(resolve_ips "${hosts[@]}")
 
     # Finally, hard-code bkp-01.tcwglab's keys, because its ssh port is
     # accessible only from ci.linaro.org's IP.
