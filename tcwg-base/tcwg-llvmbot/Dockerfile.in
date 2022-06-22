@@ -98,15 +98,15 @@ RUN new-user.sh --user tcwg-buildbot \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
 
-# Add the latest clang (13.0.1) 
+# Add the latest clang (14.0.5)
 RUN \
 #if ARCH_arm64
- clang_ver=clang+llvm-13.0.1-aarch64-linux-gnu \
+ clang_ver=clang+llvm-14.0.5-aarch64-linux-gnu \
 #else /* ARCH_armhf */
- clang_ver=clang+llvm-13.0.1-armv7a-linux-gnueabihf \
+ clang_ver=clang+llvm-14.0.5-armv7a-linux-gnueabihf \
 #endif
  && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/$clang_ver.tar.xz \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 
