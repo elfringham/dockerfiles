@@ -67,7 +67,7 @@ RUN new-user.sh --user tcwg-buildbot \
  && sudo -i -u tcwg-buildbot mkdir -p /home/tcwg-buildbot/.ccache \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
-# Add the latest clang (13.0.1) 
+# Add the latest clang (13.0.1)
 RUN \
  clang_ver=clang+llvm-13.0.1-armv7a-linux-gnueabihf \
  && cd /usr/local \
@@ -79,4 +79,4 @@ COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 50f6640f759d4f2193cb55ce6802eaaa
+# checksum: bc1b17c0b00c0079dbf15c2fdfe27408

@@ -98,7 +98,7 @@ RUN new-user.sh --user tcwg-buildbot \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
 
-# Add the latest clang (13.0.1) 
+# Add the latest clang (13.0.1)
 RUN \
 #if ARCH_arm64
  clang_ver=clang+llvm-13.0.1-aarch64-linux-gnu \
