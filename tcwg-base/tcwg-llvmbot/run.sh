@@ -30,7 +30,7 @@ if [[ $2 == *"latest-gcc"* ]] ; then
     cc=gcc-11
     cxx=g++-11
 else
-    release_num=13.0.1
+    release_num=14.0.5
     case "$(uname -m)" in
 	aarch64) release_arch=aarch64-linux-gnu ;;
 	*) release_arch=armv7a-linux-gnueabihf ;;
