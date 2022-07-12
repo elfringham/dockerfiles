@@ -81,7 +81,8 @@ if [ x"$user" != x"" ]; then
     aux_groups_opt=""
     if [ x"$home_data" != x"" ]; then
 	aux_groups=()
-	for g in $(grep "$user" "$home_data/group" | cut -d: -f 1); do
+	for g in $(grep "$user" "$home_data/group" | grep -v ":x:x:" \
+		       | cut -d: -f 1); do
 	    if [ x"$g" = x"$group" ]; then
 		continue
 	    fi

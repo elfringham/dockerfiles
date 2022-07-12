@@ -2,23 +2,35 @@
 
 set -ex
 
-image="$1"
-buildmaster="$2"
-botname="$3"
-password="$4"
-
 usage ()
 {
-    echo "$@"
     cat <<EOF
-Usage: $0 <buildmaster> <buildbot> <password>
-	E.g., $0 lab.llvm.org:9994 linaro-apm-05 PASSWORD
+Usage: $0 -- <buildmaster> <buildbot> <password>
+	E.g., $0 -- lab.llvm.org:9994 linaro-apm-05 PASSWORD
 
 	For buildkite, set <buildmaster> to "buildkite" and
 	<password> to your buildkite token.
 EOF
-    exit 1
+    exit 0
 }
+
+while [ $# -gt 0 ]; do
+    case $1 in
+  --help) usage ;;
+  # This script does not support any -- options but the other tcwg-build/dev/host
+  # do and they end up passed to us as well. We assume they come before a " -- "
+  # after which we get the options we care about.
+	--) shift; break ;;
+  *) shift ;;
+    esac
+    shift
+done
+
+# Now we've dropped everything up to and including the " -- ".
+image="$1"
+buildmaster="$2"
+botname="$3"
+password="$4"
 
 if groups 2>/dev/null | grep -q docker; then
     # Run docker straight up if $USER is in "docker" group.

@@ -49,7 +49,7 @@ RUN apt-get update \
  gdbserver \
  gfortran \
  git \
-#if DISTRO_focal
+#if !DISTRO_bionic
  # Modula 2 compiler only available on Focal.
  gm2 \
 #endif
@@ -82,7 +82,7 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
-#if DISTRO_focal
+#if !DISTRO_bionic
 # Our bionic built llvm releases expect to find this but
 # focal installs libtinfo6 instead.
  libtinfo5 \
@@ -207,8 +207,12 @@ RUN apt-get update \
 # use cpupower from linux-tools everywhere instead.
  cpufrequtils \
  linux-tools-common \
+#if !DISTRO_bionic
  && cat /etc/apt/sources.list | sed -e "s/#{DISTRO}/bionic/g" \
       > /etc/apt/sources.list.d/bionic.list \
+# Import Bionic key
+ && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32 \
+#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
@@ -244,8 +248,11 @@ RUN apt-get update \
  /tmp/* \
  /var/tmp/*
 RUN cd /tmp \
- && git clone --single-branch --depth 1 https://git.code.sf.net/p/openocd/code openocd \
+ && git clone --single-branch https://git.code.sf.net/p/openocd/code openocd \
  && cd /tmp/openocd \
+# Next commit (ce5027ab019ac7f96d05ec5f8f533144b3bcafdf) breaks semihosting.
+# See https://review.openocd.org/c/openocd/+/6888 .
+ && git checkout e5f515f990cc345fd3089a5520f39d5a128329bd \
  && ./bootstrap \
  && ./configure --enable-stlink \
  && make -j$(nproc --all) \
@@ -267,22 +274,13 @@ RUN cd /tmp \
  && rm -rf /tmp/CMake
 #endif
 
-#if DISTRO_focal && ARCH_armhf
-# Workaround missing symbols for ld.so in Focal's glibc.  GDB relies on
-# debug symbols to use correct mode -- arm or thumb2 -- for breakpoints.
-# Without this we get GCC's guality tests stuck in some of the configurations.
-# See https://bugs.launchpad.net/ubuntu/+source/gdb/+bug/1927192 for background.
-RUN cd /usr/lib/debug/usr/lib/arm-linux-gnueabihf \
- && ln -s ../../../lib/arm-linux-gnueabihf/ld-2.31.so .
-#endif
-
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
- done </home-data/group
+ done < <(grep -v ":x:x:" /home-data/group)
 
 # Create directories required for X11.  We use X11 in tcwg-x2go images and,
 # sometimes, in tcwg-dev images.
