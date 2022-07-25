@@ -10,6 +10,17 @@ fi
 group="$1"
 node="$2"
 
+# Fetch the latest copy of /home-data/ to avoid using old user files
+# when [re]starting container from an old image.  "Jenkins" and "host"
+# containers bind-mount /home, and we need to have a unified view of
+# what the latest version of user files is.
+(
+    tmpdir=$(mktemp -d)
+    git clone --depth 1 --single-branch https://git.linaro.org/ci/dockerfiles.git $tmpdir
+    rsync -aL --del $tmpdir/tcwg-base/home-data/ /home-data/
+    rm -rf $tmpdir
+)
+
 if [ x"$group" = x"all" ]; then
     group=".*"
     root_group="tcwg-root"
