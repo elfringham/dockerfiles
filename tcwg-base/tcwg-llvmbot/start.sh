@@ -136,7 +136,7 @@ esac
 #
 # Here we also limit everything but SVE vla 1 stage to just 1 core.
 # This is a temporary measure while we work out what the hardware
-# capacity really is.
+# capacity really is. 
 case "$botname" in
   *armv8-libcxx-01)   cpuset_cpus="--cpuset-cpus=0-7"   ;;
   *armv8-libcxx-02)   cpuset_cpus="--cpuset-cpus=8-15"  ;;
