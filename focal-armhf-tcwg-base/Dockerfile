@@ -222,4 +222,5 @@ RUN echo $'if [ "$(uname -m)" == "aarch64" ] || [ "$(uname -m)" == "x86_64" ]; t
 VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
-# checksum: ea451aae726307d1f94bace7dd6bac61
+# This is a dummy comment to trigger a base image rebuild.
+# checksum: f5bb116ca7df8fe2f11255f045a59c8a

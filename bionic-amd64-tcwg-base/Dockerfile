@@ -237,4 +237,5 @@ RUN mkdir -p /tmp/.X11-unix /tmp/.ICE-unix \
 VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
-# checksum: 63fa03a6b83c9e604fe8f435317ba7e3
+# This is a dummy comment to trigger a base image rebuild.
+# checksum: de6553d4f2231651c40d0f45298f2f01

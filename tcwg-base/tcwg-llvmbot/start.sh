@@ -114,8 +114,12 @@ esac
 #  - lldb bots to 100x usual priority
 #  - libcxx bots to 200x usual priority
 #    so they always get their allocated cpu time
+#  - SVE bots other than sve-vla 1 stage to 200x usual priority
+#    so that they always get their single core.
 case "$botname" in
     *-libcxx-*) cpu_shares=200000 ;;
+    *-sve-vls*) cpu_shares=200000 ;;
+    *-sve-vla-2stage) cpu_shares=200000 ;;
     *-lldb-*) cpu_shares=100000 ;;
     *-quick) cpu_shares=10000 ;;
     *-aarch64-full-2stage|*-armv7-2stage) cpu_shares=5000 ;;
@@ -129,6 +133,10 @@ esac
 # Note: Other containers can use these cores if they are idle
 # so this is not reserving them, it's just limiting where
 # these container's processes can go.
+#
+# Here we also limit everything but SVE vla 1 stage to just 1 core.
+# This is a temporary measure while we work out what the hardware
+# capacity really is.
 case "$botname" in
   *armv8-libcxx-01)   cpuset_cpus="--cpuset-cpus=0-7"   ;;
   *armv8-libcxx-02)   cpuset_cpus="--cpuset-cpus=8-15"  ;;
@@ -136,6 +144,10 @@ case "$botname" in
   *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=24-31" ;;
   *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=32-39" ;;
   *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=40-47" ;;
+  # SVE bots running on fx-02
+  *sve-vla-2stage) cpuset_cpus="--cpuset-cpus=10" ;;
+  *sve-vls) cpuset_cpus="--cpuset-cpus=11" ;;
+  *sve-vls-2stage) cpuset_cpus="--cpuset-cpus=12" ;;
   *) cpuset_cpus="" ;;
 esac
 

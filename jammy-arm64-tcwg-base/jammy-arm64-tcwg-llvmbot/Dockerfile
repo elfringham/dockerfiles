@@ -74,9 +74,17 @@ RUN \
  && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
+# Add libpgmath, which is used by flang
+RUN git clone https://github.com/rovka/libpgmath-binaries.git \
+ && mv libpgmath-binaries/* /usr/local/lib/ \
+ && rm -rf libpgmath-binaries
+# Add cmake 3.24, which has support for flang
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.0-rc4/cmake-3.24.0-rc4-linux-aarch64.sh \
+ && chmod +x cmake-3.24.0-rc4-linux-aarch64.sh \
+ && ./cmake-3.24.0-rc4-linux-aarch64.sh --prefix=/usr/local --skip-license
 VOLUME /home
 COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 4016e1f02d0a8e040d77d1003950cc2c
+# checksum: 6983d40c9706f21c272d43446e18315f
