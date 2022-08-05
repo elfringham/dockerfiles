@@ -5,8 +5,8 @@ set -ex
 usage ()
 {
     cat <<EOF
-Usage: $0 -- <buildmaster> <buildbot> <password>
-	E.g., $0 -- lab.llvm.org:9994 linaro-apm-05 PASSWORD
+Usage: $0 -- <image> <buildmaster> <buildbot> <password>
+	E.g., $0 -- linaro/ci-arm64-tcwg-llvmbot-ubuntu:focal lab.llvm.org:9994 linaro-apm-05 PASSWORD
 
 	For buildkite, set <buildmaster> to "buildkite" and
 	<password> to your buildkite token.
