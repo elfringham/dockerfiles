@@ -134,7 +134,10 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip3 install git-review \
- && pip3 install psutil
+ && pip3 install psutil \
+ && pip3 install jenkins-job-builder==2.10.0 \
+ &&  git clone --depth 1 https://git.linaro.org/infrastructure/jjb-linaro-plugin.git \
+ &&  cd jjb-linaro-plugin && python3 setup.py install && cd .. && rm -rf jjb-linaro-plugin
 # Install jipdate.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
 # Run pip3 under linux32 for armhf so that requirements are built
@@ -223,4 +226,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 1548736e62fbf1e48a7e2df90f350e4a
+# checksum: 89afb80f6091d04d4ef5e5998635b4dd

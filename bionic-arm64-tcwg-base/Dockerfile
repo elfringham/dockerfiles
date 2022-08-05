@@ -130,7 +130,10 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
  && echo "MaxSessions 256" >> /etc/ssh/sshd_config \
  && locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8 \
  && pip3 install git-review \
- && pip3 install psutil
+ && pip3 install psutil \
+ && pip3 install jenkins-job-builder==2.10.0 \
+ &&  git clone --depth 1 https://git.linaro.org/infrastructure/jjb-linaro-plugin.git \
+ &&  cd jjb-linaro-plugin && python3 setup.py install && cd .. && rm -rf jjb-linaro-plugin
 # Install jipdate.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
 # To build cryptography
@@ -215,4 +218,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 2c695cd2f3a06a365f93225d78061603
+# checksum: de10a6658426da423f3301a8938c539d
