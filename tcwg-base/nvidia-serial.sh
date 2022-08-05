@@ -10,6 +10,8 @@ case "$*" in
   "llvm-tk1-07") port="7007" ;;
   "llvm-tk1-08") port="7008" ;;
   "llvm-tk1-09") port="7009" ;;
+  "tcwg-sq-01")  port="7011" ;;
+  "tcwg-sq-02")  port="7012" ;;
   "tcwg-tk1-01") port="7025" ;;
   "tcwg-tk1-02") port="7026" ;;
   "tcwg-tk1-03") port="7027" ;;
@@ -31,9 +33,11 @@ case "$*" in
   "tcwg-tx1-09") port="7101" ;;
   *)
       echo "Unknown board $*"
+      exit 1
 esac
 
 case "$*" in
+  *"-sq-"*)  serial_host=192.168.16.2 ;;
   *"-tk1-"*) serial_host=192.168.16.255 ;;
   *"-tx1-"*) serial_host=localhost ;;
 esac
