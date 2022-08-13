@@ -42,6 +42,7 @@ RUN apt-get update \
  gdbserver \
  gfortran \
  git \
+ git-filter-repo \
  # Modula 2 compiler only available on Focal.
  gm2 \
  gnat \
@@ -207,4 +208,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: db56558c90837b65d1d04eb5f0ddbf8a
+# checksum: 21ddcd121e80b3d92366d50f1679cd28

@@ -49,6 +49,9 @@ RUN apt-get update \
  gdbserver \
  gfortran \
  git \
+#if !DISTRO_bionic && !DISTRO_focal
+ git-filter-repo \
+#endif
 #if !DISTRO_bionic
  # Modula 2 compiler only available on Focal.
  gm2 \
