@@ -1,0 +1,5 @@
+server:
+  url: https://linaro.atlassian.net
+  token: #TCWG_JIRA_TOKEN#
+text-editor: False
+username: team-toolchain+tcwg-jira@linaro.org
