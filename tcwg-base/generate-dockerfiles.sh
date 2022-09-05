@@ -11,7 +11,8 @@ generate_dockerfile ()
      distro=$(basename ${PWD} | cut -f1 -d '-')
      arch=$(basename ${PWD} | cut -f2 -d '-')
      name=$(basename ${PWD} | cut -f3- -d '-')
-     dockerfile_in=$(find $top/tcwg-base -name "$name")/Dockerfile.in
+     # Find Dockerfile.in template for $name image flavour.
+     dockerfile_in=$(find $top/tcwg-base -path "*/$name/Dockerfile.in")
      dockerfile_out=Dockerfile
 
      if [ -f "$dockerfile_in" ]; then
