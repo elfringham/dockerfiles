@@ -1,6 +1,6 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-#if ARCH_amd64 && !DISTRO_bionic
+#if ARCH_amd64
 # Install static user-mode QEMU for running SVE LLVM buildbots via QEMU
 # on x86_64 machines.  We bind-mount qemu-aarch64-static binary inside
 # the aarch64 tcwg-llvmbot container, and all specify it as container

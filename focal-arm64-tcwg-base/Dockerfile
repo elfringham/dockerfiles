@@ -42,14 +42,12 @@ RUN apt-get update \
  gdbserver \
  gfortran \
  git \
- # Modula 2 compiler only available on Focal.
  gm2 \
  gnat \
  gobjc \
  gobjc++ \
  golang \
  groff \
- # Focal onwards has guile-3.0.
  guile-3.0 \
  guile-3.0-dev \
  less \
@@ -67,7 +65,7 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
-# Our bionic built llvm releases expect to find this but
+# Our bionic-built llvm releases expect to find this but
 # focal installs libtinfo6 instead.
  libtinfo5 \
  libtool \
@@ -208,4 +206,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: ea722a2549f62a274def6589c4384dbd
+# checksum: 3f46193a9a2c59b2059b7bc14958e31f

@@ -43,14 +43,12 @@ RUN apt-get update \
  gfortran \
  git \
  git-filter-repo \
- # Modula 2 compiler only available on Focal.
  gm2 \
  gnat \
  gobjc \
  gobjc++ \
  golang \
  groff \
- # Focal onwards has guile-3.0.
  guile-3.0 \
  guile-3.0-dev \
  less \
@@ -68,7 +66,7 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
-# Our bionic built llvm releases expect to find this but
+# Our bionic-built llvm releases expect to find this but
 # focal installs libtinfo6 instead.
  libtinfo5 \
  libtool \
@@ -188,6 +186,28 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+# Install usb libs and OpenOCD on x86 hosts, used to target bare-metal boards.
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+ libusb-1.0 \
+ libusb-dev \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
+RUN cd /tmp \
+ && git clone --single-branch https://git.code.sf.net/p/openocd/code openocd \
+ && cd /tmp/openocd \
+# Next commit (ce5027ab019ac7f96d05ec5f8f533144b3bcafdf) breaks semihosting.
+# See https://review.openocd.org/c/openocd/+/6888 .
+ && git checkout e5f515f990cc345fd3089a5520f39d5a128329bd \
+ && ./bootstrap \
+ && ./configure --enable-stlink \
+ && make -j$(nproc --all) \
+ && make -j$(nproc --all) install \
+ && cd /tmp \
+ && rm -rf /tmp/openocd
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -209,4 +229,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 3738d66399a1148c6f19d17c3af90d41
+# checksum: f2e9dc5b9b17fddc60253a008ffc12e0

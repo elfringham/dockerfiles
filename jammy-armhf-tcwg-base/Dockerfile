@@ -43,14 +43,12 @@ RUN apt-get update \
  gfortran \
  git \
  git-filter-repo \
- # Modula 2 compiler only available on Focal.
  gm2 \
  gnat \
  gobjc \
  gobjc++ \
  golang \
  groff \
- # Focal onwards has guile-3.0.
  guile-3.0 \
  guile-3.0-dev \
  less \
@@ -68,7 +66,7 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
-# Our bionic built llvm releases expect to find this but
+# Our bionic-built llvm releases expect to find this but
 # focal installs libtinfo6 instead.
  libtinfo5 \
  libtool \
@@ -93,10 +91,8 @@ RUN apt-get update \
  python3-wheel \
  python3-pandas \
  rsync \
-# For Bionic -- jipdate Python package uses jira, which uses cryptography,
-# which needs rust to build. The apt versions of the dependencies
-# are too old to work and Bionic's pip doesn't recognise the
-# prebuilt wheels as compatible.
+# jipdate Python package uses jira, which uses cryptography,
+# which needs rust to build.
 # For armhf -- cryptography's build process detects architecture
 # as armv8l, so armv7l wheels are not used and we need to build
 # armv8l ones.
@@ -229,4 +225,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: c6520caf3ecd2b51caf5c4a07cd17e14
+# checksum: 896d69d49ff855be21590e2c7d6865fd

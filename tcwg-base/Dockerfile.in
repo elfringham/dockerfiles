@@ -29,9 +29,7 @@ RUN apt-get update \
  ccrypt \
  chrpath \
  clang \
-#if !DISTRO_bionic
  cmake \
-#endif
  curl \
  debhelper \
  default-jre \
@@ -49,27 +47,17 @@ RUN apt-get update \
  gdbserver \
  gfortran \
  git \
-#if !DISTRO_bionic && !DISTRO_focal
+#if !DISTRO_focal
  git-filter-repo \
 #endif
-#if !DISTRO_bionic
- # Modula 2 compiler only available on Focal.
  gm2 \
-#endif
  gnat \
  gobjc \
  gobjc++ \
  golang \
  groff \
-#if DISTRO_bionic
- # Bionic does not have guile-3.0.
- guile-2.2 \
- guile-2.2-dev \
-#else
- # Focal onwards has guile-3.0.
  guile-3.0 \
  guile-3.0-dev \
-#endif
  less \
  libcc1-0 \
  libexpat1-dev \
@@ -85,11 +73,9 @@ RUN apt-get update \
  libreadline-dev \
  libssl-dev \
  libtcnative-1 \
-#if !DISTRO_bionic
-# Our bionic built llvm releases expect to find this but
+# Our bionic-built llvm releases expect to find this but
 # focal installs libtinfo6 instead.
  libtinfo5 \
-#endif
  libtool \
  llvm \
  locales \
@@ -108,10 +94,6 @@ RUN apt-get update \
  pkg-config \
  postfix \
  psmisc \
-#if DISTRO_bionic
-# No pxz in Focal :-(
- pxz \
-#endif
  python3-dev \
  python3-pip \
  python3-setuptools \
@@ -119,11 +101,9 @@ RUN apt-get update \
  python3-wheel \
  python3-pandas \
  rsync \
-#if DISTRO_bionic || ARCH_armhf
-# For Bionic -- jipdate Python package uses jira, which uses cryptography,
-# which needs rust to build. The apt versions of the dependencies
-# are too old to work and Bionic's pip doesn't recognise the
-# prebuilt wheels as compatible.
+#if ARCH_armhf
+# jipdate Python package uses jira, which uses cryptography,
+# which needs rust to build.
 # For armhf -- cryptography's build process detects architecture
 # as armv8l, so armv7l wheels are not used and we need to build
 # armv8l ones.
@@ -179,10 +159,6 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 
 # Install jipdate.
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
-#if DISTRO_bionic
-# To build cryptography
- && pip3 install setuptools-rust \
-#endif
 #if ARCH_armhf
 # Run pip3 under linux32 for armhf so that requirements are built
 # for armv8l, not for aarch64, which would fail.
@@ -221,12 +197,10 @@ RUN apt-get update \
 # use cpupower from linux-tools everywhere instead.
  cpufrequtils \
  linux-tools-common \
-#if !DISTRO_bionic
  && cat /etc/apt/sources.list | sed -e "s/#{DISTRO}/bionic/g" \
       > /etc/apt/sources.list.d/bionic.list \
 # Import Bionic key
  && apt-key adv --recv-keys --keyserver keyserver.ubuntu.com 3B4FE6ACC0B21F32 \
-#endif
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
  linux-tools-4.18.0-13-generic \
@@ -249,8 +223,7 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
 
-#if DISTRO_bionic
-# if ARCH_amd64
+#if ARCH_amd64
 # Install usb libs and OpenOCD on x86 hosts, used to target bare-metal boards.
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -273,19 +246,6 @@ RUN cd /tmp \
  && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/openocd
-# endif
-#endif
-
-#if DISTRO_bionic
-# Install cmake v3.16 (same as in upcoming Ubuntu Focal images)
-RUN cd /tmp \
- && git clone -b v3.16.6 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
- && cd /tmp/CMake \
- && ./bootstrap --parallel=$(nproc --all) >/dev/null \
- && make -j$(nproc --all) >/dev/null \
- && make -j$(nproc --all) install >/dev/null \
- && cd /tmp \
- && rm -rf /tmp/CMake
 #endif
 
 COPY home-data/ /home-data/
