@@ -91,6 +91,7 @@ RUN apt-get update \
  libtinfo5 \
 #endif
  libtool \
+ llvm \
  locales \
  lzop \
  make \

@@ -72,6 +72,7 @@ RUN apt-get update \
 # focal installs libtinfo6 instead.
  libtinfo5 \
  libtool \
+ llvm \
  locales \
  lzop \
  make \
@@ -208,4 +209,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: f7047b91e2943a3411f08ffba08a5ad5
+# checksum: 2b3df878d6b1c377e6ca87bdb153d6f8

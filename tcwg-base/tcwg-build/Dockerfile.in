@@ -35,17 +35,18 @@ RUN \
  /var/tmp/*
 #endif
 
-# Install llvm package.
+#if DISTRO_focal
+# Add llvm 11 to get llvm-objdump with support for --disassemble-symbols.
+# We need this in bmk-scripts.git/symbol_md5sum.sh.
 RUN \
  apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-#if DISTRO_bionic
- llvm-10 \
-#else
- llvm \
-#endif
+ llvm-11 \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
  /tmp/* \
- /var/tmp/*
+ /var/tmp/* \
+ # This will override llvm-objdump installed by tcwg-base's llvm package.
+ && ln -s `which llvm-objdump-11` /usr/local/bin/llvm-objdump
+#endif
