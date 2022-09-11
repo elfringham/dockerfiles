@@ -100,6 +100,8 @@ RUN apt-get update \
  python3-venv \
  python3-wheel \
  python3-pandas \
+ python3-numpy \
+ python3-scipy \
  rsync \
 #if ARCH_armhf
 # jipdate Python package uses jira, which uses cryptography,

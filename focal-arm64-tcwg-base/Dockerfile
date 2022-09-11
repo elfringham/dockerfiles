@@ -89,6 +89,8 @@ RUN apt-get update \
  python3-venv \
  python3-wheel \
  python3-pandas \
+ python3-numpy \
+ python3-scipy \
  rsync \
  subversion \
  sudo \
@@ -206,4 +208,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 3f46193a9a2c59b2059b7bc14958e31f
+# checksum: 967f39b4d7119c9cd8a5dd5027e24a73

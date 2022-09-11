@@ -90,6 +90,8 @@ RUN apt-get update \
  python3-venv \
  python3-wheel \
  python3-pandas \
+ python3-numpy \
+ python3-scipy \
  rsync \
 # jipdate Python package uses jira, which uses cryptography,
 # which needs rust to build.
@@ -225,4 +227,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 896d69d49ff855be21590e2c7d6865fd
+# checksum: 7782004beb11a431f8bc36af6c51107d
