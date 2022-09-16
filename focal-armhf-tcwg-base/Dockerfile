@@ -196,6 +196,10 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+# Install git-filter-repo for Ubuntu Focal
+RUN curl -f -o $(git --exec-path)/git-filter-repo \
+  https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo \
+  && chmod +x $(git --exec-path)/git-filter-repo
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -226,4 +230,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 4013cd7ebf9928ff48b09d980b98703f
+# checksum: 52d029d05a9c17445cc5325ac4d9b5c6
