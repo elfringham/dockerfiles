@@ -13,6 +13,13 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
+# Add the latest clang (14.0.5)
+RUN \
+ clang_ver=clang+llvm-14.0.5-armv7a-linux-gnueabihf \
+ && cd /usr/local \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
+ && rm $clang_ver.tar.xz
 COPY docker-stats docker-wrapper tcwg-build.sh /usr/local/bin/
 COPY docker-wrapper /usr/local/bin/docker
 COPY run.sh start.sh /
@@ -34,4 +41,4 @@ ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-amd64
 RUN chmod +x /sbin/tini
 ENTRYPOINT ["/sbin/tini", "--", "/run.sh"]
 CMD ["start.sh"]
-# checksum: b4730a50b8885e376ce4b8b46c784738
+# checksum: 4c741950e186f15712b3e994715dc6fc
