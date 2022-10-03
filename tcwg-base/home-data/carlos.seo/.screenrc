@@ -1,0 +1,4 @@
+# Add a status line to the screen sessions. Copy to your $HOME/.screenrc file.
+# # This will show: | List of Shells | username@hostname | CPU Load | Date | Time |
+hardstatus alwayslastline "%{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%? %= %{C}$USER@%{W}%H  %{K}load{%l}  %{kR} %d/%m %{Yk}%C%a %{g}"
+
