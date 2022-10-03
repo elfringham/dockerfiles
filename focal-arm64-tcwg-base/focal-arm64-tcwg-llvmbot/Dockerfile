@@ -80,24 +80,9 @@ RUN new-user.sh --user tcwg-buildbot \
  && sudo -i -u tcwg-buildbot mkdir -p /home/tcwg-buildbot/.ccache \
  # Allow non root users to access the buildkite config files
  && chmod -R a+rw /etc/buildkite-agent/
-# Add the latest clang (14.0.5)
-RUN \
- clang_ver=clang+llvm-14.0.5-aarch64-linux-gnu \
- && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
- && tar xf $clang_ver.tar.xz \
- && rm $clang_ver.tar.xz
-# Add libpgmath, which is used by flang
-RUN git clone https://github.com/rovka/libpgmath-binaries.git \
- && mv libpgmath-binaries/* /usr/local/lib/ \
- && rm -rf libpgmath-binaries
-# Add cmake 3.24, which has support for flang
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.0-rc4/cmake-3.24.0-rc4-linux-aarch64.sh \
- && chmod +x cmake-3.24.0-rc4-linux-aarch64.sh \
- && ./cmake-3.24.0-rc4-linux-aarch64.sh --prefix=/usr/local --skip-license
 VOLUME /home
 COPY run.sh .
 COPY start.sh .
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: 4bcdc522e82c463940507d9394684ac5
+# checksum: 98e954e7483c4673c21cba6a45050d92

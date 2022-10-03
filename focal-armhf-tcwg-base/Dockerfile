@@ -196,6 +196,15 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+# Add the latest clang (14.0.5)
+# We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
+# images for building LLVM with flang enabled.
+RUN \
+ clang_ver=clang+llvm-14.0.5-armv7a-linux-gnueabihf \
+ && cd /usr/local \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
+ && rm $clang_ver.tar.xz
 # Install git-filter-repo for Ubuntu Focal
 RUN curl -f -o $(git --exec-path)/git-filter-repo \
   https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo \
@@ -230,4 +239,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 52d029d05a9c17445cc5325ac4d9b5c6
+# checksum: cc62fa86afc6e4f8747804d440c54d3c

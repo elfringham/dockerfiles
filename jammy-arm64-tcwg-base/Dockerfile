@@ -188,6 +188,23 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+# Add the latest clang (14.0.5)
+# We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
+# images for building LLVM with flang enabled.
+RUN \
+ clang_ver=clang+llvm-14.0.5-aarch64-linux-gnu \
+ && cd /usr/local \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
+ && tar xf $clang_ver.tar.xz \
+ && rm $clang_ver.tar.xz
+# Add libpgmath, which is used by flang
+RUN git clone https://github.com/rovka/libpgmath-binaries.git \
+ && mv libpgmath-binaries/* /usr/local/lib/ \
+ && rm -rf libpgmath-binaries
+# Add cmake 3.24, which has support for flang
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.0-rc4/cmake-3.24.0-rc4-linux-aarch64.sh \
+ && chmod +x cmake-3.24.0-rc4-linux-aarch64.sh \
+ && ./cmake-3.24.0-rc4-linux-aarch64.sh --prefix=/usr/local --skip-license
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -209,4 +226,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 6b0c13eeb0c846cea37fe601513eb9b4
+# checksum: 99fd2a3455a63639a80c7f1e39854eef
