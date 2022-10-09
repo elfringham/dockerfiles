@@ -209,13 +209,13 @@ RUN cd /tmp \
  && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/openocd
-# Add the latest clang (14.0.5)
+# Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
 RUN \
- clang_ver=clang+llvm-14.0.5-armv7a-linux-gnueabihf \
+ clang_ver=clang+llvm-15.0.0-armv7a-linux-gnueabihf \
  && cd /usr/local \
- && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.5/$clang_ver.tar.xz \
+ && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
 # Install git-filter-repo for Ubuntu Focal
@@ -243,4 +243,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: dd5161b538555b066e14e3abae08bd5c
+# checksum: 4f2db201102baf996deec171504a4d43
