@@ -116,13 +116,16 @@ esac
 #    so they always get their allocated cpu time
 #  - SVE bots other than sve-vla 1 stage to 200x usual priority
 #    so that they always get their single core.
+#  - Fixed core 2 stage bots on jade-01 to 200x usual
+#    so they always get their cores.
 case "$botname" in
     *-libcxx-*) cpu_shares=200000 ;;
     *-sve-vls*) cpu_shares=200000 ;;
     *-sve-vla-2stage) cpu_shares=200000 ;;
     *-lldb-*) cpu_shares=100000 ;;
     *-quick) cpu_shares=10000 ;;
-    *-aarch64-full-2stage|*-armv7-2stage) cpu_shares=5000 ;;
+    *-armv7-2stage) cpu_shares=5000 ;;
+    *-aarch64-full-2stage|*-armv8-lld-2stage) cpu_shares=200000 ;;
     *) cpu_shares=1000 ;;
 esac
 
@@ -144,6 +147,9 @@ case "$botname" in
   *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=24-31" ;;
   *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=32-39" ;;
   *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=40-47" ;;
+  # 2 stage bots running on jade-01
+  *aarch64-full-2stage) cpuset_cpus="--cpuset-cpus=0-19" ;;
+  *armv8-lld-2stage) cpuset_cpus="--cpuset-cpus=20-39" ;;
   # SVE bots running on fx-02
   *sve-vla-2stage) cpuset_cpus="--cpuset-cpus=10" ;;
   *sve-vls) cpuset_cpus="--cpuset-cpus=11" ;;
