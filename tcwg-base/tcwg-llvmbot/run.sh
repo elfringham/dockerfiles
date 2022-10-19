@@ -32,8 +32,14 @@ if [[ $2 == *"latest-gcc"* ]] ; then
 else
     release_num=15.0.0
     case "$(uname -m)" in
-	aarch64) release_arch=aarch64-linux-gnu ;;
-	*) release_arch=armv7a-linux-gnueabihf ;;
+	  aarch64)
+      release_arch=aarch64-linux-gnu
+      lib_arch=aarch64-unknown-linux-gnu
+    ;;
+	  *)
+      release_arch=armv7a-linux-gnueabihf
+      lib_arch=armv7l-unknown-linux-gnueabihf
+    ;;
     esac
     release_path=/usr/local/clang+llvm-${release_num}-${release_arch}
     cc=$release_path/bin/clang
@@ -41,7 +47,7 @@ else
 
     # Starting with clang-11 we need clang's libs in ld.so's search path;
     # otherwise we get failure to find libc++.so.
-    echo "$release_path/lib" > /etc/ld.so.conf.d/clang.conf
+    echo "$release_path/lib/$lib_arch" > /etc/ld.so.conf.d/clang.conf
     ldconfig
 fi
 
