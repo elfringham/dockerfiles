@@ -108,31 +108,29 @@ case "$buildmaster" in
     *) hostname="$mastername-$botname" ;;
 esac
 
-# Set relative CPU weight of containers running
-#  - quick bots to 10x usual priority
-#  - full bots to 5x usual priority
-#  - lldb bots to 100x usual priority
-#  - libcxx bots to 200x usual priority
-#    so they always get their allocated cpu time
-#  - SVE bots other than sve-vla 1 stage to 200x usual priority
-#    so that they always get their single core.
-#  - Fixed core 2 stage bots on jade-01 to 200x usual
-#    so they always get their cores.
+# Set relative CPU weight of containers running.
 case "$botname" in
-    *-libcxx-*) cpu_shares=200000 ;;
-    *-sve-vls*) cpu_shares=200000 ;;
-    *-sve-vla-2stage) cpu_shares=200000 ;;
+    # lldb 100x usual.
     *-lldb-*) cpu_shares=100000 ;;
+    # quick bots 10x usual.
     *-quick) cpu_shares=10000 ;;
-    *-armv7-2stage) cpu_shares=5000 ;;
-    *-aarch64-full-2stage|*-armv8-lld-2stage) cpu_shares=200000 ;;
+    # Fixed core bots at 200x usual, so they always get their cores.
+    *-libcxx-*|\
+    *-sve-vls*|\
+    *-sve-vla-2stage|\
+    *-armv8-lld-2stage|\
+    *-aarch64-full-2stage|\
+    *-aarch64-lld-2stage|\
+    *-armv7-vfpv3-2stage|\
+    *-armv7-2stage)
+      cpu_shares=200000 ;;
     *) cpu_shares=1000 ;;
 esac
 
-# For libcxx we give them a fixed set of CPU numbers,
-# 8 cores again. This means that nproc inside the container
-# returns 8. (usually you see the whole machine)
-# This helps lit not try to run too many tests at once.
+# For many bots we give them a fixed set of CPU numers.
+# This means that "nproc" and other automatic parallelism
+# is constant. This prevents testing issues due to varying
+# resource levels.
 # Note: Other containers can use these cores if they are idle
 # so this is not reserving them, it's just limiting where
 # these container's processes can go.
@@ -147,9 +145,12 @@ case "$botname" in
   *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=24-31" ;;
   *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=32-39" ;;
   *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=40-47" ;;
-  # 2 stage bots running on jade-01
-  *aarch64-full-2stage) cpuset_cpus="--cpuset-cpus=0-19" ;;
-  *armv8-lld-2stage) cpuset_cpus="--cpuset-cpus=20-39" ;;
+  # 2 stage bots running on jade-01, 15 cores each.
+  *-armv8-lld-2stage)    cpuset_cpus="--cpuset-cpus=0-14"  ;;
+  *-aarch64-full-2stage) cpuset_cpus="--cpuset-cpus=15-29" ;;
+  *-aarch64-lld-2stage)  cpuset_cpus="--cpuset-cpus=30-44" ;;
+  *-armv7-vfpv3-2stage)  cpuset_cpus="--cpuset-cpus=45-59" ;;
+  *-armv7-2stage)        cpuset_cpus="--cpuset-cpus=60-74" ;;
   # SVE bots running on fx-02
   *sve-vla-2stage) cpuset_cpus="--cpuset-cpus=10" ;;
   *sve-vls) cpuset_cpus="--cpuset-cpus=11" ;;
