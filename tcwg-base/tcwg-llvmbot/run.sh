@@ -38,6 +38,7 @@ else
     ;;
 	  *)
       release_arch=armv7a-linux-gnueabihf
+      # It is intentional that this is v7l not v7a.
       lib_arch=armv7l-unknown-linux-gnueabihf
     ;;
     esac
