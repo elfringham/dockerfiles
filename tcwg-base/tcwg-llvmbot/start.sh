@@ -53,8 +53,6 @@ case "$botname" in
     linaro-clang-aarch64-sve-vla-2stage) ;;
     linaro-clang-armv7-lnt) ;;
     linaro-clang-armv7-2stage) ;;
-    # TODO: remove once the rename has happened.
-    linaro-clang-armv7-quick) ;;
     linaro-clang-armv7-global-isel) ;;
     linaro-clang-armv7-vfpv3-2stage) ;;
     linaro-clang-armv8-quick) ;;
