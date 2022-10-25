@@ -210,6 +210,14 @@ RUN cd /tmp \
  && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/openocd
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -240,4 +248,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 5ef4e5f405dfa90584a3a8d692ac20ad
+# checksum: b8aa91220c7e67540c15308f3bd382b0

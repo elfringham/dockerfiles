@@ -1,18 +1,5 @@
 FROM linaro/ci-#{ARCH}-tcwg-base-ubuntu:#{DISTRO}
 
-#if DISTRO_focal
-# Add the toolchain test build PPA which provides gcc-11
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y \
- software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
-#endif
-
 RUN echo "deb https://apt.buildkite.com/buildkite-agent stable main" | tee /etc/apt/sources.list.d/buildkite-agent.list \
  && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 32A37959C2FA5C3C99EFBC32A79206696452D198
 
@@ -21,11 +8,6 @@ RUN apt-get update \
  binutils-gold \
  buildkite-agent \
  cpio \
-#if DISTRO_focal
-# Install GCC-11 for *-latest-gcc bots.
- gcc-11 \
- g++-11 \
-#endif
  gfortran \
  htop \
  iotop \

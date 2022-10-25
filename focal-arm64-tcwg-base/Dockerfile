@@ -187,6 +187,16 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+# Install GCC-11 on Focal. Jammy already have gcc-11.
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-11 g++-11 \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -229,4 +239,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 35e3ae0926a99935dd844a1c5825121b
+# checksum: f010f3d51454efe498d01d28336c1979

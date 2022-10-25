@@ -209,6 +209,16 @@ RUN cd /tmp \
  && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/openocd
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+# Install GCC-11 on Focal. Jammy already have gcc-11.
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-11 g++-11 \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -243,4 +253,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 4f2db201102baf996deec171504a4d43
+# checksum: f62682e1a2116f75fc8ae46f1ba83925

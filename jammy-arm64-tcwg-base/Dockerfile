@@ -188,6 +188,14 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
+ && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+ && apt-get clean \
+ && rm -rf \
+ /var/lib/apt/lists/* \
+ /tmp/* \
+ /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -226,4 +234,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: b27e8fc14028099ccb6554a8a49a072b
+# checksum: fa457e47e61599d2591ccf1429c75765
