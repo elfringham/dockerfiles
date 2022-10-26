@@ -112,8 +112,9 @@ $hw; RAM ${mem_limit}GB
 OS: $(lsb_release -ds)
 Kernel: $(uname -rv)
 Compiler: $(cc --version | head -n 1)
-Linker: $(ld --version | head -n 1)
+System Linker: $(ld --version | head -n 1)
 C Library: $(ldd --version | head -n 1)
+CMake: $(cmake --version | head -n 1)
 EOF
 fi
 
