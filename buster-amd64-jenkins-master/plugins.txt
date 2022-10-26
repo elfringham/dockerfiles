@@ -1,8 +1,8 @@
 ansicolor:1.0.1
 ant:1.13
 antisamy-markup-formatter:2.7
-apache-httpcomponents-client-4-api:4.5.13-1.0
-bouncycastle-api:2.25
+apache-httpcomponents-client-4-api:4.5.13-138.v4e7d9a_7b_a_e61
+bouncycastle-api:2.26
 build-blocker-plugin:1.7.8
 build-monitor-plugin:1.13+build.202204111503
 build-name-setter:2.2.0
@@ -59,7 +59,7 @@ simple-theme-plugin:103.va_161d09c38c7
 slack:608.v19e3b_44b_b_9ff
 ssh-agent:1.24.1
 ssh-slaves:1.806.v2253cedd3295
-subversion:2.15.4
+subversion:2.16.0
 tap:2.3
 throttle-concurrents:2.7
 timestamper:1.17

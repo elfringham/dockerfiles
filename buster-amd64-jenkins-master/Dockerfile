@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:2.332.3-lts-slim
+FROM jenkins/jenkins:2.361.4-lts-slim
 
 ENV JENKINS_JAVA_PARAMETERS="-server -XX:+AlwaysPreTouch -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/jenkins/heapdump.log -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+ParallelRefProcEnabled -XX:+ExplicitGCInvokesConcurrent -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -XX:MaxMetaspaceExpansion=64M -Djenkins.model.Jenkins.logStartupPerformance=true"
 ENV JAVA_OPTS="$JENKINS_JAVA_PARAMETERS -Djava.awt.headless=true -Dhudson.slaves.WorkspaceList='_' -Dhudson.model.ParametersAction.keepUndefinedParameters=true -Dorg.jenkinsci.plugins.gitclient.Git.timeOut=30 -Dorg.eclipse.jetty.server.Request.maxFormContentSize=1000000"
@@ -36,7 +36,7 @@ USER jenkins
 
 # Install jenkins plugins
 COPY plugins.txt .
-RUN install-plugins.sh $(echo $(cat plugins.txt)) \
+RUN jenkins-plugin-cli -f plugins.txt \
   && wget -q https://jenkins-linaro-pubapi.s3.amazonaws.com/linaro-pubapi-1.3.hpi -O /usr/share/jenkins/ref/plugins/linaro-pubapi-1.3.hpi
 
 # Forward ports to host
