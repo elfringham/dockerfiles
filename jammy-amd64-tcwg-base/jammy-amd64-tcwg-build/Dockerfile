@@ -8,6 +8,11 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
+# We increase ccache size to speed up the builds.
+# - 50G is a bare minimum to ccache the gnu/llvm builds
+# - The aa64/amd64 build machines have enough memory to support 50G
+RUN sudo -i -u tcwg-buildslave mkdir -p /home/tcwg-buildslave/.ccache \
+ && sudo -i -u tcwg-buildslave ccache -M 50G
 # Install wine.
 RUN \
  apt-get update \
@@ -18,4 +23,4 @@ RUN \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/*
-# checksum: d41ef0df645c53d0bee3a2a9c9fda956
+# checksum: feac4d24b333e5457d0048029c3b7ca9

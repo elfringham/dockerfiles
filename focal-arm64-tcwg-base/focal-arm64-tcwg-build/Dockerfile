@@ -8,6 +8,11 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
+# We increase ccache size to speed up the builds.
+# - 50G is a bare minimum to ccache the gnu/llvm builds
+# - The aa64/amd64 build machines have enough memory to support 50G
+RUN sudo -i -u tcwg-buildslave mkdir -p /home/tcwg-buildslave/.ccache \
+ && sudo -i -u tcwg-buildslave ccache -M 50G
 # Add llvm 11 to get llvm-objdump with support for --disassemble-symbols.
 # We need this in bmk-scripts.git/symbol_md5sum.sh.
 RUN \
@@ -21,4 +26,4 @@ RUN \
  /var/tmp/* \
  # This will override llvm-objdump installed by tcwg-base's llvm package.
  && ln -s `which llvm-objdump-11` /usr/local/bin/llvm-objdump
-# checksum: 74d47ca5cbf15971b3681565f5e57a4c
+# checksum: 073d1c9337fd2ce28408f4ffadecba7e

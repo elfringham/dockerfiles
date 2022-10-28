@@ -9,6 +9,14 @@ RUN while read line; do \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
 
+#if ARCH_amd64 || ARCH_arm64
+# We increase ccache size to speed up the builds.
+# - 50G is a bare minimum to ccache the gnu/llvm builds
+# - The aa64/amd64 build machines have enough memory to support 50G
+RUN sudo -i -u tcwg-buildslave mkdir -p /home/tcwg-buildslave/.ccache \
+ && sudo -i -u tcwg-buildslave ccache -M 50G
+#endif
+
 #if ARCH_amd64
 # Install wine.
 RUN \

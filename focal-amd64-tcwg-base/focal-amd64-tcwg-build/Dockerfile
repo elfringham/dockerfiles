@@ -8,6 +8,11 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
+# We increase ccache size to speed up the builds.
+# - 50G is a bare minimum to ccache the gnu/llvm builds
+# - The aa64/amd64 build machines have enough memory to support 50G
+RUN sudo -i -u tcwg-buildslave mkdir -p /home/tcwg-buildslave/.ccache \
+ && sudo -i -u tcwg-buildslave ccache -M 50G
 # Install wine.
 RUN \
  apt-get update \
@@ -31,4 +36,4 @@ RUN \
  /var/tmp/* \
  # This will override llvm-objdump installed by tcwg-base's llvm package.
  && ln -s `which llvm-objdump-11` /usr/local/bin/llvm-objdump
-# checksum: 67494981aae6f71d8f77f539539db2d9
+# checksum: 8ae2b85c686f4345b4c0ccd3320d4139
