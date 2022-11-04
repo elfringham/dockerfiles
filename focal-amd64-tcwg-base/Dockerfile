@@ -214,6 +214,8 @@ RUN apt-get update \
  && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
 # Install GCC-11 on Focal. Jammy already have gcc-11.
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-11 g++-11 \
+ && ln -s gcc-11 /usr/bin/gcc-latest \
+ && ln -s g++-11 /usr/bin/g++-latest \
  && apt-get clean \
  && rm -rf \
  /var/lib/apt/lists/* \
@@ -253,4 +255,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: f62682e1a2116f75fc8ae46f1ba83925
+# checksum: df002a8c3181705579a1d218c152fe85

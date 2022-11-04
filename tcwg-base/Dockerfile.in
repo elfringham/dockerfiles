@@ -257,6 +257,8 @@ RUN apt-get update \
 #if DISTRO_focal
 # Install GCC-11 on Focal. Jammy already have gcc-11.
  && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-11 g++-11 \
+ && ln -s gcc-11 /usr/bin/gcc-latest \
+ && ln -s g++-11 /usr/bin/g++-latest \
 #endif
  && apt-get clean \
  && rm -rf \
