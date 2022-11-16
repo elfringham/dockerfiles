@@ -30,6 +30,7 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	dev-private-review.linaro.org
 	213.146.155.110 # tcwg-fx-02
 	213.146.155.6   # tcwg-fx-03
+	213.146.141.8   # tcwg-fx-04
 	139.178.86.199  # tcwg-jade-01
 	139.178.84.209  # tcwg-jade-02
 	139.178.84.207  # tcwg-jade-03
