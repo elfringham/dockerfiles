@@ -80,7 +80,7 @@ done
 # If possible, directly check the kernel config to see if KVM is enabled.
 if [ -f /proc/config.gz ] && zgrep -q -e '^CONFIG_KVM=[ym]' /proc/config.gz; then
     HOST_HAS_KVM=true
-# Otherwise, check if it's a stock Ubuntu kernel. Those have KVM enabled.
+# Otherwise, check if it's a stock Ubuntu kernel. Those have KVM enabled. 
 elif uname -v | grep -q -- -Ubuntu; then
     HOST_HAS_KVM=true
 # Otherwise, assume that the host doesn't have /dev/kvm.
