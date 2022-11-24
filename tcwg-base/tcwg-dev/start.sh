@@ -76,8 +76,22 @@ fi
 for key in /etc/ssh/ssh_host_*_key{,.pub}; do
     mounts="$mounts -v $key:$key:ro"
 done
+
+# If possible, directly check the kernel config to see if KVM is enabled.
+if [ -f /proc/config.gz ] && zgrep -q -e '^CONFIG_KVM=[ym]' /proc/config.gz; then
+    HOST_HAS_KVM=true
+# Otherwise, check if it's a stock Ubuntu kernel. Those have KVM enabled.
+elif uname -v | grep -q -- -Ubuntu; then
+    HOST_HAS_KVM=true
+# Otherwise, assume that the host doesn't have /dev/kvm.
+else
+    HOST_HAS_KVM=false
+fi
+
 # Allow KVM use within the container.
-mounts="$mounts --device=/dev/kvm"
+if [ "$HOST_HAS_KVM" = "true" ]; then
+    mounts="$mounts --device=/dev/kvm"
+fi
 
 # Use at most half of all available RAM.
 memlimit=$(free -m | awk '/^Mem/ { print $2 }')
