@@ -92,6 +92,8 @@ RUN apt-get update \
  python3-pandas \
  python3-numpy \
  python3-scipy \
+# Focal doesn't have "repo" package.
+ repo \
  rsync \
  subversion \
  sudo \
@@ -234,4 +236,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: fa457e47e61599d2591ccf1429c75765
+# checksum: 9658110498b61bd37fdcf415ba993978

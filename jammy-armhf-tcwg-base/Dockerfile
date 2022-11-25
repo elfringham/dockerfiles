@@ -92,6 +92,8 @@ RUN apt-get update \
  python3-pandas \
  python3-numpy \
  python3-scipy \
+# Focal doesn't have "repo" package.
+ repo \
  rsync \
 # jipdate Python package uses jira, which uses cryptography,
 # which needs rust to build.
@@ -236,4 +238,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: b19b7cc5c070364042bab4a3a21041a2
+# checksum: de906437169eea008b1cdbd5f633998b

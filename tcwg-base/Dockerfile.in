@@ -102,6 +102,10 @@ RUN apt-get update \
  python3-pandas \
  python3-numpy \
  python3-scipy \
+#if !DISTRO_focal
+# Focal doesn't have "repo" package.
+ repo \
+#endif
  rsync \
 #if ARCH_armhf
 # jipdate Python package uses jira, which uses cryptography,
