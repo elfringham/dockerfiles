@@ -92,7 +92,9 @@ RUN apt-get update \
  python3-pandas \
  python3-numpy \
  python3-scipy \
-# Focal doesn't have "repo" package.
+# Focal doesn't have "repo" package.  We also symlink python to python3
+# below solely to make upstream repo, which is downloaded by distro's repo,
+# happy.
  repo \
  rsync \
 # jipdate Python package uses jira, which uses cryptography,
@@ -208,6 +210,9 @@ RUN \
  && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
+# Symlink python to python3 to make upstream "repo", which is downloaded
+# by distro's repo, happy.
+RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -238,4 +243,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: de906437169eea008b1cdbd5f633998b
+# checksum: 120a94557edb33841c23853d4a45fde2

@@ -103,7 +103,9 @@ RUN apt-get update \
  python3-numpy \
  python3-scipy \
 #if !DISTRO_focal
-# Focal doesn't have "repo" package.
+# Focal doesn't have "repo" package.  We also symlink python to python3
+# below solely to make upstream repo, which is downloaded by distro's repo,
+# happy.
  repo \
 #endif
  rsync \
@@ -303,6 +305,12 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2
 RUN curl -f -o $(git --exec-path)/git-filter-repo \
   https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo \
   && chmod +x $(git --exec-path)/git-filter-repo
+#endif
+
+#if !DISTRO_focal
+# Symlink python to python3 to make upstream "repo", which is downloaded
+# by distro's repo, happy.
+RUN ln -s /usr/bin/python3 /usr/bin/python
 #endif
 
 COPY home-data/ /home-data/

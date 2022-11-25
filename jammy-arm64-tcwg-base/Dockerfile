@@ -92,7 +92,9 @@ RUN apt-get update \
  python3-pandas \
  python3-numpy \
  python3-scipy \
-# Focal doesn't have "repo" package.
+# Focal doesn't have "repo" package.  We also symlink python to python3
+# below solely to make upstream repo, which is downloaded by distro's repo,
+# happy.
  repo \
  rsync \
  subversion \
@@ -215,6 +217,9 @@ RUN git clone https://github.com/rovka/libpgmath-binaries.git \
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-linux-aarch64.sh \
  && chmod +x cmake-3.24.2-linux-aarch64.sh \
  && ./cmake-3.24.2-linux-aarch64.sh --prefix=/usr/local --skip-license
+# Symlink python to python3 to make upstream "repo", which is downloaded
+# by distro's repo, happy.
+RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -236,4 +241,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 9658110498b61bd37fdcf415ba993978
+# checksum: 7a0eb651f29d9df0d22f85b5448753b0

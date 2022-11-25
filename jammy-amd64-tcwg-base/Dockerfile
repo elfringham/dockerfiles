@@ -93,7 +93,9 @@ RUN apt-get update \
  python3-pandas \
  python3-numpy \
  python3-scipy \
-# Focal doesn't have "repo" package.
+# Focal doesn't have "repo" package.  We also symlink python to python3
+# below solely to make upstream repo, which is downloaded by distro's repo,
+# happy.
  repo \
  rsync \
  subversion \
@@ -229,6 +231,9 @@ RUN \
  && wget --progress=dot:giga https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.0/$clang_ver.tar.xz \
  && tar xf $clang_ver.tar.xz \
  && rm $clang_ver.tar.xz
+# Symlink python to python3 to make upstream "repo", which is downloaded
+# by distro's repo, happy.
+RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY home-data/ /home-data/
 COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
 RUN \
@@ -250,4 +255,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: d9a2827afe42656bf719bfe9be281097
+# checksum: 42f6c56b5534dc98ed14e4fb6faf3735
