@@ -60,6 +60,8 @@ RUN apt-get update \
  liblzma-dev \
  libmpc-dev \
  libmpfr-dev \
+# We need libncurses5 for ancient clang-3289846 used for renderscript AOSP.
+ libncurses5 \
  libncurses5-dev \
  libpixman-1-dev \
  libpython3-dev \
@@ -241,4 +243,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 7a0eb651f29d9df0d22f85b5448753b0
+# checksum: ce16cce2da9fddc41321e4d0d4b4be48
