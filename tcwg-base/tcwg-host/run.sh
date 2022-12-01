@@ -10,6 +10,9 @@ fi
 group="$1"
 node="$2"
 
+# Make sure to synchronize the date to avoid unjustified certificate errors
+timedatectl set-ntp true
+
 # Fetch the latest copy of /home-data/ to avoid using old user files
 # when [re]starting container from an old image.  "Jenkins" and "host"
 # containers bind-mount /home, and we need to have a unified view of
