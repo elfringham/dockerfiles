@@ -16,10 +16,16 @@ COPY builder.devtoolset/gcc9-fixups.patch /gcc9-fixups.patch
 COPY builder.devtoolset/stringop_trunc.patch /stringop_trunc.patch
 RUN /build_devtoolset.sh devtoolset-10 /dt10
 
+# Build later version of patchelf that is not so buggy
+COPY builder.patchelf/build_patchelf.sh /build_patchelf.sh
+COPY apt.conf /etc/apt/
+RUN /build_patchelf.sh
+
 ################################################################################
 FROM ubuntu:20.04 as devel
 ################################################################################
 COPY --from=builder /dt10 /dt10
+COPY --from=builder /patchelf/patchelf_0.14.3-1_arm64.deb /patchelf/patchelf_0.14.3-1_arm64.deb
 
 # Install devtoolset devel dependencies
 COPY setup.sources.sh /setup.sources.sh
@@ -33,13 +39,15 @@ RUN /setup.sources.sh && /setup.packages.sh /devel.packages.txt
 # - bazelisk: always use the correct bazel version
 # - buildifier: clean bazel build deps
 # - buildozer: clean bazel build deps
-# - gcloud SDK: communicate with Google Cloud Platform (GCP) for RBE, CI
 RUN git clone --branch v1.7.0 https://github.com/bats-core/bats-core.git && bats-core/install.sh /usr/local && rm -rf bats-core
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.12.0/bazelisk-linux-arm64 -O /usr/local/bin/bazel && chmod +x /usr/local/bin/bazel
 RUN wget https://github.com/bazelbuild/buildtools/releases/download/4.2.5/buildifier-linux-arm64 -O /usr/local/bin/buildifier && chmod +x /usr/local/bin/buildifier
 RUN wget https://github.com/bazelbuild/buildtools/releases/download/4.2.5/buildozer-linux-arm64 -O /usr/local/bin/buildozer && chmod +x /usr/local/bin/buildozer
-RUN curl -sSL https://sdk.cloud.google.com > /tmp/gcloud && bash /tmp/gcloud --install-dir=~/usr/local/bin --disable-prompts
 
+RUN groupadd -g 1001 buildslave && useradd -m -u 1001 -g buildslave buildslave
+RUN mkdir -p /tf/venv
+RUN chown -R buildslave:buildslave /tf
+RUN dpkg -i /patchelf/patchelf_0.14.3-1_arm64.deb
 
 # All lines past this point are reset when $CACHEBUSTER is set. We need this
 # for Python specifically because we install some nightly packages which are
@@ -47,14 +55,14 @@ RUN curl -sSL https://sdk.cloud.google.com > /tmp/gcloud && bash /tmp/gcloud --i
 ARG CACHEBUSTER=0
 RUN echo $CACHEBUSTER
 
+# Setup build and environment
+COPY devel.usertools /usertools
+COPY devel.bashrc /root/.bashrc
+COPY ld.so.conf /dt10/etc/
+
 # Setup Python environment. PYTHON_VERSION is e.g. "python3.8"
 ARG PYTHON_VERSION
 COPY setup.python.sh /setup.python.sh
 COPY devel.requirements.txt /devel.requirements.txt
 RUN /setup.python.sh $PYTHON_VERSION devel.requirements.txt
-
-# Setup build and environment
-COPY devel.usertools /usertools
-COPY devel.bashrc /root/.bashrc
-COPY ld.so.conf /dt10/etc/
 
