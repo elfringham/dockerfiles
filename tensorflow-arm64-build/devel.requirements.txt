@@ -5,12 +5,12 @@
 # Prefer pinning to the same version as in setup.py for now.
 # This will change in the future.
 
-absl-py ~= 1.0.0
-astunparse ~= 1.6.3
-flatbuffers ~= 2.0
+absl-py >= 1.0.0
+astunparse >= 1.6.3
+flatbuffers >= 2.0
 google_pasta ~= 0.2
 h5py ~= 3.6.0
-numpy ~= 1.21.4
+numpy >= 1.20
 opt_einsum ~= 3.3.0
 packaging ~= 21.3
 protobuf ~= 3.20.1
@@ -29,14 +29,14 @@ gast == 0.4.0
 # For release jobs, we will pin these on the release branch
 # Note that the CACHEBUSTER variable, set in the CI builds, will force these to
 # be the latest version.
-keras-nightly ~= 2.11.0.dev
-tb-nightly ~= 2.10.0a
-tf-estimator-nightly ~= 2.11.0.dev
+keras-nightly ~= 2.12.0.dev
+tb-nightly ~= 2.12.0a
+tf-estimator-nightly ~= 2.12.0.dev
 
 # Test dependencies
 grpcio ~= 1.42.0
 portpicker ~= 1.4.0
-scipy ~= 1.7.3
+scipy ~= 1.9.3
 # Required for TFLite import from JAX tests
 jax ~= 0.3.14
 jaxlib ~= 0.3.14; platform.machine != 'aarch64'
@@ -45,7 +45,7 @@ jaxlib ~= 0.3.14; platform.machine != 'aarch64'
 PyYAML ~= 5.4.1
 
 # For uploading
-auditwheel ~= 5.0.0
+auditwheel ~= 5.3.0
 twine ~= 3.6.0
 
 # For user tool scripts

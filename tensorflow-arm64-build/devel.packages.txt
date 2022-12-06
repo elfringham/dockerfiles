@@ -19,6 +19,8 @@ libfreetype6-dev
 libhdf5-serial-dev
 libssl-dev
 libtool
+libxml2-dev
+libxslt1-dev
 libzmq3-dev
 mlocate
 moreutils
