@@ -10,8 +10,23 @@ fi
 group="$1"
 node="$2"
 
-# Make sure to synchronize the date to avoid unjustified certificate errors
-timedatectl set-ntp true
+case "$node" in
+    host)
+	key=$(mktemp)
+	rm -f $key $key.pub
+	if [ x"$(docker inspect --format='{{.HostConfig.Privileged}}' host)" \
+	      = x"true" ]; then
+	    # Use key type ed22519 since some of our benchmarking boards have
+	    # old distros and don't accept default key type.
+	    ssh-keygen -f $key -t ed25519 -N "" -q
+	    sed -i -e "s#^key=.*#key=$key#" /usr/local/bin/run_on_bare_machine
+
+	    # Now that we have run_on_bare_machine setup, synchronize the date
+	    # to avoid unjustified certificate errors
+	    timedatectl set-ntp true
+	fi
+	;;
+esac
 
 # Fetch the latest copy of /home-data/ to avoid using old user files
 # when [re]starting container from an old image.  "Jenkins" and "host"
@@ -67,15 +82,7 @@ case "$node" in
 	    fi
 	    mv /root/.ssh/authorized_keys /root/.ssh/authorized_keys.orig
 	fi
-	key=$(mktemp)
-	rm -f $key $key.pub
-	if [ x"$(docker inspect --format='{{.HostConfig.Privileged}}' host)" \
-	      = x"true" ]; then
-	    # Use key type ed22519 since some of our benchmarking boards have
-	    # old distros and don't accept default key type.
-	    ssh-keygen -f $key -t ed25519 -N "" -q
-	    sed -i -e "s#^key=.*#key=$key#" /usr/local/bin/run_on_bare_machine
-	fi
+
 	(
 	    echo "# Original root keys:"
 	    cat /root/.ssh/authorized_keys.orig
