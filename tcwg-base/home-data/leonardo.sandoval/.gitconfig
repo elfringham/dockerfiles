@@ -1,0 +1,25 @@
+[user]
+	name = Leonardo Sandoval
+	email = leonardo.sandoval@linaro.org
+[core]
+	editor = emacs
+[alias]
+	co = checkout
+	br = branch
+	st = status
+	ci = commit
+[color]
+	diff = auto
+	status = auto
+	branch = auto
+[gui]
+	fontui = -family \"DejaVu Sans\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+[mergetool.ediff]
+    cmd = emacs --eval \"(progn  (defun ediff-write-merge-buffer ()    (let ((file ediff-merge-store-file))      (set-buffer ediff-buffer-C)      (write-region (point-min) (point-max) file)      (message \\\"Merge buffer saved in: %s\\\" file)      (set-buffer-modified-p nil)      (sit-for 1)))  (setq ediff-quit-hook 'kill-emacs        ediff-quit-merge-hook 'ediff-write-merge-buffer)   (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = leonardo.sandoval@linaro.org
+	smtpserverport = 587
+[push]
+	default = simple
