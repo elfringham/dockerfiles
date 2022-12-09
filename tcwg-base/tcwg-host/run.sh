@@ -12,16 +12,38 @@ node="$2"
 
 case "$node" in
     host)
-	key=$(mktemp)
-	rm -f $key $key.pub
+	# Create authorized_keys.orig if necessary
+	if ! [ -f /root/.ssh/authorized_keys.orig ]; then
+	    if ! [ -f /root/.ssh/authorized_keys ]; then
+		if ! [ -d /root/.ssh ]; then
+		    mkdir -p /root/.ssh
+		    chmod 0700 /root/.ssh
+		fi
+		touch /root/.ssh/authorized_keys
+	    fi
+	    mv /root/.ssh/authorized_keys /root/.ssh/authorized_keys.orig
+	fi
+
+	(
+	    echo "# Original root keys:"
+	    cat /root/.ssh/authorized_keys.orig
+	) > /root/.ssh/authorized_keys
+
 	if [ x"$(docker inspect --format='{{.HostConfig.Privileged}}' host)" \
 	      = x"true" ]; then
+	    key=$(mktemp)
+	    rm -f $key $key.pub
 	    # Use key type ed22519 since some of our benchmarking boards have
 	    # old distros and don't accept default key type.
 	    ssh-keygen -f $key -t ed25519 -N "" -q
 	    sed -i -e "s#^key=.*#key=$key#" /usr/local/bin/run_on_bare_machine
+	    (
+		echo
+	        echo "# Temporary key for granting privileged host container access to the bare machine"
+		cat $key.pub
+	    ) >> /root/.ssh/authorized_keys
 
-	    # Now that we have run_on_bare_machine setup, synchronize the date
+            # Now that we have run_on_bare_machine setup, synchronize the date
 	    # to avoid unjustified certificate errors
 	    timedatectl set-ntp true
 	fi
@@ -72,32 +94,14 @@ case "$node" in
 	# Note that this is intended to grant $root_users root access
 	# to the bare machine -- /root is bind-mounted from bare machine
 	# to "host" container.
-	if ! [ -f /root/.ssh/authorized_keys.orig ]; then
-	    if ! [ -f /root/.ssh/authorized_keys ]; then
-		if ! [ -d /root/.ssh ]; then
-		    mkdir -p /root/.ssh
-		    chmod 0700 /root/.ssh
-		fi
-		touch /root/.ssh/authorized_keys
-	    fi
-	    mv /root/.ssh/authorized_keys /root/.ssh/authorized_keys.orig
-	fi
-
 	(
-	    echo "# Original root keys:"
-	    cat /root/.ssh/authorized_keys.orig
-	    if [ -f $key.pub ]; then
-		echo
-	        echo "# Temporary key for granting privileged host container access to the bare machine"
-		cat $key.pub
-	    fi
 	    for user in $root_users; do
 		echo
 		echo "# $user keys:"
 		cat /home-data/$user/.ssh/authorized_keys
 	    done
 	    echo
-	) > /root/.ssh/authorized_keys
+	) >> /root/.ssh/authorized_keys
 	# tcwg-start-container.sh needs /root/docker-wrapper to test
 	# and recover docker service on benchmarking boards.
 	# Copy docker-stats for troubleshooting purposes.
