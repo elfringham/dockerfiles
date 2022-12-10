@@ -25,6 +25,7 @@ RUN apt-get update \
  libx11-dev \
  libxml2-utils \
  openjdk-8-jdk \
+ openjdk-11-jdk \
  openssh-server \
  parallel \
  python3-requests \
