@@ -47,6 +47,7 @@ RUN dpkg --add-architecture i386 \
  mdadm \
  mtools \
  openjdk-8-jdk \
+ openjdk-11-jdk \
  openssh-server \
  parted \
  python-pip \

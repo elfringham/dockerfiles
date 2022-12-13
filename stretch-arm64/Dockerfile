@@ -45,6 +45,7 @@ RUN apt-get update \
  mdadm \
  mtools \
  openjdk-8-jdk \
+ openjdk-11-jdk \
  openssh-server \
  parted \
  python-pip \
