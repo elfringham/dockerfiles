@@ -7,6 +7,7 @@ RUN dpkg --add-architecture i386 \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends software-properties-common \
  && add-apt-repository -y ppa:git-core/ppa \
+ && add-apt-repository ppa:openjdk-r/ppa \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts \
@@ -51,7 +52,7 @@ RUN dpkg --add-architecture i386 \
  linaro-image-tools \
  lsb-release \
  make \
- openjdk-8-jdk \
+ openjdk-11-jdk \
  openssh-server \
  python-mako \
  python-networkx \
