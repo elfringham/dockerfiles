@@ -33,3 +33,7 @@ cpio
 gawk
 texinfo
 gettext
+
+# Packages used in CI jobs
+ansible
+git
