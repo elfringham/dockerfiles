@@ -1,5 +1,4 @@
 # Other build-related tools
-apt-transport-https
 autoconf
 automake
 build-essential
