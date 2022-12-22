@@ -1,4 +1,4 @@
-tcwg-root:x:x:maxim.kuvyrkov,david.spickett,thiago.bauermann
+tcwg-root:x:x:maxim.kuvyrkov,david.spickett,thiago.bauermann,tcwg-benchmark
 tcwg-infra:x:9000:tcwg-buildslave,tcwg-benchmark,tcwg-buildbot,tcwg-ci-bot
 tcwg-users:x:10000:maxim.kuvyrkov,alex.bennee,christophe.lyon,richard.henderson,prathamesh.kulkarni,omair.javaid,yvan.roux,adhemerval.zanella,oliver.stannard,david.spickett,assad.hashmi,stevan.radakovic,laurent.alfonsi,thiago.bauermann,pierrick.bouvier,antoine.moynault,carlos.seo,leonardo.sandoval
 tcwg-llvm:x:9001:tcwg-buildslave,tcwg-buildbot,maxim.kuvyrkov,omair.javaid,yvan.roux,prathamesh.kulkarni,adhemerval.zanella,oliver.stannard,luis.machado,david.spickett,assad.hashmi,stevan.radakovic,thiago.bauermann,antoine.moynault,carlos.seo,leonardo.sandoval
