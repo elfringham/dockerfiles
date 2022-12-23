@@ -212,7 +212,8 @@ RUN curl -f -o $(git --exec-path)/git-filter-repo \
   https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo \
   && chmod +x $(git --exec-path)/git-filter-repo
 COPY home-data/ /home-data/
-COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
+COPY install-gcc-latest.sh new-user.sh nvidia-power-cycle.sh nvidia-serial.sh \
+  /usr/local/bin/
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
@@ -241,4 +242,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 6f6c6d52cdfda4591f6ea2cea8575952
+# checksum: 07d8fc56af36ff6106c8103f97eed7a3

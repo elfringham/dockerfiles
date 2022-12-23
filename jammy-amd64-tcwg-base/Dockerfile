@@ -216,14 +216,6 @@ RUN cd /tmp \
  && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/openocd
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -237,7 +229,8 @@ RUN \
 # by distro's repo, happy.
 RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY home-data/ /home-data/
-COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
+COPY install-gcc-latest.sh new-user.sh nvidia-power-cycle.sh nvidia-serial.sh \
+  /usr/local/bin/
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
@@ -257,4 +250,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: b066ecf5e752099553e62ee77ad9f7de
+# checksum: 958d38d91ee66d348bd39d9ef5877c7b

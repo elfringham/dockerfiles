@@ -211,18 +211,6 @@ RUN cd /tmp \
  && make -j$(nproc --all) install \
  && cd /tmp \
  && rm -rf /tmp/openocd
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
-# Install GCC-11 on Focal. Jammy already have gcc-11.
- && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-11 g++-11 \
- && ln -s gcc-11 /usr/bin/gcc-latest \
- && ln -s g++-11 /usr/bin/g++-latest \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -237,7 +225,8 @@ RUN curl -f -o $(git --exec-path)/git-filter-repo \
   https://raw.githubusercontent.com/newren/git-filter-repo/main/git-filter-repo \
   && chmod +x $(git --exec-path)/git-filter-repo
 COPY home-data/ /home-data/
-COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
+COPY install-gcc-latest.sh new-user.sh nvidia-power-cycle.sh nvidia-serial.sh \
+  /usr/local/bin/
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
@@ -257,4 +246,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: a85a69cb06f4c90e921db42d9fd61957
+# checksum: 81aa324d2a82b3929e92252507492c54

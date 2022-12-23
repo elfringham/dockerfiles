@@ -194,14 +194,6 @@ RUN apt-get update \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -223,7 +215,8 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2
 # by distro's repo, happy.
 RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY home-data/ /home-data/
-COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
+COPY install-gcc-latest.sh new-user.sh nvidia-power-cycle.sh nvidia-serial.sh \
+  /usr/local/bin/
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
@@ -243,4 +236,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: ce16cce2da9fddc41321e4d0d4b4be48
+# checksum: be3717d977f4fb5b0be94b306bc84d78

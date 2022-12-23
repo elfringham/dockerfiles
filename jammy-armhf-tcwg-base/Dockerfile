@@ -216,7 +216,8 @@ RUN \
 # by distro's repo, happy.
 RUN ln -s /usr/bin/python3 /usr/bin/python
 COPY home-data/ /home-data/
-COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
+COPY install-gcc-latest.sh new-user.sh nvidia-power-cycle.sh nvidia-serial.sh \
+  /usr/local/bin/
 RUN \
  while read line; do \
    new-user.sh --group $(echo "$line" | cut -d: -f 1,3); \
@@ -245,4 +246,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 1974ea9ec924957c40ac937df8c3b6f5
+# checksum: 7bc2150b13cd72c97c97c3dc2bb2e1a5

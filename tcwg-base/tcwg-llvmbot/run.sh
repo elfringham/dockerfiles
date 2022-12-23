@@ -27,20 +27,21 @@ esac
 ccache="$ccache_basedir exec ccache"
 
 if [[ $2 == *"latest-gcc"* ]] ; then
-    cc=gcc-11
-    cxx=g++-11
+    install-gcc-latest.sh
+    cc=gcc-latest
+    cxx=g++-latest
 else
     release_num=15.0.0
     case "$(uname -m)" in
-	  aarch64)
-      release_arch=aarch64-linux-gnu
-      lib_arch=aarch64-unknown-linux-gnu
-    ;;
-	  *)
-      release_arch=armv7a-linux-gnueabihf
-      # It is intentional that this is v7l not v7a.
-      lib_arch=armv7l-unknown-linux-gnueabihf
-    ;;
+	aarch64)
+	    release_arch=aarch64-linux-gnu
+	    lib_arch=aarch64-unknown-linux-gnu
+	    ;;
+	*)
+	    release_arch=armv7a-linux-gnueabihf
+	    # It is intentional that this is v7l not v7a.
+	    lib_arch=armv7l-unknown-linux-gnueabihf
+	    ;;
     esac
     release_path=/usr/local/clang+llvm-${release_num}-${release_arch}
     cc=$release_path/bin/clang

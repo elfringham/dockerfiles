@@ -12,6 +12,7 @@ cleanup_exit()
 {
     rm -rf \
        home-data/ \
+       install-gcc-latest.sh \
        new-user.sh \
        nvidia-power-cycle.sh \
        nvidia-serial.sh \
@@ -28,6 +29,7 @@ baseimage=$(grep "^FROM" Dockerfile | head -n 1 | cut -d" " -f 2)
 
 rsync -aL $top/tcwg-base/home-data/ ./home-data/
 cp -t ./ \
+   $top/tcwg-base/install-gcc-latest.sh \
    $top/tcwg-base/new-user.sh \
    $top/tcwg-base/nvidia-power-cycle.sh \
    $top/tcwg-base/nvidia-serial.sh \

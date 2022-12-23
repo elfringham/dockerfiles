@@ -258,25 +258,7 @@ RUN cd /tmp \
  && rm -rf /tmp/openocd
 #endif
 
-#if ARCH_amd64 || ARCH_arm64
-RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get install -y software-properties-common \
- && add-apt-repository -y ppa:ubuntu-toolchain-r/test \
-#if DISTRO_focal
-# Install GCC-11 on Focal. Jammy already have gcc-11.
- && DEBIAN_FRONTEND=noninteractive apt-get install -y gcc-11 g++-11 \
- && ln -s gcc-11 /usr/bin/gcc-latest \
- && ln -s g++-11 /usr/bin/g++-latest \
-#endif
- && apt-get clean \
- && rm -rf \
- /var/lib/apt/lists/* \
- /tmp/* \
- /var/tmp/*
-#endif
-
 # Add the latest clang (15.0.0)
-
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
 RUN \
@@ -316,7 +298,8 @@ RUN ln -s /usr/bin/python3 /usr/bin/python
 #endif
 
 COPY home-data/ /home-data/
-COPY new-user.sh nvidia-power-cycle.sh nvidia-serial.sh /usr/local/bin/
+COPY install-gcc-latest.sh new-user.sh nvidia-power-cycle.sh nvidia-serial.sh \
+  /usr/local/bin/
 
 RUN \
  while read line; do \
