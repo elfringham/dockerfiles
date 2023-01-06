@@ -4,7 +4,7 @@ set -e
 
 export LANG=C
 
-for python_version in 3.8 3.9 3.10
+for python_version in 3.8 3.9 3.10 3.11
 do
 docker build --pull \
         --build-arg PYTHON_VERSION=python${python_version} \
