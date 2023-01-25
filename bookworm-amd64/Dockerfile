@@ -7,8 +7,6 @@ ARG SPHINX_DOCS_DEPS="python3-sphinx texlive texlive-latex-extra libalgorithm-di
 RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_US.UTF-8 UTF-8 ' | debconf-set-selections \
  && echo 'locales locales/default_environment_locale select en_US.UTF-8' | debconf-set-selections \
  && apt-get update \
- ; DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends gnupg \
- && apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y devscripts locales \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -48,7 +46,7 @@ RUN echo 'locales locales/locales_to_be_generated multiselect C.UTF-8 UTF-8, en_
  mdadm \
  mkbootimg \
  mtools \
- openjdk-11-jdk \
+ openjdk-17-jdk \
  openssh-server \
  parted \
  pigz \
