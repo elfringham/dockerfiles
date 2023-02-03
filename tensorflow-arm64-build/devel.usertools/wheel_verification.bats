@@ -54,12 +54,11 @@ teardown_file() {
 # Note: this runs before the tests further down the file, so TF is installed in
 # the venv and the venv is active when those tests run. The venv gets cleaned
 # up in teardown_file() above.
-# Do not allow building of grpcio, this is attempted on aarch64 and fails even
-# though there is a binary install available.
 @test "Wheel is installable" {
     python3 -m venv /tf/venv
     source /tf/venv/bin/activate
-    python3 -m pip install --only-binary grpcio "$TF_WHEEL"
+    python3 -m pip install --upgrade setuptools wheel
+    python3 -m pip install "$TF_WHEEL"
 }
 
 @test "TensorFlow is importable" {
