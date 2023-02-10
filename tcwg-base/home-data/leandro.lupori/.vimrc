@@ -5,8 +5,8 @@
 syntax enable       " syntax hl on
 set tw=78
 set bs=2            " backspace mode = 2 (erases any char)
-set ts=4            " tab stop = 4 spaces
-set sw=4            " indentation shift width = 4 spaces
+set ts=2            " tab stop
+set sw=2            " indentation shift width
 set expandtab       " tab -> spaces
 set autoindent
 set cindent
@@ -40,3 +40,15 @@ set wildmenu
 set cpo-=<
 set wcm=<C-Z>
 map <F4> :emenu <C-Z>
+
+" Vundle plugins
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'lyuts/vim-rtags'
+"let g:rtagsRcCmd = rtags-rc
+call vundle#end()
+filetype plugin indent on
