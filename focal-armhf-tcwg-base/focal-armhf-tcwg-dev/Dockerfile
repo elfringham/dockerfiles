@@ -7,6 +7,8 @@ RUN apt-get update \
  git-gui \
  git-svn \
  gnat \
+ iputils-ping \
+ iputils-tracepath \
  less \
  mc \
  screen \
@@ -22,4 +24,4 @@ RUN apt-file update
 COPY run.sh start.sh /
 ENTRYPOINT ["linux32", "/run.sh"]
 CMD ["start.sh"]
-# checksum: 09d0cf5e4e345f5a3c0f5defeb754130
+# checksum: c8d17614f2075584b4ff9c60475e3615

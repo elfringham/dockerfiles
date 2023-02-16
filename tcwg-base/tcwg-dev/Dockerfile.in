@@ -7,6 +7,8 @@ RUN apt-get update \
  git-gui \
  git-svn \
  gnat \
+ iputils-ping \
+ iputils-tracepath \
  less \
  mc \
  screen \
