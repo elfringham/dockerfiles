@@ -8,6 +8,14 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
+# We create ccache directory as tcwg-buildslave, because otherwise
+# "docker run -v ccache-volume:/home/tcwg-buildslave/.ccache" will create
+# it owned by root:root, which will break builds.  We set ccache size:
+# - 50G is a bare minimum to ccache the gnu/llvm builds
+# - The aa64/amd64 build machines have enough disk to support 50G
+# - TK1s have small disk, so try to get by with 10G.
+RUN sudo -i -u tcwg-buildslave mkdir -p /home/tcwg-buildslave/.ccache \
+ && sudo -i -u tcwg-buildslave ccache -M 10G
 # Add llvm 11 to get llvm-objdump with support for --disassemble-symbols.
 # We need this in bmk-scripts.git/symbol_md5sum.sh.
 RUN \
@@ -21,4 +29,4 @@ RUN \
  /var/tmp/* \
  # This will override llvm-objdump installed by tcwg-base's llvm package.
  && ln -s `which llvm-objdump-11` /usr/local/bin/llvm-objdump
-# checksum: bf05e7f6c1b7cb7d1b6b3d290eab003e
+# checksum: a2e2ec304d81da94f161c54c20ea298d

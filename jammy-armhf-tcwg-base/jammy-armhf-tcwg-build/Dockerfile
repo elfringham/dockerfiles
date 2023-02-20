@@ -8,4 +8,12 @@ RUN while read line; do \
       user=$(echo "$line" | cut -d: -f 1); \
       sudo -i -u $user ccache -p; \
     done </home-data/passwd
-# checksum: 1f2ccbe03eafa455063a48f777033da4
+# We create ccache directory as tcwg-buildslave, because otherwise
+# "docker run -v ccache-volume:/home/tcwg-buildslave/.ccache" will create
+# it owned by root:root, which will break builds.  We set ccache size:
+# - 50G is a bare minimum to ccache the gnu/llvm builds
+# - The aa64/amd64 build machines have enough disk to support 50G
+# - TK1s have small disk, so try to get by with 10G.
+RUN sudo -i -u tcwg-buildslave mkdir -p /home/tcwg-buildslave/.ccache \
+ && sudo -i -u tcwg-buildslave ccache -M 10G
+# checksum: 3db7084b1504bf636c8d96573a9299d1
