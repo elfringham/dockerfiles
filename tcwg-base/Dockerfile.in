@@ -29,7 +29,6 @@ RUN apt-get update \
  ccrypt \
  chrpath \
  clang \
- cmake \
  curl \
  debhelper \
  default-jre \
@@ -178,6 +177,24 @@ RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate
 #endif
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
 
+# LLVM requires at least CMake 3.20.0 and we need 3.24 for flang support.
+#if DISTRO_focal || DISTRO_jammy
+#if ARCH_arm64
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-linux-aarch64.sh \
+ && chmod +x cmake-3.24.2-linux-aarch64.sh \
+ && ./cmake-3.24.2-linux-aarch64.sh --prefix=/usr/local --skip-license
+#else
+ RUN cd /tmp \
+  && git clone -b v3.24.2 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+  && cd /tmp/CMake \
+  && ./bootstrap --parallel=$(nproc --all) \
+  && make -j$(nproc --all) \
+  && make -j$(nproc --all) install \
+  && cd /tmp \
+  && rm -rf /tmp/CMake
+#endif
+#endif
+
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
 
@@ -277,13 +294,6 @@ RUN \
 RUN git clone https://github.com/rovka/libpgmath-binaries.git \
  && mv libpgmath-binaries/* /usr/local/lib/ \
  && rm -rf libpgmath-binaries
-
-# if DISTRO_focal || DISTRO_jammy
-# Add cmake 3.24, which has support for flang
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-linux-aarch64.sh \
- && chmod +x cmake-3.24.2-linux-aarch64.sh \
- && ./cmake-3.24.2-linux-aarch64.sh --prefix=/usr/local --skip-license
-# endif
 #endif
 
 #if DISTRO_focal

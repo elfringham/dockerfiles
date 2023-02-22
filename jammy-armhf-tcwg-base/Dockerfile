@@ -24,7 +24,6 @@ RUN apt-get update \
  ccrypt \
  chrpath \
  clang \
- cmake \
  curl \
  debhelper \
  default-jre \
@@ -151,6 +150,15 @@ RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate
 # for armv8l, not for aarch64, which would fail.
  && linux32 pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
+# LLVM requires at least CMake 3.20.0 and we need 3.24 for flang support.
+ RUN cd /tmp \
+  && git clone -b v3.24.2 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+  && cd /tmp/CMake \
+  && ./bootstrap --parallel=$(nproc --all) \
+  && make -j$(nproc --all) \
+  && make -j$(nproc --all) install \
+  && cd /tmp \
+  && rm -rf /tmp/CMake
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
@@ -246,4 +254,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["linux32", "/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 7bc2150b13cd72c97c97c3dc2bb2e1a5
+# checksum: 8848bf38ca0cb1ab9acafaad97f6a6c9

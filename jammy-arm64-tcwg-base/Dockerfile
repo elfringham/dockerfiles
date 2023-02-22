@@ -24,7 +24,6 @@ RUN apt-get update \
  ccrypt \
  chrpath \
  clang \
- cmake \
  curl \
  debhelper \
  default-jre \
@@ -142,6 +141,10 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
  && pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
+# LLVM requires at least CMake 3.20.0 and we need 3.24 for flang support.
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-linux-aarch64.sh \
+ && chmod +x cmake-3.24.2-linux-aarch64.sh \
+ && ./cmake-3.24.2-linux-aarch64.sh --prefix=/usr/local --skip-license
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
@@ -207,10 +210,6 @@ RUN \
 RUN git clone https://github.com/rovka/libpgmath-binaries.git \
  && mv libpgmath-binaries/* /usr/local/lib/ \
  && rm -rf libpgmath-binaries
-# Add cmake 3.24, which has support for flang
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.24.2/cmake-3.24.2-linux-aarch64.sh \
- && chmod +x cmake-3.24.2-linux-aarch64.sh \
- && ./cmake-3.24.2-linux-aarch64.sh --prefix=/usr/local --skip-license
 # Symlink python to python3 to make upstream "repo", which is downloaded
 # by distro's repo, happy.
 RUN ln -s /usr/bin/python3 /usr/bin/python
@@ -236,4 +235,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: be3717d977f4fb5b0be94b306bc84d78
+# checksum: 9febe01408d51aeba5827e26cd390e7b

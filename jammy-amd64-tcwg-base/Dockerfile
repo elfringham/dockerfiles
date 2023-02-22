@@ -24,7 +24,6 @@ RUN apt-get update \
  ccrypt \
  chrpath \
  clang \
- cmake \
  curl \
  debhelper \
  default-jre \
@@ -142,6 +141,15 @@ RUN install -D -p -m0755 /usr/share/doc/git/contrib/workdir/git-new-workdir /usr
 RUN git clone -b master https://github.com/Linaro/jipdate.git /usr/local/jipdate/ \
  && pip3 install -U -r /usr/local/jipdate/requirements.txt \
  && ln -s /usr/local/jipdate/jipdate.py /usr/local/bin/jipdate.py
+# LLVM requires at least CMake 3.20.0 and we need 3.24 for flang support.
+ RUN cd /tmp \
+  && git clone -b v3.24.2 --single-branch --depth 1 https://github.com/Kitware/CMake.git \
+  && cd /tmp/CMake \
+  && ./bootstrap --parallel=$(nproc --all) \
+  && make -j$(nproc --all) \
+  && make -j$(nproc --all) install \
+  && cd /tmp \
+  && rm -rf /tmp/CMake
 COPY postfix-main.cf.in /etc/postfix/main.cf
 COPY postfix-sasl_password.in /etc/postfix/sasl_password
 RUN chown root:root /etc/postfix/sasl_password \
@@ -250,4 +258,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 958d38d91ee66d348bd39d9ef5877c7b
+# checksum: a312d10efbf9ab90b69ed5499fa09b1a
