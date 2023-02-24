@@ -60,9 +60,11 @@ COPY devel.usertools /usertools
 COPY devel.bashrc /root/.bashrc
 COPY ld.so.conf /dt10/etc/
 
-# Setup Python environment. PYTHON_VERSION is e.g. "python3.8"
-ARG PYTHON_VERSION
+# Setup Python environment.
 COPY setup.python.sh /setup.python.sh
 COPY devel.requirements.txt /devel.requirements.txt
-RUN /setup.python.sh $PYTHON_VERSION devel.requirements.txt
+RUN /setup.python.sh python3.8 devel.requirements.txt
+RUN /setup.python.sh python3.9 devel.requirements.txt
+RUN /setup.python.sh python3.10 devel.requirements.txt
+RUN /setup.python.sh python3.11 devel.requirements.txt
 
