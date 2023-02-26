@@ -14,7 +14,7 @@ RUN apt-get update \
  && rm -rf /usr/share/nginx/html \
  && ln -s /public_html /usr/share/nginx/html \
  && mkdir -p /public_html \
- && echo "*/5 * * * * git -C /jenkins-scripts pull >/dev/null 2>&1 && /jenkins-scripts/generate-cimonitor-dashboard.py /jenkins-scripts/cimonitor-configs/CI-TCWG.yaml --output /public_html > /tmp/generate-cimonitor-dashboard.trace 2>&1" | crontab - \
+ && echo "*/5 * * * * git -C /jenkins-scripts pull >/dev/null 2>&1 && /jenkins-scripts/generate-cimonitor-dashboard.py /jenkins-scripts/cimonitor-configs/CI-TCWG.yaml /jenkins-scripts/cimonitor-configs/CI-TCWG-BISECT.yaml --output /public_html > /tmp/generate-cimonitor-dashboard.trace 2>&1" | crontab - \
  && rm -rf \
  /var/lib/apt/lists/* \
  /tmp/* \
