@@ -139,12 +139,13 @@ esac
 # This is a temporary measure while we work out what the hardware
 # capacity really is.
 case "$botname" in
-  *armv8-libcxx-01)   cpuset_cpus="--cpuset-cpus=0-7"   ;;
-  *armv8-libcxx-02)   cpuset_cpus="--cpuset-cpus=8-15"  ;;
-  *armv8-libcxx-03)   cpuset_cpus="--cpuset-cpus=16-23" ;;
-  *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=24-31" ;;
-  *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=32-39" ;;
-  *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=40-47" ;;
+  *aarch64-libcxx-01) cpuset_cpus="--cpuset-cpus=0-7" ;;
+  *aarch64-libcxx-02) cpuset_cpus="--cpuset-cpus=8-15" ;;
+  # Arm 32 bit needs a few more to match the AArch64 build time.
+  *armv8-libcxx-01)   cpuset_cpus="--cpuset-cpus=16-27" ;;
+  *armv8-libcxx-02)   cpuset_cpus="--cpuset-cpus=28-39" ;;
+  *armv8-libcxx-03)   cpuset_cpus="--cpuset-cpus=40-51" ;;
+  *armv8-libcxx-04)   cpuset_cpus="--cpuset-cpus=52-63" ;;
   # 2 stage bots running on jade-01, 15 cores each.
   *-armv8-lld-2stage)    cpuset_cpus="--cpuset-cpus=0-14"  ;;
   *-aarch64-full-2stage) cpuset_cpus="--cpuset-cpus=15-29" ;;
