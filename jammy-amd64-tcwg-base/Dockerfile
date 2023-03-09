@@ -187,21 +187,25 @@ RUN apt-get update \
  linux-tools-5.4.0-74-generic \
  linux-tools-5.4.0-80-generic \
  linux-tools-5.4.0-99-generic \
+ linux-tools-5.19.0-35-generic \
  && apt-get clean \
  && rm -rf \
  /etc/apt/sources.list.d/bionic.list \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
- && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
- && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
+ && ln -s /usr/lib/linux-tools/5.19.0-35-generic /usr/lib/linux-tools/qc_32 \
+ && ln -s /usr/lib/linux-tools/5.19.0-35-generic /usr/lib/linux-tools/qc_64 \
+ && true
 # Install usb libs and OpenOCD on x86 hosts, used to target bare-metal boards.
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
@@ -258,4 +262,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: a312d10efbf9ab90b69ed5499fa09b1a
+# checksum: 144037cc843eaa952d9bd3e125aaf790

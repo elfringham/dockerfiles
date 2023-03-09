@@ -183,15 +183,16 @@ RUN apt-get update \
  /var/lib/apt/lists/* \
  /tmp/* \
  /var/tmp/* \
- && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
- && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tk1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_32 \
  && ln -s /usr/lib/linux-tools/4.18.0-13-generic /usr/lib/linux-tools/tx1_64 \
  && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_32 \
- && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64
+ && ln -s /usr/lib/linux-tools/5.4.0-74-generic /usr/lib/linux-tools/sq_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-80-generic /usr/lib/linux-tools/apm_64 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_32 \
+ && ln -s /usr/lib/linux-tools/5.4.0-99-generic /usr/lib/linux-tools/fx_64 \
+ && true
 # Add the latest clang (15.0.0)
 # We need this in tcwg-llvmbot images for *-latest-clang bots, and in tcwg-build/tcwg-dev
 # images for building LLVM with flang enabled.
@@ -231,4 +232,4 @@ VOLUME /tmp
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
 # This is a dummy comment to trigger a base image rebuild.
-# checksum: 0df868a3fb14034cfe5c9f331d5547b7
+# checksum: 4ca022fc9f384310adea1933896e0962
