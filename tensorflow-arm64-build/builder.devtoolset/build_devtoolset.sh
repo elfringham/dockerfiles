@@ -62,7 +62,7 @@ rm -f "glibc-2.17-317.el7.src.rpm" "glibc-2.17-c758a686.tar.gz" "glibc-2.17-c758
 patch -p1 < /gcc9-fixups.patch
 patch -p1 < /stringop_trunc.patch
 cd ../glibc-build
-../glibc-src/configure --prefix=/usr --disable-werror
+../glibc-src/configure --prefix=/usr --disable-werror --enable-obsolete-rpc --disable-profile
 make -j$(nproc)
 make install DESTDIR=${TARGET}
 cd ..
