@@ -7,6 +7,7 @@ RUN apt-get update \
  git-gui \
  git-svn \
  gnat \
+ htop \
  iputils-ping \
  iputils-tracepath \
  less \
@@ -14,6 +15,7 @@ RUN apt-get update \
  screen \
  software-properties-common \
  stgit \
+ tig \
  tmux \
  && apt-get clean \
  && rm -rf \
@@ -24,4 +26,4 @@ RUN apt-file update
 COPY run.sh start.sh /
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: a82ff05cb06d15006ae8335292b5e4e7
+# checksum: a2b5c3a9ea2da6b400747422aa73172e
