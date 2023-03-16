@@ -35,6 +35,7 @@ echo "# This file is generated automatically with known_hosts-regen.sh. DO NOT E
 	139.178.84.209  # tcwg-jade-02
 	139.178.84.207  # tcwg-jade-03
 	145.40.80.173   # tcwg-jade-04
+	147.75.55.117   # tcwg-jade-05
 	95.216.72.225   # tcwg-ex42-01
     )
     ssh-keyscan -t rsa,dsa,ecdsa,ed25519 $(resolve_ips "${hosts[@]}")
