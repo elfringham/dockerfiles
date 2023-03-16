@@ -1,0 +1,18 @@
+[user]
+	email = christophe.lyon@linaro.org
+	name = Christophe Lyon
+
+[core]
+	editor = emacs
+[alias]
+	co = checkout
+	br = branch
+	st = status
+	ci = commit
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = christophe.lyon@linaro.org
+	smtpserverport = 587
+[credential]
+    helper = store
