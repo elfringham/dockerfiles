@@ -4,6 +4,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  arcanist \
  apt-file \
+ git-email \
  git-gui \
  git-svn \
  gnat \

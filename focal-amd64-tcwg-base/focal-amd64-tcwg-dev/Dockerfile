@@ -4,6 +4,7 @@ RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive apt-get install -y \
  arcanist \
  apt-file \
+ git-email \
  git-gui \
  git-svn \
  gnat \
@@ -26,4 +27,4 @@ RUN apt-file update
 COPY run.sh start.sh /
 ENTRYPOINT ["/run.sh"]
 CMD ["start.sh"]
-# checksum: b25779dabb29b79846f425a625720a37
+# checksum: 8c40460fb5b7d3849712cc2cb81171e5
