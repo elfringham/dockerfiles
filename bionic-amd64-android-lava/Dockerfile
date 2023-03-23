@@ -45,3 +45,13 @@ RUN apt-get update \
 ADD https://dl.google.com/android/repository/platform-tools_r28.0.0-linux.zip .
 RUN unzip platform-tools_r28.0.0-linux.zip
 RUN rm -f /usr/bin/fastboot /usr/bin/adb && ln -s /linaro-android/platform-tools/fastboot /usr/bin/fastboot && ln -s /linaro-android/platform-tools/adb /usr/bin/adb
+
+# According to the document here:
+#     https://developer.android.com/studio/command-line/aapt2#download_aapt2
+# And here is the page link:
+#     https://maven.google.com/web/index.html#com.android.tools.build:aapt2:8.1.0-alpha10-9603961
+RUN curl -SL "https://dl.google.com/android/maven2/com/android/tools/build/aapt2/8.1.0-alpha10-9603961/aapt2-8.1.0-alpha10-9603961-linux.jar"  -o aapt2-8.1.0-alpha10-9603961-linux.jar \
+    && unzip aapt2-8.1.0-alpha10-9603961-linux.jar aapt2 \
+    && rm -f /usr/bin/aapt2 \
+    && ln -s /linaro-android/aapt2 /usr/bin/aapt2 \
+    && rm -f aapt2-8.1.0-alpha10-9603961-linux.jar
