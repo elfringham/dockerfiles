@@ -42,9 +42,12 @@ RUN apt-get update \
  /var/tmp/*
 
 # https://developer.android.com/studio/releases/platform-tools
-ADD https://dl.google.com/android/repository/platform-tools_r28.0.0-linux.zip .
-RUN unzip platform-tools_r28.0.0-linux.zip
-RUN rm -f /usr/bin/fastboot /usr/bin/adb && ln -s /linaro-android/platform-tools/fastboot /usr/bin/fastboot && ln -s /linaro-android/platform-tools/adb /usr/bin/adb
+RUN curl -SL https://dl.google.com/android/repository/platform-tools_r28.0.0-linux.zip -o platform-tools_r28.0.0-linux.zip \
+    && unzip platform-tools_r28.0.0-linux.zip \
+    && rm -f /usr/bin/fastboot /usr/bin/adb \
+    && ln -s /linaro-android/platform-tools/fastboot /usr/bin/fastboot \
+    && ln -s /linaro-android/platform-tools/adb /usr/bin/adb \
+    && rm -f platform-tools_r28.0.0-linux.zip
 
 # According to the document here:
 #     https://developer.android.com/studio/command-line/aapt2#download_aapt2
